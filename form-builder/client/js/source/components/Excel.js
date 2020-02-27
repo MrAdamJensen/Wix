@@ -12,16 +12,37 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
+/*
+Edit state fields: the state of a cell being edited
+----------------------------------------------------
+row: the cell being edited row
+key: cell identifier
+*/
 type EditState = {
   row: number,
   key: string,
 };
 
+/*
+Dialog state fields: the state of a row being opened in a dialog
+----------------------------------------------------------------
+idx: the row being opened in a dialog
+type: dialog type:(info, edit and delete)
+*/
 type DialogState = {
   idx: number,
   type: string,
 };
 
+/*
+Excel state fields
+-------------------
+data: excel table data
+sortby: the column id to sort the table by
+descending: sort in decending order
+edit: table edit state
+dialog: table dialog state
+*/
 type State = {
   data: Immutable.List<Object>,
   sortby: ?string,
@@ -30,19 +51,34 @@ type State = {
   dialog: ?DialogState,
 };
 
-class Excel extends Component {
+/*
+Excel component
+*/
+class Excel extends Component<Props, State> {
+  // Component fields type definitions
   state: State;
   schema: Array<Object>;
+
+  /*
+  Component constructor
+  */
   constructor() {
+    // Calling meta calss constructor
     super();
+
+    // Initializing component state
     this.state = {
       data: CRUDStore.getData(),
-      sortby: null, // schema.id
+      sortby: null, 
       descending: false,
-      edit: null, // {row index, schema.id},
-      dialog: null, // {type, idx}
+      edit: null, 
+      dialog: null,
     };
+    
+    // Retrieving table schema
     this.schema = CRUDStore.getSchema();
+
+    // Listening for table data change
     CRUDStore.addListener('change', () => {
       this.setState({
         data: CRUDStore.getData(),

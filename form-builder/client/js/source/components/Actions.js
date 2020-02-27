@@ -2,10 +2,20 @@
 
 import React from 'react';
 
+/*
+Special properties for Actions
+-------------------------------
+onAction: callback to execute when an action button is clicked
+*/
 type Props = {
   onAction: Function,
 };
 
+/*
+Actions component to allow info, edit and delete actions
+callback will be called with a string argument identifying 
+the action requested: 'info', 'edit' and 'delete'
+*/
 const Actions = (props: Props) =>
   <div className="Actions">
     <span 

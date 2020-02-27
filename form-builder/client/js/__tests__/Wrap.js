@@ -2,7 +2,11 @@
 
 import React from 'react';
 
-class Wrap extends React.Component {
+type Props = {
+  children: any
+};
+
+class Wrap extends React.Component<Props> {
   render() {
     return <div>{this.props.children}</div>;
   }
