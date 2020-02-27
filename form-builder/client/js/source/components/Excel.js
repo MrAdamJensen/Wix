@@ -34,6 +34,12 @@ type DialogState = {
   type: string,
 };
 
+/*
+Special properties for Form
+-------------------------------
+crudStore: the CRUD store from which to retrieve the data
+crudActions: the CRUD actions with which to perform actions on the CRUD store
+*/
 type Props = {
   crudStore: CRUDStore,
   crudActions: CRUDActions,
@@ -277,6 +283,7 @@ class Excel extends Component<Props, State> {
         onAction={this._saveDataDialog.bind(this)}           {/*Setting the callback to call when confirm button is clicked*/}
       >
         <Form                                                {/*Creating dialog body as a form*/} 
+          crudStore={this.crudStore}                         {/*Setting form CRUD store from which to retrieve from the data*/}
           ref="form"                                         {/*Setting reference for this form so that later it will be easily rechable*/}
           recordId={index}                                   {/*Setting the dialog row index so that the form can access the correct table row*/}
           readonly={!!readonly} />                           {/*Setting if the form can be edit or not*/}
