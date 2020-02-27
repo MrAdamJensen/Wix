@@ -3,40 +3,69 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 
+/*
+Special properties for Rating
+-------------------------------
+defaultValue: the default number of stars to highlight 
+readonly: does the number of stars highlighted can be edited
+max: number of stars to display
+*/
 type Props = {
   defaultValue: number,
   readonly: boolean,
   max: number,
 };
 
+/*
+Rating state fields: 
+----------------------------------------------------------------
+rating: the number of stars highlighted
+tmpRating: the number of stars temporary highlighted
+*/
 type State = {
   rating: number,
   tmpRating: number,
 };
 
-class Rating extends Component {
-  
+/*
+Rating field component, displaying rating with stars highlighted
+*/
+class RatingField extends Component {
+  // Component fields type definitions
   props: Props;
   state: State;
   
+  // Setting the default values for the properties 
   static defaultProps = {
     defaultValue: 0,
     max: 5,
     readonly: false,
   };
   
+  /*
+  Component constructor
+  */
   constructor(props: Props) {
+    // Calling meta class constructor
     super(props);
+
+    // Initializing component state
     this.state = {
       rating: props.defaultValue,
       tmpRating: props.defaultValue,
     };
   }
   
+  /*
+  Returning number of stars highlighted
+  */
   getValue(): number {
     return this.state.rating;
   }
   
+  /*
+  Setting the number of stars temporary highlighted
+  */
   setTemp(rating: number) {
     this.setState({tmpRating: rating});
   }
@@ -90,4 +119,4 @@ class Rating extends Component {
   }  
 }
 
-export default Rating
+export default RatingField

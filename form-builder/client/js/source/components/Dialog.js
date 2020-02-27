@@ -23,7 +23,7 @@ type Props = {
 };
 
 /*
-Dialog component
+Dialog component which displays a dialog
 */
 class Dialog extends Component<Props> {
   /*

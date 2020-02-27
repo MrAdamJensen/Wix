@@ -12,7 +12,7 @@ type State = {
   value: string,
 };
 
-class Suggest extends Component {
+class SuggestField extends Component {
   
   props: Props;
   state: State;
@@ -45,4 +45,4 @@ class Suggest extends Component {
   }
 }
 
-export default Suggest
+export default SuggestField

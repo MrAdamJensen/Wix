@@ -7,7 +7,6 @@ import CRUDStore from '../flux-imm/CRUDStore';
 import Dialog from './Dialog';
 import Form from './Form';
 import FormInput from './FormInput';
-import Rating from './Rating';
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
@@ -63,7 +62,7 @@ type State = {
 };
 
 /*
-Excel component
+Excel component which displays a table given data
 */
 class Excel extends Component<Props, State> {
   // Component fields type definitions
@@ -397,16 +396,13 @@ class Excel extends Component<Props, State> {
       return null;
     }
 
-    // Asserting current column schema is of type rating
-    const isRating = column_schema.type === 'rating';
-
     // Retrieving table edit state and current cell content
     const edit = this.state.edit;
     let content = row[cell];
 
-    // Asserting current cell is not a rating cell and that it is editable
+    // Asserting current cell is editable
     // if yes then creating cell content as an editable cell
-    if (!isRating && edit && edit.row === rowidx && edit.key === schema.id) {
+    if (edit && edit.row === rowidx && edit.key === schema.id) {
       content = (
         /*Setting callback to be called when the user finished editing cell*/
         <form onSubmit={this._save.bind(this)}>
@@ -414,18 +410,15 @@ class Excel extends Component<Props, State> {
           <FormInput ref="input" {...schema} defaultValue={content} /> 
         </form>
       );
-    // If cell is a rating cell then creating cell content accordingly
-    } else if (isRating) {
-      content = <Rating readonly={true} defaultValue={Number(content)} />;
     }
-
+    
     // Creating cell
     return (
       <td 
         {/*Setting cell classes for styling */}
         className={classNames({
           [`schema-${schema.id}`]: true,
-          'ExcelEditable': !isRating,
+          'ExcelEditable': true,
           'ExcelDataLeft': schema.align === 'left',
           'ExcelDataRight': schema.align === 'right',
           'ExcelDataCenter': schema.align !== 'left' && schema.align !== 'right',

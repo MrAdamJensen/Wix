@@ -2,7 +2,6 @@
 
 import CRUDStore from '../flux-imm/CRUDStore';
 import FormInput from './FormInput';
-import Rating from './Rating';
 import React, {Component} from 'react';
 
 import type {FormInputField, FormInputFieldValue} from './FormInput';
@@ -21,7 +20,7 @@ type Props = {
 };
 
 /*
-Form component
+Form component which displays a form
 */
 class Form extends Component<Props> {
   // Component fields type definitions
@@ -123,18 +122,10 @@ class Form extends Component<Props> {
           className="FormLabel">                             {/*Setting form field label class for styling*/}  
           {field.label}:                                     {/*Setting form field label text*/}
         </span>
-        {
-          //Setting form field as a regular text or as a special form field
-          // if special form field(Rating), creating a special form field
-          field.type === 'rating'                           
-            ? <Rating                                       {/*Creating special form field Rating*/}
-                readonly={true}                             {/*Setting readonly to true since this field is readonly*/}
-                defaultValue={parseInt(prefilled, 10)}      {/*Setting field default value*/}
-              />   
-            : <div>                                        {/*Setting regular form field as a regular text*/}
-                {prefilled}                                
-              </div>
-        }
+        <FormInput                                           {/*Creating form field*/}  
+            type={field.type}                                {/*Setting form field type*/}
+            readonly={true}                                  {/*Setting readonly to true since this field is readonly*/}
+            defaultValue={prefilled}/>                        {/*Setting field default value*/}
       </div>
     );
   }
