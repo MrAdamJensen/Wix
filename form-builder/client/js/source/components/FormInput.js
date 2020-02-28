@@ -68,7 +68,7 @@ class FormInput extends Component {
     switch (this.props.type) {
       case 'rating':
         return (
-          <Rating                                  {/*Creating a rating field type, a field with stars to pick a rating*/}
+          <RatingField                             {/*Creating a rating field type, a field with stars to pick a rating*/}
             {...commonProps}                       {/*Inserting common properties*/}
             defaultValue={this.props.defaultValue} {/*Setting field default value, if it was not given, the field should handle it*/}
           />
@@ -81,7 +81,7 @@ class FormInput extends Component {
           />
         );
       case 'suggest':
-        return <Suggest                            {/*Creating a suggest field type, a field with options to select from*/}
+        return <SuggestField                       {/*Creating a suggest field type, a field with options to select from*/}
                 {...commonProps}                   {/*Inserting common properties*/}
                 options={this.props.options}       {/*Setting options to select from*/}
               />;  
