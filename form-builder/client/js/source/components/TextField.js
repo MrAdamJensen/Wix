@@ -1,7 +1,8 @@
 /* @flow */
 
 import React from 'react';
-import {BasicField, Props} from './BasicField'\
+import BasicField from './BasicField'
+import type {Props} from './BasicField'
 
 /*
 TextField component writing text
@@ -27,9 +28,9 @@ class TextField extends BasicField {
   render() {
     // Rendering
     return <input 
-              type="text"                             {/*Setting the required type for this input */}
-              {...props}                             {/*Setting all given properties to input*/}
-              {props.readonly ? "disabled" : null}   {/*If readonly, disable input*/}
+              type="text"                                     // Setting the required type for this input
+              {...(this.props: any)}                          // Setting all given properties to input
+              {...(this.props.readonly ? "disabled" : null)}  // If readonly, disable input
             />  
     }
 }

@@ -14,8 +14,8 @@ recordId: the id of data to be displayed in the form
 crudStore: the CRUD store from which to retrieve the data
 */
 type Props = {
-  readonly?: boolean,
-  recordId: ?number,
+  readonly: boolean,
+  recordId: number,
   crudStore: CRUDStore,
 };
 
@@ -42,7 +42,7 @@ class Form extends Component<Props> {
 
     // If a record id for the form is being given, initializing form with the data
     // that belongs to the record id
-    if ('recordId' in this.props) {
+    if(typeof this.props['recordId'] !== 'undefined') {
       this.initialData = this.crudStore.getRecord(this.props.recordId);
     }
   }
@@ -95,16 +95,16 @@ class Form extends Component<Props> {
   _renderInputField(field: FormInputField, prefilled: FormInputFieldValue){
     return (
       <div 
-        className="FormRow"                   {/*Adding class for styling of form field*/}
+        className="FormRow"                   // Adding class for styling of form field
         key={field.id}>                       {/*adding key becuase it is requested by react*/}
-        <label                                {/*Setting form field label */}                             
-          className="FormLabel"               {/*Setting form field label class for styling*/}  
+        <label                                // Setting form field label                            
+          className="FormLabel"               // Setting form field label class for styling
           htmlFor={field.id}>                 {/*Setting form field label for element id to be a label for*/} 
             {field.label}:                    {/*Setting form field label text*/}
         </label>   
-        <FormInput                            {/*Setting form field as an editable field*/}
-          {...field}                          {/*Setting field properties*/}
-          ref={field.id}                      {/*Settign field ref so that it can be accessed easily*/}
+        <FormInput                            // Setting form field as an editable field
+          {...field}                          // Setting field properties
+          ref={field.id}                      // Settign field ref so that it can be accessed easily
           defaultValue={prefilled} />         {/*Setting field default value*/}
       </div>
     );
@@ -116,16 +116,16 @@ class Form extends Component<Props> {
   _renderReadOnlyField(field: FormInputField, prefilled: FormInputFieldValue){
     return (
       <div 
-        className="FormRow"                                  {/*Adding class for styling of form field*/}     
+        className="FormRow"                                  // Adding class for styling of form field 
         key={field.id}>                                      {/*adding key becuase it is requested by react*/}
-        <span                                                {/*Setting form field label */}
+        <span                                                // Setting form field label
           className="FormLabel">                             {/*Setting form field label class for styling*/}  
           {field.label}:                                     {/*Setting form field label text*/}
         </span>
-        <FormInput                                           {/*Creating form field*/}  
-            type={field.type}                                {/*Setting form field type*/}
-            readonly={true}                                  {/*Setting readonly to true since this field is readonly*/}
-            defaultValue={prefilled}/>                        {/*Setting field default value*/}
+        <FormInput                                           // Creating form field 
+            type={field.type}                                // Setting form field type
+            readonly={true}                                  // Setting readonly to true since this field is readonly
+            defaultValue={prefilled}/>                       {/*Setting field default value*/}
       </div>
     );
   }

@@ -177,7 +177,7 @@ class Excel extends Component<Props, State> {
     }
 
     // Retrieving dialog row(the row that was the dialog click origin) index
-    index = _retrieve_dialog_row_origin_index()
+    let index = this._retrieve_dialog_row_origin_index()
 
     // Executing delete
     this.crudActions.delete(index);
@@ -196,7 +196,7 @@ class Excel extends Component<Props, State> {
     }
 
     // Retrieving dialog row(the row that was the dialog click origin) index
-    index = _retrieve_dialog_row_origin_index()
+    let index = this._retrieve_dialog_row_origin_index()
 
     // Executing edit
     this.crudActions.updateRecord(index, this.refs.form.getData());
@@ -244,10 +244,13 @@ class Excel extends Component<Props, State> {
   */
   _renderDeleteDialog() {
     // Retrieving dialog row(the row that was the dialog click origin) index
-    index =  _retrieve_dialog_row_origin_index()
+    let index =  this._retrieve_dialog_row_origin_index()
 
     // Retrieving dialog row
     const row = this.state.data.get(index);
+
+    // Asserting row retrieved successfully
+    invariant(row, 'Excel._renderDeleteDialog: failed retrieving dialog row')
 
     // Retrieving dialog row name
     const nameguess = row[Object.keys(row)[0]];
@@ -255,10 +258,10 @@ class Excel extends Component<Props, State> {
     // Rendering dialog
     return (
       <Dialog 
-        modal={true}                                          {/*Setting it to be a modal dialog, meaning above body */}
-        header="Confirm deletion"                             {/*Settign title*/}
-        confirmLabel="Delete"                                 {/*Setting confirm button label*/}
-        onAction={this._deleteConfirmationClick.bind(this)}   {/*Setting the callback to call when confirm button is clicked*/}
+        modal={true}                                          // Setting it to be a modal dialog, meaning above body
+        header="Confirm deletion"                             // Settign title
+        confirmLabel="Delete"                                 // Setting confirm button label
+        onAction={this._deleteConfirmationClick.bind(this)}   // Setting the callback to call when confirm button is clicked
       >
         {`Are you sure you want to delete "${nameguess}"?`}   {/*Settign the text to show in dialog*/}
       </Dialog>
@@ -270,21 +273,21 @@ class Excel extends Component<Props, State> {
   */
   _renderFormDialog(readonly: ?boolean) {
     // Retrieving dialog row(the row that was the dialog click origin) index
-    index =  _retrieve_dialog_row_origin_index()
+    let index =  this._retrieve_dialog_row_origin_index()
 
     // Rendering dialog
     return (
       <Dialog 
-        modal={true}                                         {/*Setting it to be a modal dialog, meaning above body */}
-        header={readonly ? 'Item info' : 'Edit item'}        {/*Settign title*/}
-        confirmLabel={readonly ? 'ok' : 'Save'}              {/*Setting confirm button label*/}
-        hasCancel={!readonly}                                {/*Setting a cancel button only if the dialog is editable*/}
-        onAction={this._saveDataDialog.bind(this)}           {/*Setting the callback to call when confirm button is clicked*/}
+        modal={true}                                         // Setting it to be a modal dialog, meaning above body
+        header={readonly ? 'Item info' : 'Edit item'}        // Settign title
+        confirmLabel={readonly ? 'ok' : 'Save'}              // Setting confirm button label
+        hasCancel={!readonly}                                // Setting a cancel button only if the dialog is editable
+        onAction={this._saveDataDialog.bind(this)}           // Setting the callback to call when confirm button is clicked
       >
-        <Form                                                {/*Creating dialog body as a form*/} 
-          crudStore={this.crudStore}                         {/*Setting form CRUD store from which to retrieve from the data*/}
-          ref="form"                                         {/*Setting reference for this form so that later it will be easily rechable*/}
-          recordId={index}                                   {/*Setting the dialog row index so that the form can access the correct table row*/}
+        <Form                                                // Creating dialog body as a form
+          crudStore={this.crudStore}                         // Setting form CRUD store from which to retrieve from the data
+          ref="form"                                         // Setting reference for this form so that later it will be easily rechable
+          recordId={index}                                   // Setting the dialog row index so that the form can access the correct table row
           readonly={!!readonly} />                           {/*Setting if the form can be edit or not*/}
       </Dialog>
     ); 
@@ -293,14 +296,14 @@ class Excel extends Component<Props, State> {
   /*
   Retrieving dialog row(the row that was the dialog click origin) index
   */
- _retrieve_dialog_row_origin_index(){
-  // Retrieving dialog row(the row that was the dialog click origin) index
-  const index = this.state.dialog && this.state.dialog.idx;
+ _retrieve_dialog_row_origin_index() : number{
+    // Retrieving dialog row(the row that was the dialog click origin) index
+    const index = this.state.dialog && this.state.dialog.idx;
 
-  // Asserting that the dialog row index retrieved successfully
-  invariant(typeof index === 'number', 'Unexpected dialog state');
+    // Asserting that the dialog row index retrieved successfully
+    invariant(typeof index === 'number', 'Unexpected dialog state');
 
-  return index
+    return index
   }
 
   /*
@@ -341,10 +344,10 @@ class Excel extends Component<Props, State> {
                 // Returning column title
                 return (
                   <th 
-                    className={`schema-${item.id}`}             {/*adding class for css styling of this current header*/}
-                    key={item.id}                               {/*adding key becuase it is requested by react*/}
+                    className={`schema-${item.id}`}             // adding class for css styling of this current header
+                    key={item.id}                               // adding key becuase it is requested by react
 
-                    {/*adding callback for sorting the table in the event that a user clicks a column header*/}
+                    // adding callback for sorting the table in the event that a user clicks a column header
                     onClick={this._sort.bind(this, item.id)}    
                   >
                     {title}                                     {/*Setting column title*/}
@@ -386,7 +389,7 @@ class Excel extends Component<Props, State> {
   /*
   Rendering table body cell
   */
-  _renderTableBodyCell(row, rowidx, cell, idx){
+  _renderTableBodyCell(row: Object, rowidx: number, cell:string, idx:number){
     // Retrieving table schema
     const column_schema = this.schema[idx];
 
@@ -402,12 +405,12 @@ class Excel extends Component<Props, State> {
 
     // Asserting current cell is editable
     // if yes then creating cell content as an editable cell
-    if (edit && edit.row === rowidx && edit.key === schema.id) {
+    if (edit && edit.row === rowidx && edit.key === column_schema.id) {
       content = (
         /*Setting callback to be called when the user finished editing cell*/
         <form onSubmit={this._save.bind(this)}>
           {/*Creating cell as an input cell with input reference so that it can be accessed easily*/}                           
-          <FormInput ref="input" {...schema} defaultValue={content} /> 
+          <FormInput ref="input" {...column_schema} defaultValue={content} /> 
         </form>
       );
     }
@@ -415,17 +418,17 @@ class Excel extends Component<Props, State> {
     // Creating cell
     return (
       <td 
-        {/*Setting cell classes for styling */}
+        //Setting cell classes for styling
         className={classNames({
-          [`schema-${schema.id}`]: true,
+          [`schema-${column_schema.id}`]: true,
           'ExcelEditable': true,
-          'ExcelDataLeft': schema.align === 'left',
-          'ExcelDataRight': schema.align === 'right',
-          'ExcelDataCenter': schema.align !== 'left' && schema.align !== 'right',
+          'ExcelDataLeft': column_schema.align === 'left',
+          'ExcelDataRight': column_schema.align === 'right',
+          'ExcelDataCenter': column_schema.align !== 'left' && column_schema.align !== 'right',
         })} 
-        key={idx}                       {/*adding key becuase it is requested by react*/}
-        data-row={rowidx}               {/*adding dataset row to be able to identify cell identity*/}
-        data-key={schema.id}>           {/*adding dataset column to be able to identify cell identity*/}
+        key={idx}                       // adding key becuase it is requested by react
+        data-row={rowidx}               // adding dataset row to be able to identify cell identity
+        data-key={column_schema.id}>           {/*adding dataset column to be able to identify cell identity*/}
         {content}                       {/*adding cell content*/}
       </td>
     );

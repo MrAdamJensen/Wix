@@ -10,8 +10,8 @@ defaultValue: initial value
 options: the options to suggest
 */
 type Props = {
-  id?: string,
-  defaultValue?: string,
+  id: string,
+  defaultValue: string,
   options: Array<string>,
 };
 
@@ -27,7 +27,7 @@ type State = {
 /*
 SuggestField component which is a regualr input field with suggestions
 */
-class SuggestField extends Component {
+class SuggestField extends Component<Props, State> {
   // Component fields type definitions
   props: Props;
   state: State;
@@ -63,19 +63,19 @@ class SuggestField extends Component {
 
         {/*Creating the input field of the suggest field to enter the text*/}
         <input
-          {/*Setting the id of the suggest field so that it will*/}
-          {/*receive the input text as it is enterd so that it can suggest */}                                                    
+          // Setting the id of the suggest field so that it will
+          // receive the input text as it is enterd so that it can suggest                                                  
           list={randomid}                                         
-          defaultValue={this.props.defaultValue}                       {/*Setting the default value of the input field part*/}
+          defaultValue={this.props.defaultValue}                       // Setting the default value of the input field part
 
-          {/*Setting callback to update the state of the componenet as user types*/}
+          // Setting callback to update the state of the componenet as user types
           onChange={e => this.setState({value: e.target.value})}       
-          id={this.props.id}                                           {/*Setting the id of the input part as the component id*/}
+          id={this.props.id}                                           // Setting the id of the input part as the component id
         />
 
         {/*Creating the suggest part of suggest field to suggest options as user types */}
         <datalist                                                      
-          id={randomid}                                                {/*Setting id to connect the input part to the suggest part*/}
+          id={randomid}                                                // Setting id to connect the input part to the suggest part
           >{             
           // Creating all possible suggested options                            
           this.props.options.map((item: string, idx: number) => 

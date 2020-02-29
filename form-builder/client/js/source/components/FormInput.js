@@ -27,10 +27,10 @@ label: the form field label
 */
 export type FormInputField = {
   type: FormInputFieldType,
-  defaultValue?: FormInputFieldValue,
-  id?: string,
-  options?: Array<string>,
-  label?: string,
+  defaultValue: FormInputFieldValue,
+  id: string,
+  options: Array<string>,
+  label: string,
 };
 
 /*
@@ -68,62 +68,62 @@ class FormInput extends Component {
     switch (this.props.type) {
       case 'rating':
         return (
-          <RatingField                             {/*Creating a rating field type, a field with stars to pick a rating*/}
-            {...commonProps}                       {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue} {/*Setting field default value, if it was not given, the field should handle it*/}
+          <RatingField                             // Creating a rating field type, a field with stars to pick a rating
+            {...commonProps}                       // Inserting common properties
+            defaultValue={this.props.defaultValue} // Setting field default value, if it was not given, the field should handle it
           />
         );
       case 'number':
         return (
-          <NumberField                             {/*Creating a number field type, which is a filed that accept only numbers*/}
-            {...commonProps}                       {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue} {/*Setting field default value, if it was not given, the field should handle it*/}
+          <NumberField                             // Creating a number field type, which is a filed that accept only numbers
+            {...commonProps}                       // Inserting common properties
+            defaultValue={this.props.defaultValue} // Setting field default value, if it was not given, the field should handle it
           />
         );
       case 'suggest':
-        return <SuggestField                       {/*Creating a suggest field type, a field with options to select from*/}
-                {...commonProps}                   {/*Inserting common properties*/}
-                options={this.props.options}       {/*Setting options to select from*/}
+        return <SuggestField                       // Creating a suggest field type, a field with options to select from
+                {...commonProps}                   // Inserting common properties
+                options={this.props.options}       // Setting options to select from
               />;  
       case 'color':
         return (         
-          <ColorField                              {/*Creating a color field type, which is a filed that accept only colors*/}
-            {...commonProps}                       {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue} {/*Setting field default value, if it was not given, the field should handle it*/}
+          <ColorField                              // Creating a color field type, which is a filed that accept only colors
+            {...commonProps}                       // Inserting common properties
+            defaultValue={this.props.defaultValue} // Setting field default value, if it was not given, the field should handle it
             />
         );
       case 'date':
         return (
-          <DateField                               {/*Creating a date field type, which is a filed that accept only dates*/}
-            {...commonProps}                       {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue} {/*Setting field default value, if it was not given, the field should handle it*/}
+          <DateField                               // Creating a date field type, which is a filed that accept only dates
+            {...commonProps}                       // Inserting common properties
+            defaultValue={this.props.defaultValue} // Setting field default value, if it was not given, the field should handle it
             />
         );
       case 'email':
         return (
-          <EmailField                               {/*Creating a email field type, which is a filed that accept only emails*/}
-            {...commonProps}                        {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue}  {/*Setting field default value, if it was not given, the field should handle it*/}
+          <EmailField                               // Creating a email field type, which is a filed that accept only emails
+            {...commonProps}                        // Inserting common properties
+            defaultValue={this.props.defaultValue}  // Setting field default value, if it was not given, the field should handle it
             />
         );
       case 'tel':
         return (
-          <TelField                                 {/*Creating a telephone type, which is a filed that accept only telephones*/}
-            {...commonProps}                        {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue}  {/*Setting field default value, if it was not given, the field should handle it*/}
+          <TelField                                 // Creating a telephone type, which is a filed that accept only telephones
+            {...commonProps}                        // Inserting common properties*/}
+            defaultValue={this.props.defaultValue}  // Setting field default value, if it was not given, the field should handle it
             />
         );
       case 'text':
         return (
-          <TextField                                {/*Creating a text type, which is a filed that accept only text*/}
-            {...commonProps}                        {/*Inserting common properties*/}
-            defaultValue={this.props.defaultValue}  {/*Setting field default value, if it was not given, the field should handle it*/}
+          <TextField                                // Creating a text type, which is a filed that accept only text
+            {...commonProps}                        // Inserting common properties
+            defaultValue={this.props.defaultValue}  // Setting field default value, if it was not given, the field should handle it
             />
         );
       case 'input':
-        return <input                               {/*Creating default field type, which is regular field for text*/}
-              {...commonProps}                      {/*Inserting common properties*/}
-              type="text"                           {/*default field type accepts text*/}
+        return <input                               // Creating default field type, which is regular field for text
+              {...commonProps}                      // Inserting common properties
+              type="text"                           // default field type accepts text
               />;
       default:
         // Declaring unrecognized input type

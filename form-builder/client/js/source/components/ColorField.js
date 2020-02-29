@@ -1,7 +1,8 @@
 /* @flow */
 
 import React from 'react';
-import {BasicField, Props} from './BasicField'
+import BasicField from './BasicField'
+import type {Props} from './BasicField'
 
 /*
 ColorField component for picking a color
@@ -27,9 +28,9 @@ class ColorField extends BasicField {
   render() {
     // Rendering
     return <input 
-              type="color"                                {/*Setting the required type for this input */}
-              {...this.props}                             {/*Setting all given properties to input*/}
-              {this.props.readonly ? "disabled" : null}   {/*If readonly, disable input*/}
+              type="color"                                    // Setting the required type for this input
+              {...(this.props: any)}                          // Setting all given properties to input
+              {...(this.props.readonly ? "disabled" : null)}  // If readonly, disable input
           />  
   }
 }

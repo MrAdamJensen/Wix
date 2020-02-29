@@ -10,6 +10,18 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+Actions component to allow info, edit and delete actions
+callback will be called with a string argument identifying 
+the action requested: 'info', 'edit' and 'delete'
+*/
+
+
+/*
+Special properties for Actions
+-------------------------------
+onAction: callback to execute when an action button is clicked
+*/
 var Actions = function Actions(props) {
   return _react2.default.createElement(
     "div",

@@ -16,6 +16,19 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* 
+Button component which displays a button than can be clicked
+If using href then it will be as a link
+otherwise using a handler for interactrions
+*/
+
+
+/*
+Special properties for Button
+-------------------------------
+href: using href will transform button to a link
+className: extra class names for css
+*/
 var Button = function Button(props) {
   return props.href ? _react2.default.createElement('a', _extends({}, props, { className: (0, _classnames2.default)('Button', props.className) })) : _react2.default.createElement('button', _extends({}, props, { className: (0, _classnames2.default)('Button', props.className) }));
 };

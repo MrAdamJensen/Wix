@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react';
+import React, {Component} from 'react';
 
 /*
 Special properties for BasicField
@@ -8,9 +8,10 @@ Special properties for BasicField
 defaultValue: the default value
 readonly: does the value can be edited
 */
-type Props = {
-  defaultValue?: number | string,
-  readonly?: boolean,
+export type Props = {
+  defaultValue: number | string,
+  readonly: boolean,
+  onChange: function
 };
 
 /*
@@ -18,7 +19,7 @@ BasicField state fields:
 ------------------------
 value: current given value in input
 */
-type State = {
+export type State = {
   value: string,
 };
 
@@ -30,6 +31,12 @@ class BasicField extends Component<Props, State> {
   props: Props;
   state: State;
   
+  // Setting the default values for the properties 
+  static defaultProps = {
+    defaultValue: "",
+    readonly: false,
+  };
+
   /*
   Component constructor
   */
@@ -41,7 +48,9 @@ class BasicField extends Component<Props, State> {
      this.props.onChange = e => this.setState({value: e.target.value})
 
     // Initializing component state
-    this.state = {value: props.defaultValue};
+    if(typeof props.defaultValue !== 'undefined'){
+      this.state = {value: props.defaultValue.toString()};
+    }
   }
   
   /*
@@ -52,4 +61,4 @@ class BasicField extends Component<Props, State> {
   }
 }
 
-export default {BasicField, Props, State}
+export default BasicField

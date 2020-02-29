@@ -2,6 +2,7 @@
 
 import Button from './Button';
 import React, {Component} from 'react';
+import {retrieveDocBodyWithInv} from './Utils.js';
 
 /*
 Special properties for Dialog
@@ -46,7 +47,7 @@ class Dialog extends Component<Props> {
   */
   componentWillUnmount() {
     // If dialog is a modal dialog, remove class to remove render body not in focus
-    document.body.classList.remove('DialogModalOpen');
+    retrieveDocBodyWithInv().classList.remove('DialogModalOpen');
   }
   
   /*
@@ -55,7 +56,7 @@ class Dialog extends Component<Props> {
   componentDidMount() {
     // If dialog is a modal dialog, add class to render body not in focus
     if (this.props.modal) {
-      document.body.classList.add('DialogModalOpen');
+      retrieveDocBodyWithInv().classList.add('DialogModalOpen');
     }
   }
   

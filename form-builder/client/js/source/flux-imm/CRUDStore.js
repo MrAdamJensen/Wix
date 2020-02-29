@@ -7,7 +7,7 @@ let data: List<Object>;
 let schema;
 const emitter = new EventEmitter();
 
-const CRUDStore = {
+class CRUDStore{
   
   init(initialSchema: Array<Object>) {
     schema = initialSchema;
@@ -21,15 +21,15 @@ const CRUDStore = {
     } else {
       data = List(JSON.parse(storage));
     }
-  },
+  }
 
   getData(): List<Object> {
     return data;
-  },
+  }
   
   getSchema(): Array<Object> {
     return schema;
-  },
+  }
   
   setData(newData: List<Object>, commit: boolean = true) {
     data = newData;
@@ -37,19 +37,19 @@ const CRUDStore = {
       localStorage.setItem('data', JSON.stringify(newData));      
     }
     emitter.emit('change');
-  },
+  }
   
   addListener(eventType: string, fn: Function) {
     emitter.addListener(eventType, fn);
-  },
+  }
   
   getCount(): number {
     return data.count();
-  },
+  }
   
   getRecord(recordId: number): ?Object {
     return data.get(recordId);
-  },
+  }
   
 };
 

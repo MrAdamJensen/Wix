@@ -1,7 +1,8 @@
 /* @flow */
 
 import React from 'react';
-import {BasicField, Props} from './BasicField'\
+import BasicField from './BasicField'
+import type {Props} from './BasicField'
 
 /*
 TelField component for picking a telephone number
@@ -27,10 +28,11 @@ class TelField extends BasicField {
   render() {
     // Rendering
     return <input 
-              type="tel"                             {/*Setting the required type for this input */}
-              {...props}                             {/*Setting all given properties to input*/}
+              type="tel"                                      // Setting the required type for this input
+              {...(this.props: any)}                          // Setting all given properties to input
+              {...(this.props.readonly ? "disabled" : null)}  // If readonly, disable input
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" 
-              {props.readonly ? "disabled" : null}   {/*If readonly, disable input*/}
+      
             />  
     }
 }
