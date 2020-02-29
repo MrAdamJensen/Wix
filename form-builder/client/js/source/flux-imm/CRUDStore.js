@@ -30,13 +30,11 @@ type storeInitServer = {
   serverURL: 'string';
 }
 
-
 /*
 Defining type of a store init object, it must have the required data
 to initialize the store
 */
 type storeInit = storeInitLocal | storeInitServer
-
 
 /*
 A store of data where one can listen for changes
@@ -52,59 +50,129 @@ class CRUDStore{
   /*
   Component constructor
   */
-  constructor(storeInit: storeInit) {
+  constructor(initObj: storeInit) {
     // Initializing fields
-    this.type = storeInit.storeType
+    this.type = initObj.storeType
 
     // Initializing store emitter to inform on store changes
     this.emitter = new EventEmitter();
 
     // Initializing store
-    this._init()
+    this._init(initObj)
   }
 
-  _init() {
-    schema = initialSchema;
+  /*
+  Initializing store
+  */
+  _init(initObj: storeInit) {
+    // Asserting init object is for a local store
+    if(initObj.storeType === 'local'){
+      // Initializing local store
+      this._initLocalStore(initObj)
+    }
+    // Asserting init object is for a server store
+    else if(initObj.storeType === 'server'){
+      // Initializing server store 
+      this._initServerStore(initObj)
+    }
+    else{
+      // Declaring unrecognized store type
+      throw `CRUDStore._init: unknown store type ${initObj.storeType}`
+    }
+  }
+
+  /*
+  Initializing local store
+  */
+  _initLocalStore(initObj: storeInitLocal){
+    // Retrieving schema
+    this.schema = List(initObj.schema);
+
+    // Retrieving data if it is available in local storage
     const storage = 'localStorage' in window
       ? localStorage.getItem('data')
       : null;
+    
+    // If storage not available, initializing it
     if (!storage) {
+      // Initializing initial record
       let initialRecord = {};
-      schema.forEach(item => initialRecord[item.id] = item.sample);
-      data = List([initialRecord]);
+      this.schema.forEach(item => initialRecord[item.id] = item.sample);
+
+      // Adding initial record to data
+      this.data = List([initialRecord]);
     } else {
-      data = List(JSON.parse(storage));
+      // If storage available, retrieve it
+      this.data = List(JSON.parse(storage));
     }
   }
 
+  /*
+  Initializing server store
+  */
+  _initServerStore(initObj: storeInitServer){
+    throw 'CRUDStore._initServerStore: Not implemented'
+  }
+
+  /*
+  Returning data
+  */
   getData(): List<Object> {
-    return data;
+    return this.data;
   }
   
-  getSchema(): Array<Object> {
-    return schema;
+  /*
+  Returning schema
+  */
+  getSchema(): List<Object> {
+    return this.schema;
   }
   
+  /*
+  Setting the data with a new data
+  */
   setData(newData: List<Object>, commit: boolean = true) {
-    data = newData;
-    if (commit && 'localStorage' in window) {
+    // Updating data
+    this.data = newData;
+
+    // If a commit is requested, commit the change
+    // Assert this is a local store, if so update local storage
+    if (commit && this.type === 'local' && 'localStorage' in window) {
       localStorage.setItem('data', JSON.stringify(newData));      
     }
-    emitter.emit('change');
+    // Assert this is a server store, if so update server storage
+    else if(commit && this.type === 'server'){
+      throw 'CRUDStore.setData: not implemented'
+    }
+    else {
+      // Declaring unrecognized store type
+      throw `CRUDStore.setData: unknown store type ${this.type}`
+    }
+
+    // Informing all listeners to the change in data
+    this.emitter.emit('change');
   }
   
+  /*
+  Adding listener for data change
+  */
   addListener(eventType: string, fn: Function) {
-    emitter.addListener(eventType, fn);
+   this. emitter.addListener(eventType, fn);
   }
   
+  /*
+  Returning number of rows in data
+  */
   getCount(): number {
-    return data.count();
+    return this.data.count();
   }
   
+  /*
+  Returning a record
+  */
   getRecord(recordId: number): ?Object {
-    return data.get(recordId);
+    return this.data.get(recordId);
   }
-  
 };
 
 export default CRUDStore
