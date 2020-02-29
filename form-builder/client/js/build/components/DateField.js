@@ -12,6 +12,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21,96 +25,46 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /*
-BasicField component for basic input field
+DateField component for picking a color
 */
-
-
-/*
-Special properties for BasicField
--------------------------------
-defaultValue: the default value
-readOnly: does the value can be edited
-*/
-
-
-/*
-BasicField state fields:
-------------------------
-value: current given value in input
-*/
-var BasicField = function (_Component) {
-  _inherits(BasicField, _Component);
+var DateField = function (_BasicField) {
+  _inherits(DateField, _BasicField);
 
   /*
   Component constructor
   */
+  function DateField(props) {
+    _classCallCheck(this, DateField);
 
-  // Component fields type definitions
-  function BasicField(props) {
-    _classCallCheck(this, BasicField);
-
-    // Initializing component state
-    var _this = _possibleConstructorReturn(this, (BasicField.__proto__ || Object.getPrototypeOf(BasicField)).call(this, props));
     // Calling meta class constructor
-
-
-    if (typeof props.defaultValue !== 'undefined') {
-      _this.state = { value: props.defaultValue.toString() };
-    }
-    return _this;
+    return _possibleConstructorReturn(this, (DateField.__proto__ || Object.getPrototypeOf(DateField)).call(this, props));
   }
 
   /*
-  Callback for change in input to update state
+  Rendering component
   */
 
+  // Setting the default values for the properties 
 
-  _createClass(BasicField, [{
-    key: '_onChange',
-    value: function _onChange(e) {
-      this.setState({ value: e.target.value });
-    }
 
-    /*
-    Returning value
-    */
-
-  }, {
-    key: 'getValue',
-    value: function getValue() {
-      return this.state.value;
-    }
-
-    /*
-    If field is in read only mode, render it as a simple span and a hidden input for the label,
-    otherwise, render the given element
-    */
-
-  }, {
-    key: '_renderWithReadOnlyCheck',
-    value: function _renderWithReadOnlyCheck(notReadOnlyComp) {
-      // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
-      // otherwise, render it as input
-      if (this.props.readOnly) {
-        return _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'span',
-            null,
-            this.state.value
-          ),
-          _react2.default.createElement('input', _extends({}, this.props, {
-            type: 'hidden'
-          }))
-        );
-      } else {
-        return notReadOnlyComp;
-      }
+  _createClass(DateField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'date' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
     }
   }]);
 
-  return BasicField;
-}(_react.Component);
+  return DateField;
+}(_BasicField3.default);
 
-exports.default = BasicField;
+DateField.defaultProps = {
+  defaultValue: new Date().getFullYear().toString(),
+  readOnly: false
+};
+exports.default = DateField;

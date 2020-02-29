@@ -8,12 +8,12 @@ import invariant from 'invariant';
 Special properties for RatingField
 -------------------------------
 defaultValue: the default number of stars to highlight 
-readonly: does the number of stars highlighted can be edited
+readOnly: does the number of stars highlighted can be edited
 max: number of stars to display
 */
 type Props = {
   defaultValue: number | string,
-  readonly: boolean,
+  readOnly: boolean,
   max: number,
   id: string
 };
@@ -41,7 +41,7 @@ class RatingField extends Component<Props, State> {
   static defaultProps = {
     defaultValue: 0,
     max: 5,
-    readonly: false,
+    readOnly: false,
   };
   
   /*
@@ -52,7 +52,7 @@ class RatingField extends Component<Props, State> {
     super(props);
 
     // If default value is string, convert it to int
-    if(typeof props.defaultValue === 'string'){
+    if (typeof props.defaultValue === 'string') {
       props.defaultValue = parseInt(props.defaultValue, 10)
     }
     
@@ -103,7 +103,7 @@ class RatingField extends Component<Props, State> {
   */
   componentWillReceiveProps(nextProps: Props) {
     // If default value is string, convert it to int
-    if(typeof nextProps.defaultValue === 'string'){
+    if (typeof nextProps.defaultValue === 'string') {
       nextProps.defaultValue = parseInt(nextProps.defaultValue, 10)
     }
     
@@ -120,20 +120,20 @@ class RatingField extends Component<Props, State> {
   render() {
     // Rendering stars
     let stars = this._renderStars()
-
+    
     return (
-      <div                                       // Rendering raiting
-        // Setting classes for styling for when the component is in readonly mode and edit mode
+      <div                                       // Rendering rating
+        // Setting classes for styling for when the component is in readOnly mode and edit mode
         className={classNames({                  
           'Rating': true,
-          'RatingReadonly': this.props.readonly,
+          'RatingReadonly': this.props.readOnly,
         })}
         onMouseOut={this.reset.bind(this)}      // Resetting highlighted stars to real value when the mouse is done hovering
       >
         {stars}                                 {/*Rendering stars*/}
         {
-        // If not readonly mode, render a hidden input so that the componenet can act like a real input
-        this.props.readonly || !this.props.id   
+        // If not readOnly mode, render a hidden input so that the component can act like a real input
+        this.props.readOnly || !this.props.id   
           ? null 
           : <input 
               type="hidden" 
@@ -147,7 +147,7 @@ class RatingField extends Component<Props, State> {
   /*
   Rendering stars
   */
-  _renderStars(){
+  _renderStars() {
     // Initializing
     const stars = [];
 
@@ -155,15 +155,17 @@ class RatingField extends Component<Props, State> {
     for (let i: number = 1; i <= this.props.max; i++) {
       // Rendering star
       stars.push(
-        <span                                                              // Creating star
-          className={i <= this.state.tmpRating ? 'RatingOn' : null}        // Highlighting star if position is within temp rating
-          key={i}                                                          // adding key becuase it is requested by react
-          onClick={!this.props.readonly && this.setRating.bind(this, i)}   // If no readonly, setting callback for changing real rating on click
-          onMouseOver={!this.props.readonly && this.setTemp.bind(this, i)} // If no readonly, setting callback for changing temp rating on mous over 
+        <span                                                                          // Creating star
+          className={i <= this.state.tmpRating ? 'RatingOn' : null}                    // Highlighting star if position is within temp rating
+          key={i}                                                                      // adding key because it is requested by react
+          onClick={this.props.readOnly ? undefined : this.setRating.bind(this, i)}     // If no readOnly, setting callback for changing real rating on click
+          onMouseOver={this.props.readOnly ? undefined : this.setRating.bind(this, i)} // If no readOnly, setting callback for changing temp rating on mouse over 
         >
-          &#9734;                                                          {/*Creatig star symbol*/}
+          &#9734;                                                          {/*Creating star symbol*/}
         </span>);
     }
+
+    return stars
   }
 }
 

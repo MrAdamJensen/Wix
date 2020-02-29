@@ -39,7 +39,7 @@ type storeInit = storeInitLocal | storeInitServer
 /*
 A store of data where one can listen for changes
 */
-class CRUDStore{
+class CRUDStore {
   // Properties type definitions
   data: List<Object>;
   schema: List<Object>;
@@ -66,16 +66,15 @@ class CRUDStore{
   */
   _init(initObj: storeInit) {
     // Asserting init object is for a local store
-    if(initObj.storeType === 'local'){
+    if (initObj.storeType === 'local') {
       // Initializing local store
       this._initLocalStore(initObj)
-    }
-    // Asserting init object is for a server store
-    else if(initObj.storeType === 'server'){
+    } // Asserting init object is for a server store
+    else if (initObj.storeType === 'server') {
       // Initializing server store 
       this._initServerStore(initObj)
     }
-    else{
+    else {
       // Declaring unrecognized store type
       throw `CRUDStore._init: unknown store type ${initObj.storeType}`
     }
@@ -84,7 +83,7 @@ class CRUDStore{
   /*
   Initializing local store
   */
-  _initLocalStore(initObj: storeInitLocal){
+  _initLocalStore(initObj: storeInitLocal) {
     // Retrieving schema
     this.schema = List(initObj.schema);
 
@@ -110,7 +109,7 @@ class CRUDStore{
   /*
   Initializing server store
   */
-  _initServerStore(initObj: storeInitServer){
+  _initServerStore(initObj: storeInitServer) {
     throw 'CRUDStore._initServerStore: Not implemented'
   }
 
@@ -141,7 +140,7 @@ class CRUDStore{
       localStorage.setItem('data', JSON.stringify(newData));      
     }
     // Assert this is a server store, if so update server storage
-    else if(commit && this.type === 'server'){
+    else if (commit && this.type === 'server') {
       throw 'CRUDStore.setData: not implemented'
     }
     else {
@@ -173,6 +172,6 @@ class CRUDStore{
   getRecord(recordId: number): ?Object {
     return this.data.get(recordId);
   }
-};
+}
 
 export default CRUDStore

@@ -36,10 +36,6 @@ var _FormInput = require('./FormInput');
 
 var _FormInput2 = _interopRequireDefault(_FormInput);
 
-var _Rating = require('./Rating');
-
-var _Rating2 = _interopRequireDefault(_Rating);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -64,86 +60,203 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Excel component which displays a table given data
+*/
+
+
+/*
+Edit state fields: the state of a cell being edited
+----------------------------------------------------
+row: the cell being edited row
+key: cell identifier
+*/
+
+
+/*
+Dialog state fields: the state of a row being opened in a dialog
+----------------------------------------------------------------
+idx: the row being opened in a dialog
+type: dialog type:(info, edit and delete)
+*/
+
+
+/*
+Special properties for Form
+-------------------------------
+crudStore: the CRUD store from which to retrieve the data
+crudActions: the CRUD actions with which to perform actions on the CRUD store
+*/
+
+
+/*
+Excel state fields
+-------------------
+data: excel table data
+sortby: the column id to sort the table by
+descending: sort in descending order
+edit: table edit state
+dialog: table dialog state
+*/
 var Excel = function (_Component) {
   _inherits(Excel, _Component);
 
-  function Excel() {
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
+  function Excel(props) {
     _classCallCheck(this, Excel);
 
-    var _this = _possibleConstructorReturn(this, (Excel.__proto__ || Object.getPrototypeOf(Excel)).call(this));
+    // Retrieving the store and store actions objects
+    var _this = _possibleConstructorReturn(this, (Excel.__proto__ || Object.getPrototypeOf(Excel)).call(this, props));
+    // Calling meta class constructor
 
+
+    _this.crudStore = props.crudStore;
+    _this.crudActions = props.crudActions;
+
+    // Initializing component state
     _this.state = {
-      data: _CRUDStore2.default.getData(),
-      sortby: null, // schema.id
+      data: _this.crudStore.getData(),
+      sortby: null,
       descending: false,
-      edit: null, // {row index, schema.id},
-      dialog: null // {type, idx}
+      edit: null,
+      dialog: null
     };
-    _this.schema = _CRUDStore2.default.getSchema();
-    _CRUDStore2.default.addListener('change', function () {
+
+    // Retrieving table schema
+    _this.schema = _this.crudStore.getSchema();
+
+    // Listening for table data change, when notified on a change, update component copy
+    _this.crudStore.addListener('change', function () {
       _this.setState({
-        data: _CRUDStore2.default.getData()
+        data: _this.crudStore.getData()
       });
     });
     return _this;
   }
 
+  /*
+  Sorting table
+  */
+
+
   _createClass(Excel, [{
     key: '_sort',
     value: function _sort(key) {
+      // Asserting sorting in descending order
       var descending = this.state.sortby === key && !this.state.descending;
-      _CRUDActions2.default.sort(key, descending);
+
+      // Sorting table
+      this.crudActions.sort(key, descending);
+
+      // Saving sorting type
       this.setState({
         sortby: key,
         descending: descending
       });
     }
+
+    /*
+    Setting cell editing mode
+    */
+
   }, {
     key: '_showEditor',
     value: function _showEditor(e) {
+      // Retrieving the cell that was clicked for entering editing mode
       var target = e.target;
+
+      // Saving editing mode cell identity
       this.setState({ edit: {
           row: parseInt(target.dataset.row, 10),
           key: target.dataset.key
         } });
     }
+
+    /*
+    Updating table data with cell data that was edited
+    */
+
   }, {
     key: '_save',
     value: function _save(e) {
+      // Attempting to prevent default behaviour from any callback that will
+      // be called with this event
       e.preventDefault();
+
+      // Asserting edit mode was enabled, if not this is probably our fault
       (0, _invariant2.default)(this.state.edit, 'Messed up edit state');
-      _CRUDActions2.default.updateField(this.state.edit.row, this.state.edit.key, this.refs.input.getValue());
+
+      // Updating table data with cell data that was edited
+      this.crudActions.updateField(this.state.edit.row, this.state.edit.key, this.refs.input.getValue());
+
+      // Declaring cell edit mode is disabled
       this.setState({
         edit: null
       });
     }
+
+    /*
+    Opening requested dialog since an action was clicked
+    */
+
   }, {
     key: '_actionClick',
     value: function _actionClick(rowidx, action) {
       this.setState({ dialog: { type: action, idx: rowidx } });
     }
+
+    /*
+    Retrieving delete dialog user request
+    */
+
   }, {
     key: '_deleteConfirmationClick',
     value: function _deleteConfirmationClick(action) {
+      // Closing dialog
       this.setState({ dialog: null });
+
+      // Checking if user cancel delete request, if yes, don't do anything
       if (action === 'dismiss') {
         return;
       }
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
-      _CRUDActions2.default.delete(index);
+
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Executing delete
+      this.crudActions.delete(index);
     }
+
+    /*
+    Retrieving edit dialog user request
+    */
+
   }, {
     key: '_saveDataDialog',
     value: function _saveDataDialog(action) {
+      // Closing dialog
       this.setState({ dialog: null });
+
+      // Checking if user cancel edit request, if yes, don't do anything
       if (action === 'dismiss') {
         return;
       }
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
-      _CRUDActions2.default.updateRecord(index, this.refs.form.getData());
+
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Executing edit
+      this.crudActions.updateRecord(index, this.refs.form.getData());
     }
+
+    /*
+    Rendering component
+    */
+
   }, {
     key: 'render',
     value: function render() {
@@ -154,13 +267,23 @@ var Excel = function (_Component) {
         this._renderDialog()
       );
     }
+
+    /*
+    Rendering component dialog
+    */
+
   }, {
     key: '_renderDialog',
     value: function _renderDialog() {
+      // Asserting dialog is open, if not don't render dialog
       if (!this.state.dialog) {
         return null;
       }
+
+      // Retrieving dialog type
       var type = this.state.dialog.type;
+
+      // Rendering requested dialog
       switch (type) {
         case 'delete':
           return this._renderDeleteDialog();
@@ -172,127 +295,245 @@ var Excel = function (_Component) {
           throw Error('Unexpected dialog type ' + type);
       }
     }
+
+    /*
+    Rendering delete dialog
+    */
+
   }, {
     key: '_renderDeleteDialog',
     value: function _renderDeleteDialog() {
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
-      var first = this.state.data.get(index);
-      var nameguess = first[Object.keys(first)[0]];
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Retrieving dialog row
+      var row = this.state.data.get(index);
+
+      // Asserting row retrieved successfully
+      (0, _invariant2.default)(row, 'Excel._renderDeleteDialog: failed retrieving dialog row');
+
+      // Retrieving dialog row name
+      var nameGuess = row[Object.keys(row)[0]];
+
+      // Rendering dialog
       return _react2.default.createElement(
         _Dialog2.default,
         {
-          modal: true,
-          header: 'Confirm deletion',
-          confirmLabel: 'Delete',
-          onAction: this._deleteConfirmationClick.bind(this)
+          modal: true // Setting it to be a modal dialog, meaning above body
+          , header: 'Confirm deletion' // Setting title
+          , confirmLabel: 'Delete' // Setting confirm button label
+          , onAction: this._deleteConfirmationClick.bind(this) // Setting the callback to call when confirm button is clicked
         },
-        'Are you sure you want to delete "' + nameguess + '"?'
+        'Are you sure you want to delete "' + nameGuess + '"?',
+        '   '
       );
     }
+
+    /*
+    Rendering form dialog
+    */
+
   }, {
     key: '_renderFormDialog',
-    value: function _renderFormDialog(readonly) {
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
+    value: function _renderFormDialog(readOnly) {
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Rendering dialog
       return _react2.default.createElement(
         _Dialog2.default,
         {
-          modal: true,
-          header: readonly ? 'Item info' : 'Edit item',
-          confirmLabel: readonly ? 'ok' : 'Save',
-          hasCancel: !readonly,
-          onAction: this._saveDataDialog.bind(this)
+          modal: true // Setting it to be a modal dialog, meaning above body
+          , header: readOnly ? 'Item info' : 'Edit item' // Setting title
+          , confirmLabel: readOnly ? 'ok' : 'Save' // Setting confirm button label
+          , hasCancel: !readOnly // Setting a cancel button only if the dialog is editable
+          , onAction: this._saveDataDialog.bind(this) // Setting the callback to call when confirm button is clicked
         },
-        _react2.default.createElement(_Form2.default, {
-          ref: 'form',
-          recordId: index,
-          readonly: !!readonly })
+        _react2.default.createElement(_Form2.default // Creating dialog body as a form
+        , { crudStore: this.crudStore // Setting form CRUD store from which to retrieve from the data
+          , ref: 'form' // Setting reference for this form so that later it will be easily reachable
+          , recordId: index // Setting the dialog row index so that the form can access the correct table row
+          , readOnly: !!readOnly }),
+        '                           '
       );
     }
+
+    /*
+    Retrieving dialog row(the row that was the dialog click origin) index
+    */
+
+  }, {
+    key: '_retrieve_dialog_row_origin_index',
+    value: function _retrieve_dialog_row_origin_index() {
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this.state.dialog && this.state.dialog.idx;
+
+      // Asserting that the dialog row index retrieved successfully
+      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
+
+      return index;
+    }
+
+    /*
+    Rendering table
+    */
+
   }, {
     key: '_renderTable',
     value: function _renderTable() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         'table',
         null,
-        _react2.default.createElement(
-          'thead',
-          null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            this.schema.map(function (item) {
-              if (!item.show) {
-                return null;
-              }
-              var title = item.label;
-              if (_this2.state.sortby === item.id) {
-                title += _this2.state.descending ? ' \u2191' : ' \u2193';
-              }
-              return _react2.default.createElement(
-                'th',
-                {
-                  className: 'schema-' + item.id,
-                  key: item.id,
-                  onClick: _this2._sort.bind(_this2, item.id)
-                },
-                title
-              );
-            }, this),
-            _react2.default.createElement(
-              'th',
-              { className: 'ExcelNotSortable' },
-              'Actions'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'tbody',
-          { onDoubleClick: this._showEditor.bind(this) },
-          this.state.data.map(function (row, rowidx) {
-            return _react2.default.createElement(
-              'tr',
-              { key: rowidx },
-              Object.keys(row).map(function (cell, idx) {
-                var _classNames;
+        this._renderTableHead(),
+        '  ',
+        this._renderTableBody(),
+        '  '
+      );
+    }
 
-                var schema = _this2.schema[idx];
-                if (!schema || !schema.show) {
-                  return null;
-                }
-                var isRating = schema.type === 'rating';
-                var edit = _this2.state.edit;
-                var content = row[cell];
-                if (!isRating && edit && edit.row === rowidx && edit.key === schema.id) {
-                  content = _react2.default.createElement(
-                    'form',
-                    { onSubmit: _this2._save.bind(_this2) },
-                    _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, schema, { defaultValue: content }))
-                  );
-                } else if (isRating) {
-                  content = _react2.default.createElement(_Rating2.default, { readonly: true, defaultValue: Number(content) });
-                }
-                return _react2.default.createElement(
-                  'td',
-                  {
-                    className: (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, 'schema-' + schema.id, true), _defineProperty(_classNames, 'ExcelEditable', !isRating), _defineProperty(_classNames, 'ExcelDataLeft', schema.align === 'left'), _defineProperty(_classNames, 'ExcelDataRight', schema.align === 'right'), _defineProperty(_classNames, 'ExcelDataCenter', schema.align !== 'left' && schema.align !== 'right'), _classNames)),
-                    key: idx,
-                    'data-row': rowidx,
-                    'data-key': schema.id },
-                  content
-                );
-              }, _this2),
+    /*
+    Rendering table head
+    */
+
+  }, {
+    key: '_renderTableHead',
+    value: function _renderTableHead() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'thead',
+        null,
+        _react2.default.createElement(
+          'tr',
+          null,
+
+          // Creating each table column title from the schema
+          this.schema.map(function (item) {
+            // Asserting current column is set to be displayed, if not don't create a 
+            // column title for it
+            if (!item.show) {
+              return null;
+            }
+
+            // Retrieving column title from schema
+            var title = item.label;
+
+            // If the table is sorted by current column then add sort symbol
+            if (_this2.state.sortby === item.id) {
+              // Add sort symbol based on if the sorting is descending or otherwise
+              title += _this2.state.descending ? ' \u2191' : ' \u2193';
+            }
+
+            // Returning column title
+            return _react2.default.createElement(
+              'th',
+              {
+                className: 'schema-' + item.id // adding class for css styling of this current header
+                , key: item.id // adding key because it is requested by react
+
+                // adding callback for sorting the table in the event that a user clicks a column header
+                , onClick: _this2._sort.bind(_this2, item.id)
+              },
+              title,
+              '                                     '
+            );
+          }, this),
+          _react2.default.createElement(
+            'th',
+            { className: 'ExcelNotSortable' },
+            'Actions'
+          ),
+          '       '
+        )
+      );
+    }
+
+    /*
+    Rendering table body
+    */
+
+  }, {
+    key: '_renderTableBody',
+    value: function _renderTableBody() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'tbody',
+        { onDoubleClick: this._showEditor.bind(this) },
+        ' ',
+        this.state.data.map(function (row, rowidx) {
+          return (
+            // Creating table row
+            _react2.default.createElement(
+              'tr',
+              {
+                key: rowidx },
+              '                                      ',
+
+              // Creating row cells
+              Object.keys(row).map(_this3._renderTableBodyCell.bind(_this3, row, rowidx)),
               _react2.default.createElement(
                 'td',
                 { className: 'ExcelDataCenter' },
-                _react2.default.createElement(_Actions2.default, { onAction: _this2._actionClick.bind(_this2, rowidx) })
+                _react2.default.createElement(_Actions2.default, { onAction: _this3._actionClick.bind(_this3, rowidx) }),
+                ' '
               )
-            );
-          }, this)
-        )
+            )
+          );
+        }, this)
+      );
+    }
+
+    /*
+    Rendering table body cell
+    */
+
+  }, {
+    key: '_renderTableBodyCell',
+    value: function _renderTableBodyCell(row, rowidx, cell, idx) {
+      var _classNames;
+
+      // Retrieving table schema
+      var column_schema = this.schema.get(idx);
+
+      // If schema failed to be retrieved or current column is not to be displayed then 
+      // don't render column
+      if (!column_schema || !column_schema.show) {
+        return null;
+      }
+
+      // Retrieving table edit state and current cell content
+      var edit = this.state.edit;
+      var content = row[cell];
+
+      // Asserting current cell is editable
+      // if yes then creating cell content as an editable cell
+      if (edit && edit.row === rowidx && edit.key === column_schema.id) {
+        content =
+        /*Setting callback to be called when the user finished editing cell*/
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this._save.bind(this) },
+          _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, column_schema, { defaultValue: content }))
+        );
+      }
+      // Other wise, creating a readonly input cell
+      else {
+          content = _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, column_schema, { defaultValue: content, readOnly: true }));
+        }
+
+      // Creating cell
+      return _react2.default.createElement(
+        'td',
+        {
+          //Setting cell classes for styling
+          className: (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, 'schema-' + column_schema.id, true), _defineProperty(_classNames, 'ExcelEditable', true), _defineProperty(_classNames, 'ExcelDataLeft', column_schema.align === 'left'), _defineProperty(_classNames, 'ExcelDataRight', column_schema.align === 'right'), _defineProperty(_classNames, 'ExcelDataCenter', column_schema.align !== 'left' && column_schema.align !== 'right'), _classNames)),
+          key: idx // adding key because it is requested by react
+          , 'data-row': rowidx // adding dataset row to be able to identify cell identity
+          , 'data-key': column_schema.id },
+        '    ',
+        content,
+        '                       '
       );
     }
   }]);

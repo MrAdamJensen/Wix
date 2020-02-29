@@ -3,10 +3,14 @@
 import Button from './Button';
 import CRUDActions from '../flux-imm/CRUDActions';
 import CRUDStore from '../flux-imm/CRUDStore';
-import Dialog from './Dialog';
 import Excel from './Excel';
-import Form from './Form';
 import React, {Component} from 'react';
+
+/*
+Defining function types to be used for the actions callbacks
+*/
+type VoidMethod = () => any;
+export type ActionMethods = (func: VoidMethod) => any;
 
 /*
 Special properties for ExcelWithFunc
@@ -18,8 +22,8 @@ actions: the actions that are available by this component
 type Props = {
   crudStore: CRUDStore,
   crudActions: CRUDActions,
-  actions: Array<Function>,
-  actionDefs: Array<String>
+  actions: Array<ActionMethods>,
+  actionsDefs: Array<string>
 };
 
 /*
@@ -36,7 +40,7 @@ type State = {
 /*
 ExcelWithFunc component which renders a excel table with optional functionality
 */
-class ExcelWithFunc extends Component<Props, State>{
+class ExcelWithFunc extends Component<Props, State> {
   // Component fields type definitions
   state: State;
   schema: Array<Object>;
@@ -45,7 +49,7 @@ class ExcelWithFunc extends Component<Props, State>{
   
   // Setting the default values for the properties 
   static defaultProps = {
-    actions: []
+    actions: [],
   };
 
   /*
@@ -90,6 +94,13 @@ class ExcelWithFunc extends Component<Props, State>{
   }
   
   /*
+  Finish action execution
+  */
+  _finishActionExecution() {
+    this.setState({actionActivated: -1})
+  }
+
+  /*
   Rendering component
   */
   render() {
@@ -113,7 +124,7 @@ class ExcelWithFunc extends Component<Props, State>{
   /*
   Rendering toolbar
   */
-  _renderActions(){
+  _renderActions() {
     return <div className="ExcelWithFuncToolbarAction">        {/*Creating all actions buttons*/}
               {
                 this.props.actions.map((action, index) => {
@@ -123,7 +134,7 @@ class ExcelWithFunc extends Component<Props, State>{
                     onClick={this._executeAction.bind(this, index)} 
 
                     className="ExcelWithFuncToolbarButton">
-                    {this.props.actionDefs[index]}              {/* Setting button text */}
+                    {this.props.actionsDefs[index]}              {/* Setting button text */}
                   </Button>
                 })
               }
@@ -133,7 +144,7 @@ class ExcelWithFunc extends Component<Props, State>{
   /*
   Rendering search functionality
   */
-  _renderSearch(){
+  _renderSearch() {
     return <div className="ExcelWithFuncToolbarSearch">                   {/*Creating search functionality*/}
               {/*Creating input field to receive the search query*/}
               <input                           
@@ -143,7 +154,7 @@ class ExcelWithFunc extends Component<Props, State>{
                   : `Search ${this.state.count} records...`
                 } 
 
-                // Setting callback to activate table search apon focus and callback to 
+                // Setting callback to activate table search upon focus and callback to 
                 // initiate a new search upon input change
                 onChange={this.crudActions.search}
                 onFocus={this.crudActions.startSearching} />
@@ -153,10 +164,10 @@ class ExcelWithFunc extends Component<Props, State>{
   /*
   Rendering action
   */
-  _renderAction(){
-    // Assertign an acton is activated, if so calling given function to render action
+  _renderAction() {
+    // Asserting an acton is activated, if so calling given function to render action
     return this.state.actionActivated >= 0
-          ? this.props.actions[this.state.actionActivated]()
+          ? this.props.actions[this.state.actionActivated](this._finishActionExecution.bind(this))
           : null
   }
 }

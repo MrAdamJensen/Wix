@@ -16,13 +16,11 @@ var _FormInput = require('./FormInput');
 
 var _FormInput2 = _interopRequireDefault(_FormInput);
 
-var _Rating = require('./Rating');
-
-var _Rating2 = _interopRequireDefault(_Rating);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _immutable = require('immutable');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,74 +30,115 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Form component which displays a form
+*/
+
+
+/*
+Special properties for Form
+-------------------------------
+readOnly: true if the form should be editable
+recordId: the id of data to be displayed in the form
+crudStore: the CRUD store from which to retrieve the data
+*/
 var Form = function (_Component) {
   _inherits(Form, _Component);
 
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
   function Form(props) {
     _classCallCheck(this, Form);
 
+    // Retrieving the store and store actions objects
     var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+    // Calling meta class constructor
 
-    _this.fields = _CRUDStore2.default.getSchema();
-    if ('recordId' in _this.props) {
-      _this.initialData = _CRUDStore2.default.getRecord(_this.props.recordId);
+
+    _this.crudStore = props.crudStore;
+    // Retrieving form schema
+    _this.fields = _this.crudStore.getSchema();
+
+    // If a record id for the form is being given, initializing form with the data
+    // that belongs to the record id
+    if (_this.props.recordId !== -1) {
+      _this.initialData = _this.crudStore.getRecord(_this.props.recordId);
     }
     return _this;
   }
+
+  /*
+  Returning form data
+  */
+
+
+  // Setting the default values for the properties 
+
 
   _createClass(Form, [{
     key: 'getData',
     value: function getData() {
       var _this2 = this;
 
+      // Initializing data to be returned
       var data = {};
+
+      // Retrieving each form field data and setting it in data to be returned
       this.fields.forEach(function (field) {
         return data[field.id] = _this2.refs[field.id].getValue();
       });
       return data;
     }
+
+    /*
+    Rendering form
+    */
+
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
-        this.fields.map(function (field) {
-          var prefilled = _this3.initialData && _this3.initialData[field.id] || '';
-          if (!_this3.props.readonly) {
-            return _react2.default.createElement(
-              'div',
-              { className: 'FormRow', key: field.id },
-              _react2.default.createElement(
-                'label',
-                { className: 'FormLabel', htmlFor: field.id },
-                field.label,
-                ':'
-              ),
-              _react2.default.createElement(_FormInput2.default, _extends({}, field, { ref: field.id, defaultValue: prefilled }))
-            );
-          }
-          if (!prefilled) {
-            return null;
-          }
-          return _react2.default.createElement(
-            'div',
-            { className: 'FormRow', key: field.id },
-            _react2.default.createElement(
-              'span',
-              { className: 'FormLabel' },
-              field.label,
-              ':'
-            ),
-            field.type === 'rating' ? _react2.default.createElement(_Rating2.default, { readonly: true, defaultValue: parseInt(prefilled, 10) }) : _react2.default.createElement(
-              'div',
-              null,
-              prefilled
-            )
-          );
-        }, this)
+        this.fields.map(this._renderFormField, this),
+        ' '
+      );
+    }
+
+    /*
+    Rendering a form field
+    */
+
+  }, {
+    key: '_renderFormField',
+    value: function _renderFormField(field) {
+      // Retrieving field prefilled data
+      var prefilled = this.initialData && this.initialData[field.id] || 'was not filled';
+
+      // Rendering form field
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'FormRow' // Adding class for styling of form field
+          , key: field.id },
+        '                       ',
+        _react2.default.createElement(
+          'label',
+          { // Setting form field label                            
+            className: 'FormLabel' // Setting form field label class for styling
+            , htmlFor: field.id },
+          '                 ',
+          field.label,
+          ':                    '
+        ),
+        _react2.default.createElement(_FormInput2.default // Setting form field as an editable field
+        , _extends({}, field, { // Setting field properties
+          ref: field.id // Setting field ref so that it can be accessed easily
+          , defaultValue: prefilled })),
+        '         '
       );
     }
   }]);
@@ -107,4 +146,8 @@ var Form = function (_Component) {
   return Form;
 }(_react.Component);
 
+Form.defaultProps = {
+  readOnly: false,
+  recordId: -1
+};
 exports.default = Form;

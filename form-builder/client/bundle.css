@@ -147,6 +147,28 @@
 .Excel .ExcelDataRight {
   text-align: right;
 }
+.ExcelWithFunc .ExcelWithFuncToolbar {
+  margin: 40px;
+}
+
+.ExcelWithFunc .ExcelWithFuncToolbarAction {
+  float: left;
+}
+
+.ExcelWithFunc .ExcelWithFuncToolbarSearch {
+  float: right;
+}
+
+.ExcelWithFunc .ExcelWithFuncToolbarButton {
+  font-size: 32px;
+}
+
+.ExcelWithFunc .ExcelWithFuncDatagrid {
+  clear: both;
+  margin: 40px;
+  padding-top: 20px;
+}
+
 .Form .FormLabel {
   color: #A0A0A0;
   display: block;
@@ -196,28 +218,6 @@
 .Suggest {
   
 }
-.Whinepad .WhinepadToolbar {
-  margin: 40px;
-}
-
-.Whinepad .WhinepadToolbarAdd {
-  float: left;
-}
-
-.Whinepad .WhinepadToolbarSearch {
-  float: right;
-}
-
-.Whinepad .WhinepadToolbarAddButton {
-  font-size: 32px;
-}
-
-.Whinepad .WhinepadDatagrid {
-  clear: both;
-  margin: 40px;
-  padding-top: 20px;
-}
-
 html {
   background-color: #f0f0f0;
   font: 16px Arial;

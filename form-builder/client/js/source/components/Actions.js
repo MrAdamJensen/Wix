@@ -8,7 +8,7 @@ Special properties for Actions
 onAction: callback to execute when an action button is clicked
 */
 type Props = {
-  onAction: Function,
+  onAction: (...args: any) => any,
 };
 
 /*

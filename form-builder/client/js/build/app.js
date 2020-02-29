@@ -1,9 +1,5 @@
 'use strict';
 
-var _CRUDStore = require('./flux-imm/CRUDStore');
-
-var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
-
 var _Logo = require('./components/Logo');
 
 var _Logo2 = _interopRequireDefault(_Logo);
@@ -16,17 +12,15 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Whinepad = require('./components/Whinepad');
+var _Utils = require('./components/Utils');
 
-var _Whinepad2 = _interopRequireDefault(_Whinepad);
+var _Utils2 = _interopRequireDefault(_Utils);
 
-var _schema = require('./schema');
+var _FormBuilder = require('./components/FormBuilder');
 
-var _schema2 = _interopRequireDefault(_schema);
+var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_CRUDStore2.default.init(_schema2.default);
 
 _reactDom2.default.render(_react2.default.createElement(
   'div',
@@ -35,7 +29,7 @@ _reactDom2.default.render(_react2.default.createElement(
     'div',
     { className: 'app-header' },
     _react2.default.createElement(_Logo2.default, null),
-    ' Welcome to Whinepad!'
+    ' Welcome to Form Builder!'
   ),
-  _react2.default.createElement(_Whinepad2.default, null)
-), document.getElementById('pad'));
+  _react2.default.createElement(_FormBuilder2.default, null)
+), _Utils2.default.retrieveElementByID('pad'));

@@ -8,19 +8,45 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Rating = require('./Rating');
+var _RatingField = require('./RatingField');
 
-var _Rating2 = _interopRequireDefault(_Rating);
+var _RatingField2 = _interopRequireDefault(_RatingField);
+
+var _NumberField = require('./NumberField');
+
+var _NumberField2 = _interopRequireDefault(_NumberField);
+
+var _SuggestField = require('./SuggestField');
+
+var _SuggestField2 = _interopRequireDefault(_SuggestField);
+
+var _ColorField = require('./ColorField');
+
+var _ColorField2 = _interopRequireDefault(_ColorField);
+
+var _DateField = require('./DateField');
+
+var _DateField2 = _interopRequireDefault(_DateField);
+
+var _EmailField = require('./EmailField');
+
+var _EmailField2 = _interopRequireDefault(_EmailField);
+
+var _TelField = require('./TelField');
+
+var _TelField2 = _interopRequireDefault(_TelField);
+
+var _TextField = require('./TextField');
+
+var _TextField2 = _interopRequireDefault(_TextField);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Suggest = require('./Suggest');
-
-var _Suggest2 = _interopRequireDefault(_Suggest);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -28,6 +54,26 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Form Input component which displays a form input of certain types
+*/
+
+
+// Declaring form input field type, i.e, all the different kinds of forms
+
+
+// Declaring form input field values, i.e, all the different kinds of values a form can receive
+
+
+/*
+Declaring form input field
+-----------------------------
+type: the type of the form field
+defaultValue: the default value of the form field
+id: the id of the form field, used to identify it with ref
+options: the options for a form field that accept a set of options
+label: the form field label
+*/
 var FormInput = function (_Component) {
   _inherits(FormInput, _Component);
 
@@ -39,31 +85,66 @@ var FormInput = function (_Component) {
 
   _createClass(FormInput, [{
     key: 'getValue',
+
+
+    /*
+    Returning field value
+    */
+
+    // Component fields type definitions
     value: function getValue() {
-      return 'value' in this.refs.input ? this.refs.input.value : this.refs.input.getValue();
+      return this.refs.input.getValue();
     }
+
+    /*
+    Rendering component
+    */
+
+
+    // Setting the default values for the properties 
+
   }, {
     key: 'render',
     value: function render() {
-      var common = {
+      // Setting the common properties each component need to have 
+      var commonProps = _defineProperty({
         id: this.props.id,
         ref: 'input',
-        defaultValue: this.props.defaultValue
-      };
+        defaultValue: this.props.defaultValue,
+        readOnly: this.props.readOnly
+      }, 'defaultValue', this.props.defaultValue);
+
+      // Creating field based on the form field type
       switch (this.props.type) {
-        case 'year':
-          return _react2.default.createElement('input', _extends({}, common, {
-            type: 'number',
-            defaultValue: this.props.defaultValue || new Date().getFullYear() }));
-        case 'suggest':
-          return _react2.default.createElement(_Suggest2.default, _extends({}, common, { options: this.props.options }));
         case 'rating':
-          return _react2.default.createElement(_Rating2.default, _extends({}, common, {
-            defaultValue: parseInt(this.props.defaultValue, 10) }));
+          return _react2.default.createElement(_RatingField2.default // Creating a rating field type, a field with stars to pick a rating
+          , commonProps);
+        case 'number':
+          return _react2.default.createElement(_NumberField2.default // Creating a number field type, which is a filed that accept only numbers
+          , commonProps);
+        case 'suggest':
+          return _react2.default.createElement(_SuggestField2.default // Creating a suggest field type, a field with options to select from
+          , _extends({}, commonProps, { // Inserting common properties
+            options: this.props.options // Setting options to select from
+          }));
+        case 'color':
+          return _react2.default.createElement(_ColorField2.default // Creating a color field type, which is a filed that accept only colors
+          , commonProps);
+        case 'date':
+          return _react2.default.createElement(_DateField2.default // Creating a date field type, which is a filed that accept only dates
+          , commonProps);
+        case 'email':
+          return _react2.default.createElement(_EmailField2.default // Creating a email field type, which is a filed that accept only emails
+          , commonProps);
+        case 'tel':
+          return _react2.default.createElement(_TelField2.default // Creating a telephone type, which is a filed that accept only telephones
+          , commonProps);
         case 'text':
-          return _react2.default.createElement('textarea', common);
+          return _react2.default.createElement(_TextField2.default // Creating a text type, which is a filed that accept only text
+          , commonProps);
         default:
-          return _react2.default.createElement('input', _extends({}, common, { type: 'text' }));
+          // Declaring unrecognized input type
+          throw 'FormInput.render: bad input type ' + this.props.type;
       }
     }
   }]);
@@ -72,6 +153,10 @@ var FormInput = function (_Component) {
 }(_react.Component);
 
 FormInput.defaultProps = {
-  type: 'input'
+  type: 'text',
+  defaultValue: "",
+  options: [],
+  readOnly: false,
+  label: ""
 };
 exports.default = FormInput;

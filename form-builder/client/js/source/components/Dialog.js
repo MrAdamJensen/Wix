@@ -2,7 +2,7 @@
 
 import Button from './Button';
 import React, {Component} from 'react';
-import {retrieveDocBodyWithInv} from './Utils.js';
+import Utils from './Utils.js';
 
 /*
 Special properties for Dialog
@@ -10,7 +10,7 @@ Special properties for Dialog
 header: Dialog title
 confirmLabel: dialog confirmation button label
 modal: is dialog is a modal dialog
-onAction: dialog confirmaition callback
+onAction: dialog confirmation callback
 hasCancel: is dialog includes a cancel button
 children: dialog body
 */
@@ -20,7 +20,7 @@ type Props = {
   modal: boolean,
   onAction: Function,
   hasCancel: ?boolean,
-  children?: Array<any>,
+  children?: any,
 };
 
 /*
@@ -47,7 +47,7 @@ class Dialog extends Component<Props> {
   */
   componentWillUnmount() {
     // If dialog is a modal dialog, remove class to remove render body not in focus
-    retrieveDocBodyWithInv().classList.remove('DialogModalOpen');
+    Utils.retrieveDocBodyWithInv().classList.remove('DialogModalOpen');
   }
   
   /*
@@ -56,12 +56,12 @@ class Dialog extends Component<Props> {
   componentDidMount() {
     // If dialog is a modal dialog, add class to render body not in focus
     if (this.props.modal) {
-      retrieveDocBodyWithInv().classList.add('DialogModalOpen');
+      Utils.retrieveDocBodyWithInv().classList.add('DialogModalOpen');
     }
   }
   
   /*
-  Dailog component render
+  Dialog component render
   */
   render() {
     return (

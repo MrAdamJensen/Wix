@@ -2,11 +2,12 @@
 
 import CRUDStore from './CRUDStore';
 import {List} from 'immutable';
+import invariant from 'invariant';
 
 /*
 A store actions interface capable of performing action on a store data
 */
-class CRUDActions{
+class CRUDActions {
   // Properties type definitions
   crudStore: CRUDStore;
   _preSearchData: ?List<Object>
@@ -53,14 +54,14 @@ class CRUDActions{
     let record = this.crudStore.getData().get(recordId);
 
     // Asserting record retrieved successfully
-    if(record){
+    if (record) {
       // Updating field of record
       record[key] = value;
 
       // Updating data with the updated record
       this.crudStore.setData(this.crudStore.getData().set(recordId, record));
     }
-    else{
+    else {
       throw "CRUDActions.updateField: record wasn't retrieved successfully"
     }
   }
@@ -84,35 +85,32 @@ class CRUDActions{
     const needle: string = target.value.toLowerCase();
 
     // Asserting search was initialized
-    if(this._preSearchData && this._preSearchData != null){
-      // If search string wasn't retrieved successfully or it is an empty string, stop search
-      if (!needle) {
-        this.crudStore.setData(this._preSearchData);
-        return;
-      }
+    invariant(this._preSearchData && this._preSearchData != null, "CRUDActions.search: search wasn't initialized");
 
-      // Retrieving fields of data
-      const fields: List<String> = this.crudStore.getSchema().map(item => item.id);
-
-      // Retrieving all records that have the search string
-      let searchData;
-      if(this._preSearchData && this._preSearchData != null){
-        searchData = this._retrieveSearchData(this._preSearchData, fields, needle)
-
-        // Updating data in store without committing since this update is temporary until
-        // search in finished
-        this.crudStore.setData(searchData, /* commit */ false);
-      }
+    // If search string wasn't retrieved successfully or it is an empty string, stop search
+    if (!needle) {
+      this.crudStore.setData(this._preSearchData);
+      return;
     }
-    else{
-      throw "CRUDActions.search: search wasn't initialized"
+
+    // Retrieving fields of data
+    const fields: List<string> = this.crudStore.getSchema().map(item => item.id);
+
+    // Retrieving all records that have the search string
+    let searchData;
+    if (this._preSearchData && this._preSearchData != null) {
+      searchData = this._retrieveSearchData(this._preSearchData, fields, needle)
+
+      // Updating data in store without committing since this update is temporary until
+      // search in finished
+      this.crudStore.setData(searchData, /* commit */ false);
     }
   }
 
   /*
   // Retrieving all records that have the search string
   */
-  _retrieveSearchData(data: List<Object>, fields: List<String>, needle: string){
+  _retrieveSearchData(data: List<Object>, fields: List<string>, needle: string) {
     // Retrieving all records that have the search string
     return data.filter(row => {
       // Searching for search string in all fields
@@ -157,6 +155,6 @@ class CRUDActions{
       (a, b) => this._eq(a[key], b[key], descending)
     ));
   }
-};
+}
 
 export default CRUDActions

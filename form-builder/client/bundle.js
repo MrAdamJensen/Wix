@@ -1,10 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
 
-var _CRUDStore = require('./flux-imm/CRUDStore');
-
-var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
-
 var _Logo = require('./components/Logo');
 
 var _Logo2 = _interopRequireDefault(_Logo);
@@ -17,17 +13,15 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Whinepad = require('./components/Whinepad');
+var _Utils = require('./components/Utils');
 
-var _Whinepad2 = _interopRequireDefault(_Whinepad);
+var _Utils2 = _interopRequireDefault(_Utils);
 
-var _schema = require('./schema');
+var _FormBuilder = require('./components/FormBuilder');
 
-var _schema2 = _interopRequireDefault(_schema);
+var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_CRUDStore2.default.init(_schema2.default);
 
 _reactDom2.default.render(_react2.default.createElement(
   'div',
@@ -36,20 +30,11 @@ _reactDom2.default.render(_react2.default.createElement(
     'div',
     { className: 'app-header' },
     _react2.default.createElement(_Logo2.default, null),
-    ' Welcome to Whinepad!'
+    ' Welcome to Form Builder!'
   ),
-  _react2.default.createElement(_Whinepad2.default, null)
-), document.getElementById('pad'));
-},{"./components/Logo":9,"./components/Whinepad":12,"./flux-imm/CRUDStore":14,"./schema":15,"react":34,"react-dom":31}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  grapes: ['Baco Noir', 'Barbera', 'Cabernet Franc', 'Cabernet Sauvignon', 'Catawba', 'Cayuga White', 'Chambourcin', 'Chancellor', 'Chardonel', 'Chardonnay', 'Chelois', 'Chenin Blanc', 'Concord', 'Delaware', 'Frontenac', 'Gewürztraminer', 'Malbec', 'Maréchal Fochr', 'Merlot', 'Norton', 'Pinot Blanc', 'Pinot Gris', 'Pinot Noir', 'Riesling', 'Sangiovese', 'Sauvignon Blanc', 'Seyval Blanc', 'Syrah', 'Sémillon', 'Traminette', 'Vidal Blanc', 'Vignoles', 'Zinfandel']
-};
-},{}],3:[function(require,module,exports){
+  _react2.default.createElement(_FormBuilder2.default, null)
+), _Utils2.default.retrieveElementByID('pad'));
+},{"./components/FormBuilder":12,"./components/Logo":14,"./components/Utils":20,"react":41,"react-dom":38}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -113,7 +98,124 @@ Actions.defaultProps = {
 };
 
 exports.default = Actions;
-},{"react":34}],4:[function(require,module,exports){
+},{"react":41}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+BasicField component for basic input field
+*/
+
+
+/*
+Special properties for BasicField
+-------------------------------
+defaultValue: the default value
+readOnly: does the value can be edited
+*/
+
+
+/*
+BasicField state fields:
+------------------------
+value: current given value in input
+*/
+var BasicField = function (_Component) {
+  _inherits(BasicField, _Component);
+
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
+  function BasicField(props) {
+    _classCallCheck(this, BasicField);
+
+    // Initializing component state
+    var _this = _possibleConstructorReturn(this, (BasicField.__proto__ || Object.getPrototypeOf(BasicField)).call(this, props));
+    // Calling meta class constructor
+
+
+    if (typeof props.defaultValue !== 'undefined') {
+      _this.state = { value: props.defaultValue.toString() };
+    }
+    return _this;
+  }
+
+  /*
+  Callback for change in input to update state
+  */
+
+
+  _createClass(BasicField, [{
+    key: '_onChange',
+    value: function _onChange(e) {
+      this.setState({ value: e.target.value });
+    }
+
+    /*
+    Returning value
+    */
+
+  }, {
+    key: 'getValue',
+    value: function getValue() {
+      return this.state.value;
+    }
+
+    /*
+    If field is in read only mode, render it as a simple span and a hidden input for the label,
+    otherwise, render the given element
+    */
+
+  }, {
+    key: '_renderWithReadOnlyCheck',
+    value: function _renderWithReadOnlyCheck(notReadOnlyComp) {
+      // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
+      // otherwise, render it as input
+      if (this.props.readOnly) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'span',
+            null,
+            this.state.value
+          ),
+          _react2.default.createElement('input', _extends({}, this.props, {
+            type: 'hidden'
+          }))
+        );
+      } else {
+        return notReadOnlyComp;
+      }
+    }
+  }]);
+
+  return BasicField;
+}(_react.Component);
+
+exports.default = BasicField;
+},{"react":41}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -150,7 +252,148 @@ var Button = function Button(props) {
 };
 
 exports.default = Button;
-},{"classnames":16,"react":34}],5:[function(require,module,exports){
+},{"classnames":23,"react":41}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+ColorField component for picking a color
+*/
+var ColorField = function (_BasicField) {
+  _inherits(ColorField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function ColorField(props) {
+    _classCallCheck(this, ColorField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (ColorField.__proto__ || Object.getPrototypeOf(ColorField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(ColorField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering
+      return _react2.default.createElement('input', _extends({
+        type: 'color' // Setting the required type for this input
+      }, this.props, this.props.readOnly ? "disabled" : null, { // If readOnly, disable input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      }));
+    }
+  }]);
+
+  return ColorField;
+}(_BasicField3.default);
+
+ColorField.defaultProps = {
+  defaultValue: "#ff0000",
+  readOnly: false
+};
+exports.default = ColorField;
+},{"./BasicField":3,"react":41}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+DateField component for picking a color
+*/
+var DateField = function (_BasicField) {
+  _inherits(DateField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function DateField(props) {
+    _classCallCheck(this, DateField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (DateField.__proto__ || Object.getPrototypeOf(DateField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(DateField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'date' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return DateField;
+}(_BasicField3.default);
+
+DateField.defaultProps = {
+  defaultValue: new Date().getFullYear().toString(),
+  readOnly: false
+};
+exports.default = DateField;
+},{"./BasicField":3,"react":41}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -167,6 +410,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Utils = require('./Utils.js');
+
+var _Utils2 = _interopRequireDefault(_Utils);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -175,6 +422,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Dialog component which displays a dialog
+*/
+
+
+/*
+Special properties for Dialog
+-------------------------------
+header: Dialog title
+confirmLabel: dialog confirmation button label
+modal: is dialog is a modal dialog
+onAction: dialog confirmation callback
+hasCancel: is dialog includes a cancel button
+children: dialog body
+*/
 var Dialog = function (_Component) {
   _inherits(Dialog, _Component);
 
@@ -186,38 +448,71 @@ var Dialog = function (_Component) {
 
   _createClass(Dialog, [{
     key: 'componentWillUnmount',
+
+
+    /*
+    Executed before component is inserted into the DOM
+    */
+
+    /*
+    Fields types definitions 
+    */
     value: function componentWillUnmount() {
-      document.body.classList.remove('DialogModalOpen');
+      // If dialog is a modal dialog, remove class to remove render body not in focus
+      _Utils2.default.retrieveDocBodyWithInv().classList.remove('DialogModalOpen');
     }
+
+    /*
+    Executed after component was inserted into the DOM
+    */
+
+
+    /*
+    Default properties of component
+    */
+
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      // If dialog is a modal dialog, add class to render body not in focus
       if (this.props.modal) {
-        document.body.classList.add('DialogModalOpen');
+        _Utils2.default.retrieveDocBodyWithInv().classList.add('DialogModalOpen');
       }
     }
+
+    /*
+    Dialog component render
+    */
+
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         { className: this.props.modal ? 'Dialog DialogModal' : 'Dialog' },
+        ' ',
         _react2.default.createElement(
           'div',
           { className: this.props.modal ? 'DialogModalWrap' : null },
+          ' ',
           _react2.default.createElement(
             'div',
             { className: 'DialogHeader' },
             this.props.header
           ),
+          ' ',
           _react2.default.createElement(
             'div',
             { className: 'DialogBody' },
             this.props.children
           ),
+          ' ',
           _react2.default.createElement(
             'div',
             { className: 'DialogFooter' },
+            '                          ',
+
+            // If cancel button requested, create it
             this.props.hasCancel ? _react2.default.createElement(
               'span',
               {
@@ -246,7 +541,78 @@ Dialog.defaultProps = {
   hasCancel: true
 };
 exports.default = Dialog;
-},{"./Button":4,"react":34}],6:[function(require,module,exports){
+},{"./Button":4,"./Utils.js":20,"react":41}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+EmailField component for picking an email
+*/
+var EmailField = function (_BasicField) {
+  _inherits(EmailField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function EmailField(props) {
+    _classCallCheck(this, EmailField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (EmailField.__proto__ || Object.getPrototypeOf(EmailField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(EmailField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'email' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return EmailField;
+}(_BasicField3.default);
+
+EmailField.defaultProps = {
+  defaultValue: "johndo@gmail.com",
+  readOnly: false
+};
+exports.default = EmailField;
+},{"./BasicField":3,"react":41}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -285,10 +651,6 @@ var _FormInput = require('./FormInput');
 
 var _FormInput2 = _interopRequireDefault(_FormInput);
 
-var _Rating = require('./Rating');
-
-var _Rating2 = _interopRequireDefault(_Rating);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -313,86 +675,203 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Excel component which displays a table given data
+*/
+
+
+/*
+Edit state fields: the state of a cell being edited
+----------------------------------------------------
+row: the cell being edited row
+key: cell identifier
+*/
+
+
+/*
+Dialog state fields: the state of a row being opened in a dialog
+----------------------------------------------------------------
+idx: the row being opened in a dialog
+type: dialog type:(info, edit and delete)
+*/
+
+
+/*
+Special properties for Form
+-------------------------------
+crudStore: the CRUD store from which to retrieve the data
+crudActions: the CRUD actions with which to perform actions on the CRUD store
+*/
+
+
+/*
+Excel state fields
+-------------------
+data: excel table data
+sortby: the column id to sort the table by
+descending: sort in descending order
+edit: table edit state
+dialog: table dialog state
+*/
 var Excel = function (_Component) {
   _inherits(Excel, _Component);
 
-  function Excel() {
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
+  function Excel(props) {
     _classCallCheck(this, Excel);
 
-    var _this = _possibleConstructorReturn(this, (Excel.__proto__ || Object.getPrototypeOf(Excel)).call(this));
+    // Retrieving the store and store actions objects
+    var _this = _possibleConstructorReturn(this, (Excel.__proto__ || Object.getPrototypeOf(Excel)).call(this, props));
+    // Calling meta class constructor
 
+
+    _this.crudStore = props.crudStore;
+    _this.crudActions = props.crudActions;
+
+    // Initializing component state
     _this.state = {
-      data: _CRUDStore2.default.getData(),
-      sortby: null, // schema.id
+      data: _this.crudStore.getData(),
+      sortby: null,
       descending: false,
-      edit: null, // {row index, schema.id},
-      dialog: null // {type, idx}
+      edit: null,
+      dialog: null
     };
-    _this.schema = _CRUDStore2.default.getSchema();
-    _CRUDStore2.default.addListener('change', function () {
+
+    // Retrieving table schema
+    _this.schema = _this.crudStore.getSchema();
+
+    // Listening for table data change, when notified on a change, update component copy
+    _this.crudStore.addListener('change', function () {
       _this.setState({
-        data: _CRUDStore2.default.getData()
+        data: _this.crudStore.getData()
       });
     });
     return _this;
   }
 
+  /*
+  Sorting table
+  */
+
+
   _createClass(Excel, [{
     key: '_sort',
     value: function _sort(key) {
+      // Asserting sorting in descending order
       var descending = this.state.sortby === key && !this.state.descending;
-      _CRUDActions2.default.sort(key, descending);
+
+      // Sorting table
+      this.crudActions.sort(key, descending);
+
+      // Saving sorting type
       this.setState({
         sortby: key,
         descending: descending
       });
     }
+
+    /*
+    Setting cell editing mode
+    */
+
   }, {
     key: '_showEditor',
     value: function _showEditor(e) {
+      // Retrieving the cell that was clicked for entering editing mode
       var target = e.target;
+
+      // Saving editing mode cell identity
       this.setState({ edit: {
           row: parseInt(target.dataset.row, 10),
           key: target.dataset.key
         } });
     }
+
+    /*
+    Updating table data with cell data that was edited
+    */
+
   }, {
     key: '_save',
     value: function _save(e) {
+      // Attempting to prevent default behaviour from any callback that will
+      // be called with this event
       e.preventDefault();
+
+      // Asserting edit mode was enabled, if not this is probably our fault
       (0, _invariant2.default)(this.state.edit, 'Messed up edit state');
-      _CRUDActions2.default.updateField(this.state.edit.row, this.state.edit.key, this.refs.input.getValue());
+
+      // Updating table data with cell data that was edited
+      this.crudActions.updateField(this.state.edit.row, this.state.edit.key, this.refs.input.getValue());
+
+      // Declaring cell edit mode is disabled
       this.setState({
         edit: null
       });
     }
+
+    /*
+    Opening requested dialog since an action was clicked
+    */
+
   }, {
     key: '_actionClick',
     value: function _actionClick(rowidx, action) {
       this.setState({ dialog: { type: action, idx: rowidx } });
     }
+
+    /*
+    Retrieving delete dialog user request
+    */
+
   }, {
     key: '_deleteConfirmationClick',
     value: function _deleteConfirmationClick(action) {
+      // Closing dialog
       this.setState({ dialog: null });
+
+      // Checking if user cancel delete request, if yes, don't do anything
       if (action === 'dismiss') {
         return;
       }
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
-      _CRUDActions2.default.delete(index);
+
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Executing delete
+      this.crudActions.delete(index);
     }
+
+    /*
+    Retrieving edit dialog user request
+    */
+
   }, {
     key: '_saveDataDialog',
     value: function _saveDataDialog(action) {
+      // Closing dialog
       this.setState({ dialog: null });
+
+      // Checking if user cancel edit request, if yes, don't do anything
       if (action === 'dismiss') {
         return;
       }
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
-      _CRUDActions2.default.updateRecord(index, this.refs.form.getData());
+
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Executing edit
+      this.crudActions.updateRecord(index, this.refs.form.getData());
     }
+
+    /*
+    Rendering component
+    */
+
   }, {
     key: 'render',
     value: function render() {
@@ -403,13 +882,23 @@ var Excel = function (_Component) {
         this._renderDialog()
       );
     }
+
+    /*
+    Rendering component dialog
+    */
+
   }, {
     key: '_renderDialog',
     value: function _renderDialog() {
+      // Asserting dialog is open, if not don't render dialog
       if (!this.state.dialog) {
         return null;
       }
+
+      // Retrieving dialog type
       var type = this.state.dialog.type;
+
+      // Rendering requested dialog
       switch (type) {
         case 'delete':
           return this._renderDeleteDialog();
@@ -421,127 +910,245 @@ var Excel = function (_Component) {
           throw Error('Unexpected dialog type ' + type);
       }
     }
+
+    /*
+    Rendering delete dialog
+    */
+
   }, {
     key: '_renderDeleteDialog',
     value: function _renderDeleteDialog() {
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
-      var first = this.state.data.get(index);
-      var nameguess = first[Object.keys(first)[0]];
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Retrieving dialog row
+      var row = this.state.data.get(index);
+
+      // Asserting row retrieved successfully
+      (0, _invariant2.default)(row, 'Excel._renderDeleteDialog: failed retrieving dialog row');
+
+      // Retrieving dialog row name
+      var nameGuess = row[Object.keys(row)[0]];
+
+      // Rendering dialog
       return _react2.default.createElement(
         _Dialog2.default,
         {
-          modal: true,
-          header: 'Confirm deletion',
-          confirmLabel: 'Delete',
-          onAction: this._deleteConfirmationClick.bind(this)
+          modal: true // Setting it to be a modal dialog, meaning above body
+          , header: 'Confirm deletion' // Setting title
+          , confirmLabel: 'Delete' // Setting confirm button label
+          , onAction: this._deleteConfirmationClick.bind(this) // Setting the callback to call when confirm button is clicked
         },
-        'Are you sure you want to delete "' + nameguess + '"?'
+        'Are you sure you want to delete "' + nameGuess + '"?',
+        '   '
       );
     }
+
+    /*
+    Rendering form dialog
+    */
+
   }, {
     key: '_renderFormDialog',
-    value: function _renderFormDialog(readonly) {
-      var index = this.state.dialog && this.state.dialog.idx;
-      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
+    value: function _renderFormDialog(readOnly) {
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this._retrieve_dialog_row_origin_index();
+
+      // Rendering dialog
       return _react2.default.createElement(
         _Dialog2.default,
         {
-          modal: true,
-          header: readonly ? 'Item info' : 'Edit item',
-          confirmLabel: readonly ? 'ok' : 'Save',
-          hasCancel: !readonly,
-          onAction: this._saveDataDialog.bind(this)
+          modal: true // Setting it to be a modal dialog, meaning above body
+          , header: readOnly ? 'Item info' : 'Edit item' // Setting title
+          , confirmLabel: readOnly ? 'ok' : 'Save' // Setting confirm button label
+          , hasCancel: !readOnly // Setting a cancel button only if the dialog is editable
+          , onAction: this._saveDataDialog.bind(this) // Setting the callback to call when confirm button is clicked
         },
-        _react2.default.createElement(_Form2.default, {
-          ref: 'form',
-          recordId: index,
-          readonly: !!readonly })
+        _react2.default.createElement(_Form2.default // Creating dialog body as a form
+        , { crudStore: this.crudStore // Setting form CRUD store from which to retrieve from the data
+          , ref: 'form' // Setting reference for this form so that later it will be easily reachable
+          , recordId: index // Setting the dialog row index so that the form can access the correct table row
+          , readOnly: !!readOnly }),
+        '                           '
       );
     }
+
+    /*
+    Retrieving dialog row(the row that was the dialog click origin) index
+    */
+
+  }, {
+    key: '_retrieve_dialog_row_origin_index',
+    value: function _retrieve_dialog_row_origin_index() {
+      // Retrieving dialog row(the row that was the dialog click origin) index
+      var index = this.state.dialog && this.state.dialog.idx;
+
+      // Asserting that the dialog row index retrieved successfully
+      (0, _invariant2.default)(typeof index === 'number', 'Unexpected dialog state');
+
+      return index;
+    }
+
+    /*
+    Rendering table
+    */
+
   }, {
     key: '_renderTable',
     value: function _renderTable() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         'table',
         null,
-        _react2.default.createElement(
-          'thead',
-          null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            this.schema.map(function (item) {
-              if (!item.show) {
-                return null;
-              }
-              var title = item.label;
-              if (_this2.state.sortby === item.id) {
-                title += _this2.state.descending ? ' \u2191' : ' \u2193';
-              }
-              return _react2.default.createElement(
-                'th',
-                {
-                  className: 'schema-' + item.id,
-                  key: item.id,
-                  onClick: _this2._sort.bind(_this2, item.id)
-                },
-                title
-              );
-            }, this),
-            _react2.default.createElement(
-              'th',
-              { className: 'ExcelNotSortable' },
-              'Actions'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'tbody',
-          { onDoubleClick: this._showEditor.bind(this) },
-          this.state.data.map(function (row, rowidx) {
-            return _react2.default.createElement(
-              'tr',
-              { key: rowidx },
-              Object.keys(row).map(function (cell, idx) {
-                var _classNames;
+        this._renderTableHead(),
+        '  ',
+        this._renderTableBody(),
+        '  '
+      );
+    }
 
-                var schema = _this2.schema[idx];
-                if (!schema || !schema.show) {
-                  return null;
-                }
-                var isRating = schema.type === 'rating';
-                var edit = _this2.state.edit;
-                var content = row[cell];
-                if (!isRating && edit && edit.row === rowidx && edit.key === schema.id) {
-                  content = _react2.default.createElement(
-                    'form',
-                    { onSubmit: _this2._save.bind(_this2) },
-                    _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, schema, { defaultValue: content }))
-                  );
-                } else if (isRating) {
-                  content = _react2.default.createElement(_Rating2.default, { readonly: true, defaultValue: Number(content) });
-                }
-                return _react2.default.createElement(
-                  'td',
-                  {
-                    className: (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, 'schema-' + schema.id, true), _defineProperty(_classNames, 'ExcelEditable', !isRating), _defineProperty(_classNames, 'ExcelDataLeft', schema.align === 'left'), _defineProperty(_classNames, 'ExcelDataRight', schema.align === 'right'), _defineProperty(_classNames, 'ExcelDataCenter', schema.align !== 'left' && schema.align !== 'right'), _classNames)),
-                    key: idx,
-                    'data-row': rowidx,
-                    'data-key': schema.id },
-                  content
-                );
-              }, _this2),
+    /*
+    Rendering table head
+    */
+
+  }, {
+    key: '_renderTableHead',
+    value: function _renderTableHead() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'thead',
+        null,
+        _react2.default.createElement(
+          'tr',
+          null,
+
+          // Creating each table column title from the schema
+          this.schema.map(function (item) {
+            // Asserting current column is set to be displayed, if not don't create a 
+            // column title for it
+            if (!item.show) {
+              return null;
+            }
+
+            // Retrieving column title from schema
+            var title = item.label;
+
+            // If the table is sorted by current column then add sort symbol
+            if (_this2.state.sortby === item.id) {
+              // Add sort symbol based on if the sorting is descending or otherwise
+              title += _this2.state.descending ? ' \u2191' : ' \u2193';
+            }
+
+            // Returning column title
+            return _react2.default.createElement(
+              'th',
+              {
+                className: 'schema-' + item.id // adding class for css styling of this current header
+                , key: item.id // adding key because it is requested by react
+
+                // adding callback for sorting the table in the event that a user clicks a column header
+                , onClick: _this2._sort.bind(_this2, item.id)
+              },
+              title,
+              '                                     '
+            );
+          }, this),
+          _react2.default.createElement(
+            'th',
+            { className: 'ExcelNotSortable' },
+            'Actions'
+          ),
+          '       '
+        )
+      );
+    }
+
+    /*
+    Rendering table body
+    */
+
+  }, {
+    key: '_renderTableBody',
+    value: function _renderTableBody() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'tbody',
+        { onDoubleClick: this._showEditor.bind(this) },
+        ' ',
+        this.state.data.map(function (row, rowidx) {
+          return (
+            // Creating table row
+            _react2.default.createElement(
+              'tr',
+              {
+                key: rowidx },
+              '                                      ',
+
+              // Creating row cells
+              Object.keys(row).map(_this3._renderTableBodyCell.bind(_this3, row, rowidx)),
               _react2.default.createElement(
                 'td',
                 { className: 'ExcelDataCenter' },
-                _react2.default.createElement(_Actions2.default, { onAction: _this2._actionClick.bind(_this2, rowidx) })
+                _react2.default.createElement(_Actions2.default, { onAction: _this3._actionClick.bind(_this3, rowidx) }),
+                ' '
               )
-            );
-          }, this)
-        )
+            )
+          );
+        }, this)
+      );
+    }
+
+    /*
+    Rendering table body cell
+    */
+
+  }, {
+    key: '_renderTableBodyCell',
+    value: function _renderTableBodyCell(row, rowidx, cell, idx) {
+      var _classNames;
+
+      // Retrieving table schema
+      var column_schema = this.schema.get(idx);
+
+      // If schema failed to be retrieved or current column is not to be displayed then 
+      // don't render column
+      if (!column_schema || !column_schema.show) {
+        return null;
+      }
+
+      // Retrieving table edit state and current cell content
+      var edit = this.state.edit;
+      var content = row[cell];
+
+      // Asserting current cell is editable
+      // if yes then creating cell content as an editable cell
+      if (edit && edit.row === rowidx && edit.key === column_schema.id) {
+        content =
+        /*Setting callback to be called when the user finished editing cell*/
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this._save.bind(this) },
+          _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, column_schema, { defaultValue: content }))
+        );
+      }
+      // Other wise, creating a readonly input cell
+      else {
+          content = _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, column_schema, { defaultValue: content, readOnly: true }));
+        }
+
+      // Creating cell
+      return _react2.default.createElement(
+        'td',
+        {
+          //Setting cell classes for styling
+          className: (0, _classnames2.default)((_classNames = {}, _defineProperty(_classNames, 'schema-' + column_schema.id, true), _defineProperty(_classNames, 'ExcelEditable', true), _defineProperty(_classNames, 'ExcelDataLeft', column_schema.align === 'left'), _defineProperty(_classNames, 'ExcelDataRight', column_schema.align === 'right'), _defineProperty(_classNames, 'ExcelDataCenter', column_schema.align !== 'left' && column_schema.align !== 'right'), _classNames)),
+          key: idx // adding key because it is requested by react
+          , 'data-row': rowidx // adding dataset row to be able to identify cell identity
+          , 'data-key': column_schema.id },
+        '    ',
+        content,
+        '                       '
       );
     }
   }]);
@@ -550,394 +1157,7 @@ var Excel = function (_Component) {
 }(_react.Component);
 
 exports.default = Excel;
-},{"../flux-imm/CRUDActions":13,"../flux-imm/CRUDStore":14,"./Actions":3,"./Dialog":5,"./Form":7,"./FormInput":8,"./Rating":10,"classnames":16,"immutable":24,"invariant":25,"react":34}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _CRUDStore = require('../flux-imm/CRUDStore');
-
-var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
-
-var _FormInput = require('./FormInput');
-
-var _FormInput2 = _interopRequireDefault(_FormInput);
-
-var _Rating = require('./Rating');
-
-var _Rating2 = _interopRequireDefault(_Rating);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Form = function (_Component) {
-  _inherits(Form, _Component);
-
-  function Form(props) {
-    _classCallCheck(this, Form);
-
-    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
-
-    _this.fields = _CRUDStore2.default.getSchema();
-    if ('recordId' in _this.props) {
-      _this.initialData = _CRUDStore2.default.getRecord(_this.props.recordId);
-    }
-    return _this;
-  }
-
-  _createClass(Form, [{
-    key: 'getData',
-    value: function getData() {
-      var _this2 = this;
-
-      var data = {};
-      this.fields.forEach(function (field) {
-        return data[field.id] = _this2.refs[field.id].getValue();
-      });
-      return data;
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      return _react2.default.createElement(
-        'form',
-        { className: 'Form' },
-        this.fields.map(function (field) {
-          var prefilled = _this3.initialData && _this3.initialData[field.id] || '';
-          if (!_this3.props.readonly) {
-            return _react2.default.createElement(
-              'div',
-              { className: 'FormRow', key: field.id },
-              _react2.default.createElement(
-                'label',
-                { className: 'FormLabel', htmlFor: field.id },
-                field.label,
-                ':'
-              ),
-              _react2.default.createElement(_FormInput2.default, _extends({}, field, { ref: field.id, defaultValue: prefilled }))
-            );
-          }
-          if (!prefilled) {
-            return null;
-          }
-          return _react2.default.createElement(
-            'div',
-            { className: 'FormRow', key: field.id },
-            _react2.default.createElement(
-              'span',
-              { className: 'FormLabel' },
-              field.label,
-              ':'
-            ),
-            field.type === 'rating' ? _react2.default.createElement(_Rating2.default, { readonly: true, defaultValue: parseInt(prefilled, 10) }) : _react2.default.createElement(
-              'div',
-              null,
-              prefilled
-            )
-          );
-        }, this)
-      );
-    }
-  }]);
-
-  return Form;
-}(_react.Component);
-
-exports.default = Form;
-},{"../flux-imm/CRUDStore":14,"./FormInput":8,"./Rating":10,"react":34}],8:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Rating = require('./Rating');
-
-var _Rating2 = _interopRequireDefault(_Rating);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Suggest = require('./Suggest');
-
-var _Suggest2 = _interopRequireDefault(_Suggest);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var FormInput = function (_Component) {
-  _inherits(FormInput, _Component);
-
-  function FormInput() {
-    _classCallCheck(this, FormInput);
-
-    return _possibleConstructorReturn(this, (FormInput.__proto__ || Object.getPrototypeOf(FormInput)).apply(this, arguments));
-  }
-
-  _createClass(FormInput, [{
-    key: 'getValue',
-    value: function getValue() {
-      return 'value' in this.refs.input ? this.refs.input.value : this.refs.input.getValue();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var common = {
-        id: this.props.id,
-        ref: 'input',
-        defaultValue: this.props.defaultValue
-      };
-      switch (this.props.type) {
-        case 'year':
-          return _react2.default.createElement('input', _extends({}, common, {
-            type: 'number',
-            defaultValue: this.props.defaultValue || new Date().getFullYear() }));
-        case 'suggest':
-          return _react2.default.createElement(_Suggest2.default, _extends({}, common, { options: this.props.options }));
-        case 'rating':
-          return _react2.default.createElement(_Rating2.default, _extends({}, common, {
-            defaultValue: parseInt(this.props.defaultValue, 10) }));
-        case 'text':
-          return _react2.default.createElement('textarea', common);
-        default:
-          return _react2.default.createElement('input', _extends({}, common, { type: 'text' }));
-      }
-    }
-  }]);
-
-  return FormInput;
-}(_react.Component);
-
-FormInput.defaultProps = {
-  type: 'input'
-};
-exports.default = FormInput;
-},{"./Rating":10,"./Suggest":11,"react":34}],9:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Logo = function Logo() {
-  return _react2.default.createElement("div", { className: "Logo" });
-};
-
-exports.default = Logo;
-},{"react":34}],10:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Rating = function (_Component) {
-  _inherits(Rating, _Component);
-
-  function Rating(props) {
-    _classCallCheck(this, Rating);
-
-    var _this = _possibleConstructorReturn(this, (Rating.__proto__ || Object.getPrototypeOf(Rating)).call(this, props));
-
-    _this.state = {
-      rating: props.defaultValue,
-      tmpRating: props.defaultValue
-    };
-    return _this;
-  }
-
-  _createClass(Rating, [{
-    key: 'getValue',
-    value: function getValue() {
-      return this.state.rating;
-    }
-  }, {
-    key: 'setTemp',
-    value: function setTemp(rating) {
-      this.setState({ tmpRating: rating });
-    }
-  }, {
-    key: 'setRating',
-    value: function setRating(rating) {
-      this.setState({
-        tmpRating: rating,
-        rating: rating
-      });
-    }
-  }, {
-    key: 'reset',
-    value: function reset() {
-      this.setTemp(this.state.rating);
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.setRating(nextProps.defaultValue);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var stars = [];
-      for (var i = 1; i <= this.props.max; i++) {
-        stars.push(_react2.default.createElement(
-          'span',
-          {
-            className: i <= this.state.tmpRating ? 'RatingOn' : null,
-            key: i,
-            onClick: !this.props.readonly && this.setRating.bind(this, i),
-            onMouseOver: !this.props.readonly && this.setTemp.bind(this, i)
-          },
-          '\u2606'
-        ));
-      }
-      return _react2.default.createElement(
-        'div',
-        {
-          className: (0, _classnames2.default)({
-            'Rating': true,
-            'RatingReadonly': this.props.readonly
-          }),
-          onMouseOut: this.reset.bind(this)
-        },
-        stars,
-        this.props.readonly || !this.props.id ? null : _react2.default.createElement('input', {
-          type: 'hidden',
-          id: this.props.id,
-          value: this.state.rating })
-      );
-    }
-  }]);
-
-  return Rating;
-}(_react.Component);
-
-Rating.defaultProps = {
-  defaultValue: 0,
-  max: 5,
-  readonly: false
-};
-exports.default = Rating;
-},{"classnames":16,"react":34}],11:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Suggest = function (_Component) {
-  _inherits(Suggest, _Component);
-
-  function Suggest(props) {
-    _classCallCheck(this, Suggest);
-
-    var _this = _possibleConstructorReturn(this, (Suggest.__proto__ || Object.getPrototypeOf(Suggest)).call(this, props));
-
-    _this.state = { value: props.defaultValue || '' };
-    return _this;
-  }
-
-  _createClass(Suggest, [{
-    key: 'getValue',
-    value: function getValue() {
-      return this.state.value;
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var randomid = Math.random().toString(16).substring(2);
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement('input', {
-          list: randomid,
-          defaultValue: this.props.defaultValue,
-          onChange: function onChange(e) {
-            return _this2.setState({ value: e.target.value });
-          },
-          id: this.props.id }),
-        _react2.default.createElement(
-          'datalist',
-          { id: randomid },
-          this.props.options.map(function (item, idx) {
-            return _react2.default.createElement('option', { value: item, key: idx });
-          })
-        )
-      );
-    }
-  }]);
-
-  return Suggest;
-}(_react.Component);
-
-exports.default = Suggest;
-},{"react":34}],12:[function(require,module,exports){
+},{"../flux-imm/CRUDActions":21,"../flux-imm/CRUDStore":22,"./Actions":2,"./Dialog":7,"./Form":11,"./FormInput":13,"classnames":23,"immutable":31,"invariant":32,"react":41}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -958,17 +1178,9 @@ var _CRUDStore = require('../flux-imm/CRUDStore');
 
 var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
 
-var _Dialog = require('./Dialog');
-
-var _Dialog2 = _interopRequireDefault(_Dialog);
-
 var _Excel = require('./Excel');
 
 var _Excel2 = _interopRequireDefault(_Excel);
-
-var _Form = require('./Form');
-
-var _Form2 = _interopRequireDefault(_Form);
 
 var _react = require('react');
 
@@ -982,263 +1194,422 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Whinepad = function (_Component) {
-  _inherits(Whinepad, _Component);
+/*
+ExcelWithFunc component which renders a excel table with optional functionality
+*/
 
-  function Whinepad() {
-    _classCallCheck(this, Whinepad);
 
-    var _this = _possibleConstructorReturn(this, (Whinepad.__proto__ || Object.getPrototypeOf(Whinepad)).call(this));
+/*
+Defining function types to be used for the actions callbacks
+*/
 
+
+/*
+Special properties for ExcelWithFunc
+-------------------------------
+crudStore: the CRUD store from which to retrieve the data
+crudActions: the CRUD actions with which to perform actions on the CRUD store
+actions: the actions that are available by this component
+*/
+
+
+/*
+ExcelWithFunc state fields
+-------------------
+actionActivated: the index of the activated action
+count: number of rows in data
+*/
+var ExcelWithFunc = function (_Component) {
+  _inherits(ExcelWithFunc, _Component);
+
+  /*
+  Component constructor
+  */
+  function ExcelWithFunc(props) {
+    _classCallCheck(this, ExcelWithFunc);
+
+    // Retrieving the store and store actions objects
+    var _this = _possibleConstructorReturn(this, (ExcelWithFunc.__proto__ || Object.getPrototypeOf(ExcelWithFunc)).call(this, props));
+    // Calling meta class constructor
+
+
+    _this.crudStore = props.crudStore;
+    _this.crudActions = props.crudActions;
+
+    // Initializing component state
     _this.state = {
-      addnew: false,
-      count: _CRUDStore2.default.getCount()
+      actionActivated: -1,
+      count: _this.crudStore.getCount()
     };
 
-    _CRUDStore2.default.addListener('change', function () {
+    // Listening for table data change, when notified on a change, update component copy
+    _this.crudStore.addListener('change', function () {
       _this.setState({
-        count: _CRUDStore2.default.getCount()
+        count: _this.crudStore.getCount()
       });
     });
     return _this;
   }
 
-  _createClass(Whinepad, [{
+  /*
+  Asserting a call to render is needed
+  */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
+
+
+  _createClass(ExcelWithFunc, [{
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(newProps, newState) {
-      return newState.addnew !== this.state.addnew || newState.count !== this.state.count;
+      // If current activated action did not change and current number of rows in table did not change
+      // don't call render
+      return newState.actionActivated !== this.state.actionActivated || newState.count !== this.state.count;
     }
+
+    /*
+    Setting action to be activated
+    */
+
   }, {
-    key: '_addNewDialog',
-    value: function _addNewDialog() {
-      this.setState({ addnew: true });
+    key: '_executeAction',
+    value: function _executeAction(action) {
+      this.setState({ actionActivated: action });
     }
+
+    /*
+    Finish action execution
+    */
+
   }, {
-    key: '_addNew',
-    value: function _addNew(action) {
-      this.setState({ addnew: false });
-      if (action === 'confirm') {
-        _CRUDActions2.default.create(this.refs.form.getData());
-      }
+    key: '_finishActionExecution',
+    value: function _finishActionExecution() {
+      this.setState({ actionActivated: -1 });
     }
+
+    /*
+    Rendering component
+    */
+
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'Whinepad' },
+        { className: 'ExcelWithFunc' },
+        '           ',
         _react2.default.createElement(
           'div',
-          { className: 'WhinepadToolbar' },
-          _react2.default.createElement(
-            'div',
-            { className: 'WhinepadToolbarAdd' },
-            _react2.default.createElement(
-              _Button2.default,
-              {
-                onClick: this._addNewDialog.bind(this),
-                className: 'WhinepadToolbarAddButton' },
-              '+ add'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'WhinepadToolbarSearch' },
-            _react2.default.createElement('input', {
-              placeholder: this.state.count === 1 ? 'Search 1 record...' : 'Search ' + this.state.count + ' records...',
-              onChange: _CRUDActions2.default.search.bind(_CRUDActions2.default),
-              onFocus: _CRUDActions2.default.startSearching.bind(_CRUDActions2.default) })
-          )
+          { className: 'ExcelWithFuncToolbar' },
+          '  ',
+          this._renderActions(),
+          '               ',
+          this._renderSearch(),
+          '                '
         ),
         _react2.default.createElement(
           'div',
-          { className: 'WhinepadDatagrid' },
-          _react2.default.createElement(_Excel2.default, null)
+          { className: 'ExcelWithFuncDatagrid' },
+          ' ',
+          _react2.default.createElement(_Excel2.default, {
+            crudStore: this.crudStore,
+            crudActions: this.crudActions
+          })
         ),
-        this.state.addnew ? _react2.default.createElement(
-          _Dialog2.default,
-          {
-            modal: true,
-            header: 'Add new item',
-            confirmLabel: 'Add',
-            onAction: this._addNew.bind(this)
-          },
-          _react2.default.createElement(_Form2.default, { ref: 'form' })
-        ) : null
+        this._renderAction(),
+        '                   '
+      );
+    }
+
+    /*
+    Rendering toolbar
+    */
+
+  }, {
+    key: '_renderActions',
+    value: function _renderActions() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'ExcelWithFuncToolbarAction' },
+        '        ',
+        this.props.actions.map(function (action, index) {
+          // Creating an action button
+          _react2.default.createElement(
+            _Button2.default
+            // Setting a callback to declare on click which action is activated when button is clicked
+            ,
+            { onClick: _this2._executeAction.bind(_this2, index),
+
+              className: 'ExcelWithFuncToolbarButton' },
+            _this2.props.actionsDefs[index],
+            '              '
+          );
+        })
+      );
+    }
+
+    /*
+    Rendering search functionality
+    */
+
+  }, {
+    key: '_renderSearch',
+    value: function _renderSearch() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'ExcelWithFuncToolbarSearch' },
+        '                   ',
+        _react2.default.createElement('input', {
+          // Setting the placeholder to declare how many rows there is to search                           
+          placeholder: this.state.count === 1 ? 'Search 1 record...' : 'Search ' + this.state.count + ' records...'
+
+          // Setting callback to activate table search upon focus and callback to 
+          // initiate a new search upon input change
+          , onChange: this.crudActions.search,
+          onFocus: this.crudActions.startSearching })
+      );
+    }
+
+    /*
+    Rendering action
+    */
+
+  }, {
+    key: '_renderAction',
+    value: function _renderAction() {
+      // Asserting an acton is activated, if so calling given function to render action
+      return this.state.actionActivated >= 0 ? this.props.actions[this.state.actionActivated](this._finishActionExecution.bind(this)) : null;
+    }
+  }]);
+
+  return ExcelWithFunc;
+}(_react.Component);
+
+ExcelWithFunc.defaultProps = {
+  actions: []
+};
+exports.default = ExcelWithFunc;
+},{"../flux-imm/CRUDActions":21,"../flux-imm/CRUDStore":22,"./Button":4,"./Excel":9,"react":41}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _CRUDStore = require('../flux-imm/CRUDStore');
+
+var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
+
+var _FormInput = require('./FormInput');
+
+var _FormInput2 = _interopRequireDefault(_FormInput);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _immutable = require('immutable');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+Form component which displays a form
+*/
+
+
+/*
+Special properties for Form
+-------------------------------
+readOnly: true if the form should be editable
+recordId: the id of data to be displayed in the form
+crudStore: the CRUD store from which to retrieve the data
+*/
+var Form = function (_Component) {
+  _inherits(Form, _Component);
+
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
+  function Form(props) {
+    _classCallCheck(this, Form);
+
+    // Retrieving the store and store actions objects
+    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+    // Calling meta class constructor
+
+
+    _this.crudStore = props.crudStore;
+    // Retrieving form schema
+    _this.fields = _this.crudStore.getSchema();
+
+    // If a record id for the form is being given, initializing form with the data
+    // that belongs to the record id
+    if (_this.props.recordId !== -1) {
+      _this.initialData = _this.crudStore.getRecord(_this.props.recordId);
+    }
+    return _this;
+  }
+
+  /*
+  Returning form data
+  */
+
+
+  // Setting the default values for the properties 
+
+
+  _createClass(Form, [{
+    key: 'getData',
+    value: function getData() {
+      var _this2 = this;
+
+      // Initializing data to be returned
+      var data = {};
+
+      // Retrieving each form field data and setting it in data to be returned
+      this.fields.forEach(function (field) {
+        return data[field.id] = _this2.refs[field.id].getValue();
+      });
+      return data;
+    }
+
+    /*
+    Rendering form
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'form',
+        { className: 'Form' },
+        this.fields.map(this._renderFormField, this),
+        ' '
+      );
+    }
+
+    /*
+    Rendering a form field
+    */
+
+  }, {
+    key: '_renderFormField',
+    value: function _renderFormField(field) {
+      // Retrieving field prefilled data
+      var prefilled = this.initialData && this.initialData[field.id] || 'was not filled';
+
+      // Rendering form field
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'FormRow' // Adding class for styling of form field
+          , key: field.id },
+        '                       ',
+        _react2.default.createElement(
+          'label',
+          { // Setting form field label                            
+            className: 'FormLabel' // Setting form field label class for styling
+            , htmlFor: field.id },
+          '                 ',
+          field.label,
+          ':                    '
+        ),
+        _react2.default.createElement(_FormInput2.default // Setting form field as an editable field
+        , _extends({}, field, { // Setting field properties
+          ref: field.id // Setting field ref so that it can be accessed easily
+          , defaultValue: prefilled })),
+        '         '
       );
     }
   }]);
 
-  return Whinepad;
+  return Form;
 }(_react.Component);
 
-exports.default = Whinepad;
-},{"../flux-imm/CRUDActions":13,"../flux-imm/CRUDStore":14,"./Button":4,"./Dialog":5,"./Excel":6,"./Form":7,"react":34}],13:[function(require,module,exports){
+Form.defaultProps = {
+  readOnly: false,
+  recordId: -1
+};
+exports.default = Form;
+},{"../flux-imm/CRUDStore":22,"./FormInput":13,"immutable":31,"react":41}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _CRUDStore = require('./CRUDStore');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ExcelWithFunc = require('./ExcelWithFunc');
+
+var _ExcelWithFunc2 = _interopRequireDefault(_ExcelWithFunc);
+
+var _Dialog = require('./Dialog');
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _Form = require('./Form');
+
+var _Form2 = _interopRequireDefault(_Form);
+
+var _CRUDStore = require('../flux-imm/CRUDStore');
 
 var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
 
-var _immutable = require('immutable');
+var _CRUDActions = require('../flux-imm/CRUDActions');
+
+var _CRUDActions2 = _interopRequireDefault(_CRUDActions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CRUDActions = {
-  create: function create(newRecord) {
-    _CRUDStore2.default.setData(_CRUDStore2.default.getData().unshift(newRecord));
-  },
-  delete: function _delete(recordId) {
-    var data = _CRUDStore2.default.getData();
-    _CRUDStore2.default.setData(data.remove(recordId));
-  },
-  updateRecord: function updateRecord(recordId, newRecord) {
-    _CRUDStore2.default.setData(_CRUDStore2.default.getData().set(recordId, newRecord));
-  },
-  updateField: function updateField(recordId, key, value) {
-    var record = _CRUDStore2.default.getData().get(recordId);
-    record[key] = value;
-    _CRUDStore2.default.setData(_CRUDStore2.default.getData().set(recordId, record));
-  },
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  _preSearchData: null,
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  startSearching: function startSearching() {
-    this._preSearchData = _CRUDStore2.default.getData();
-  },
-  search: function search(e) {
-    var target = e.target;
-    var needle = target.value.toLowerCase();
-    if (!needle) {
-      _CRUDStore2.default.setData(this._preSearchData);
-      return;
-    }
-    var fields = _CRUDStore2.default.getSchema().map(function (item) {
-      return item.id;
-    });
-    if (!this._preSearchData) {
-      return;
-    }
-    var searchdata = this._preSearchData.filter(function (row) {
-      for (var f = 0; f < fields.length; f++) {
-        if (row[fields[f]].toString().toLowerCase().indexOf(needle) > -1) {
-          return true;
-        }
-      }
-      return false;
-    });
-    _CRUDStore2.default.setData(searchdata, /* commit */false);
-  },
-  _sortCallback: function _sortCallback(a, b, descending) {
-    var res = 0;
-    if (typeof a === 'number' && typeof b === 'number') {
-      res = a - b;
-    } else {
-      res = String(a).localeCompare(String(b));
-    }
-    return descending ? -1 * res : res;
-  },
-  sort: function sort(key, descending) {
-    var _this = this;
-
-    _CRUDStore2.default.setData(_CRUDStore2.default.getData().sort(function (a, b) {
-      return _this._sortCallback(a[key], b[key], descending);
-    }));
-  }
+var classification = {
+  grapes: ['Baco Noir', 'Barbera', 'Cabernet Franc', 'Cabernet Sauvignon', 'Catawba', 'Cayuga White', 'Chambourcin', 'Chancellor', 'Chardonel', 'Chardonnay', 'Chelois', 'Chenin Blanc', 'Concord', 'Delaware', 'Frontenac', 'Gewürztraminer', 'Malbec', 'Maréchal Fochr', 'Merlot', 'Norton', 'Pinot Blanc', 'Pinot Gris', 'Pinot Noir', 'Riesling', 'Sangiovese', 'Sauvignon Blanc', 'Seyval Blanc', 'Syrah', 'Sémillon', 'Traminette', 'Vidal Blanc', 'Vignoles', 'Zinfandel']
 };
 
-exports.default = CRUDActions;
-},{"./CRUDStore":14,"immutable":24}],14:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _fbemitter = require('fbemitter');
-
-var _immutable = require('immutable');
-
-var data = void 0;
-var schema = void 0;
-var emitter = new _fbemitter.EventEmitter();
-
-var CRUDStore = {
-  init: function init(initialSchema) {
-    schema = initialSchema;
-    var storage = 'localStorage' in window ? localStorage.getItem('data') : null;
-    if (!storage) {
-      var initialRecord = {};
-      schema.forEach(function (item) {
-        return initialRecord[item.id] = item.sample;
-      });
-      data = (0, _immutable.List)([initialRecord]);
-    } else {
-      data = (0, _immutable.List)(JSON.parse(storage));
-    }
-  },
-  getData: function getData() {
-    return data;
-  },
-  getSchema: function getSchema() {
-    return schema;
-  },
-  setData: function setData(newData) {
-    var commit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-    data = newData;
-    if (commit && 'localStorage' in window) {
-      localStorage.setItem('data', JSON.stringify(newData));
-    }
-    emitter.emit('change');
-  },
-  addListener: function addListener(eventType, fn) {
-    emitter.addListener(eventType, fn);
-  },
-  getCount: function getCount() {
-    return data.count();
-  },
-  getRecord: function getRecord(recordId) {
-    return data.get(recordId);
-  }
-};
-
-exports.default = CRUDStore;
-},{"fbemitter":17,"immutable":24}],15:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _classification = require('./classification');
-
-var _classification2 = _interopRequireDefault(_classification);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = [{
+var schema = [{
   id: 'name',
   label: 'Name',
+  type: 'text',
   show: true,
   sample: '$2 chuck',
   align: 'left'
 }, {
   id: 'year',
   label: 'Year',
-  type: 'year',
+  type: 'number',
   show: true,
   sample: 2015
 }, {
   id: 'grape',
   label: 'Grape',
   type: 'suggest',
-  options: _classification2.default.grapes,
+  options: classification.grapes,
   show: true,
   sample: 'Merlot',
   align: 'left'
@@ -1254,7 +1625,1327 @@ exports.default = [{
   type: 'text',
   sample: 'Nice for the price'
 }];
-},{"./classification":2}],16:[function(require,module,exports){
+
+var crudStore = new _CRUDStore2.default({ storeType: 'local', schema: schema });
+var crudActions = new _CRUDActions2.default(crudStore);
+
+/*
+Special properties for FormBuilder
+-------------------------------
+*/
+
+/*
+FormBuilder component for giving the functionality to build forms and display
+the created forms
+*/
+var FormBuilder = function (_Component) {
+  _inherits(FormBuilder, _Component);
+
+  /*
+  Component constructor
+  */
+  function FormBuilder(props) {
+    _classCallCheck(this, FormBuilder);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (FormBuilder.__proto__ || Object.getPrototypeOf(FormBuilder)).call(this, props));
+  }
+
+  /*
+  Remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(FormBuilder, [{
+    key: '_addNew',
+    value: function _addNew(finishActionExecution, action) {
+      if (action === 'confirm') {
+        crudActions.create(this.refs.form.getData());
+      }
+    }
+
+    /*
+    Rendering component
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      // Rendering
+      return _react2.default.createElement(_ExcelWithFunc2.default, {
+        crudStore: crudStore,
+        crudActions: crudActions,
+        actions: [function (finishActionExecution) {
+          _react2.default.createElement(
+            _Dialog2.default,
+            {
+              modal: true,
+              header: 'Add new item',
+              confirmLabel: 'Add',
+              onAction: _this2._addNew.bind(_this2, finishActionExecution) },
+            _react2.default.createElement(_Form2.default, {
+              ref: 'form',
+              crudStore: crudStore
+            })
+          );
+        }],
+        actionsDefs: ["add +"]
+      });
+    }
+  }]);
+
+  return FormBuilder;
+}(_react.Component);
+
+FormBuilder.defaultProps = {};
+exports.default = FormBuilder;
+},{"../flux-imm/CRUDActions":21,"../flux-imm/CRUDStore":22,"./Dialog":7,"./ExcelWithFunc":10,"./Form":11,"react":41}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _RatingField = require('./RatingField');
+
+var _RatingField2 = _interopRequireDefault(_RatingField);
+
+var _NumberField = require('./NumberField');
+
+var _NumberField2 = _interopRequireDefault(_NumberField);
+
+var _SuggestField = require('./SuggestField');
+
+var _SuggestField2 = _interopRequireDefault(_SuggestField);
+
+var _ColorField = require('./ColorField');
+
+var _ColorField2 = _interopRequireDefault(_ColorField);
+
+var _DateField = require('./DateField');
+
+var _DateField2 = _interopRequireDefault(_DateField);
+
+var _EmailField = require('./EmailField');
+
+var _EmailField2 = _interopRequireDefault(_EmailField);
+
+var _TelField = require('./TelField');
+
+var _TelField2 = _interopRequireDefault(_TelField);
+
+var _TextField = require('./TextField');
+
+var _TextField2 = _interopRequireDefault(_TextField);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+Form Input component which displays a form input of certain types
+*/
+
+
+// Declaring form input field type, i.e, all the different kinds of forms
+
+
+// Declaring form input field values, i.e, all the different kinds of values a form can receive
+
+
+/*
+Declaring form input field
+-----------------------------
+type: the type of the form field
+defaultValue: the default value of the form field
+id: the id of the form field, used to identify it with ref
+options: the options for a form field that accept a set of options
+label: the form field label
+*/
+var FormInput = function (_Component) {
+  _inherits(FormInput, _Component);
+
+  function FormInput() {
+    _classCallCheck(this, FormInput);
+
+    return _possibleConstructorReturn(this, (FormInput.__proto__ || Object.getPrototypeOf(FormInput)).apply(this, arguments));
+  }
+
+  _createClass(FormInput, [{
+    key: 'getValue',
+
+
+    /*
+    Returning field value
+    */
+
+    // Component fields type definitions
+    value: function getValue() {
+      return this.refs.input.getValue();
+    }
+
+    /*
+    Rendering component
+    */
+
+
+    // Setting the default values for the properties 
+
+  }, {
+    key: 'render',
+    value: function render() {
+      // Setting the common properties each component need to have 
+      var commonProps = _defineProperty({
+        id: this.props.id,
+        ref: 'input',
+        defaultValue: this.props.defaultValue,
+        readOnly: this.props.readOnly
+      }, 'defaultValue', this.props.defaultValue);
+
+      // Creating field based on the form field type
+      switch (this.props.type) {
+        case 'rating':
+          return _react2.default.createElement(_RatingField2.default // Creating a rating field type, a field with stars to pick a rating
+          , commonProps);
+        case 'number':
+          return _react2.default.createElement(_NumberField2.default // Creating a number field type, which is a filed that accept only numbers
+          , commonProps);
+        case 'suggest':
+          return _react2.default.createElement(_SuggestField2.default // Creating a suggest field type, a field with options to select from
+          , _extends({}, commonProps, { // Inserting common properties
+            options: this.props.options // Setting options to select from
+          }));
+        case 'color':
+          return _react2.default.createElement(_ColorField2.default // Creating a color field type, which is a filed that accept only colors
+          , commonProps);
+        case 'date':
+          return _react2.default.createElement(_DateField2.default // Creating a date field type, which is a filed that accept only dates
+          , commonProps);
+        case 'email':
+          return _react2.default.createElement(_EmailField2.default // Creating a email field type, which is a filed that accept only emails
+          , commonProps);
+        case 'tel':
+          return _react2.default.createElement(_TelField2.default // Creating a telephone type, which is a filed that accept only telephones
+          , commonProps);
+        case 'text':
+          return _react2.default.createElement(_TextField2.default // Creating a text type, which is a filed that accept only text
+          , commonProps);
+        default:
+          // Declaring unrecognized input type
+          throw 'FormInput.render: bad input type ' + this.props.type;
+      }
+    }
+  }]);
+
+  return FormInput;
+}(_react.Component);
+
+FormInput.defaultProps = {
+  type: 'text',
+  defaultValue: "",
+  options: [],
+  readOnly: false,
+  label: ""
+};
+exports.default = FormInput;
+},{"./ColorField":5,"./DateField":6,"./EmailField":8,"./NumberField":15,"./RatingField":16,"./SuggestField":17,"./TelField":18,"./TextField":19,"react":41}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+Logo component for displaying a logo which can be configured in the
+logo css file
+*/
+var Logo = function Logo() {
+  return _react2.default.createElement("div", { className: "Logo" });
+};
+
+exports.default = Logo;
+},{"react":41}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+NumberField component for picking a number
+*/
+var NumberField = function (_BasicField) {
+  _inherits(NumberField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function NumberField(props) {
+    _classCallCheck(this, NumberField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (NumberField.__proto__ || Object.getPrototypeOf(NumberField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(NumberField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'number' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return NumberField;
+}(_BasicField3.default);
+
+NumberField.defaultProps = {
+  defaultValue: "0",
+  readOnly: false,
+  onChange: null
+};
+exports.default = NumberField;
+},{"./BasicField":3,"react":41}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _invariant = require('invariant');
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+Rating field component, displaying rating with stars highlighted
+*/
+
+
+/*
+Special properties for RatingField
+-------------------------------
+defaultValue: the default number of stars to highlight 
+readOnly: does the number of stars highlighted can be edited
+max: number of stars to display
+*/
+
+
+/*
+RatingField state fields: 
+----------------------------------------------------------------
+rating: the number of stars highlighted
+tmpRating: the number of stars temporary highlighted
+*/
+var RatingField = function (_Component) {
+  _inherits(RatingField, _Component);
+
+  /*
+  Component constructor
+  */
+  function RatingField(props) {
+    _classCallCheck(this, RatingField);
+
+    // If default value is string, convert it to int
+    var _this = _possibleConstructorReturn(this, (RatingField.__proto__ || Object.getPrototypeOf(RatingField)).call(this, props));
+    // Calling meta class constructor
+
+
+    if (typeof props.defaultValue === 'string') {
+      props.defaultValue = parseInt(props.defaultValue, 10);
+    }
+
+    // Asserting default value initialized
+    (0, _invariant2.default)(props.defaultValue, "RatingField.constructor: default value not initialized");
+
+    // Initializing component state
+    _this.state = {
+      rating: props.defaultValue,
+      tmpRating: props.defaultValue
+    };
+    return _this;
+  }
+
+  /*
+  Returning number of stars highlighted
+  */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
+
+
+  _createClass(RatingField, [{
+    key: 'getValue',
+    value: function getValue() {
+      return this.state.rating;
+    }
+
+    /*
+    Setting the number of stars temporary highlighted
+    */
+
+  }, {
+    key: 'setTemp',
+    value: function setTemp(rating) {
+      this.setState({ tmpRating: rating });
+    }
+
+    /*
+    Setting the real number of stars highlighted
+    */
+
+  }, {
+    key: 'setRating',
+    value: function setRating(rating) {
+      this.setState({
+        tmpRating: rating,
+        rating: rating
+      });
+    }
+
+    /*
+    Resetting the number of stars highlighted to the real value
+    */
+
+  }, {
+    key: 'reset',
+    value: function reset() {
+      this.setTemp(this.state.rating);
+    }
+
+    /*
+    Executed when new properties are given so that when a new component 
+    is created it will receive the new default value
+    */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // If default value is string, convert it to int
+      if (typeof nextProps.defaultValue === 'string') {
+        nextProps.defaultValue = parseInt(nextProps.defaultValue, 10);
+      }
+
+      // Asserting default value initialized
+      (0, _invariant2.default)(nextProps.defaultValue, "RatingField.constructor: default value not initialized");
+
+      // Updating number of stars highlighted
+      this.setRating(nextProps.defaultValue);
+    }
+
+    /*
+    Rendering component
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      // Rendering stars
+      var stars = this._renderStars();
+
+      return _react2.default.createElement(
+        'div',
+        { // Rendering rating
+          // Setting classes for styling for when the component is in readOnly mode and edit mode
+          className: (0, _classnames2.default)({
+            'Rating': true,
+            'RatingReadonly': this.props.readOnly
+          }),
+          onMouseOut: this.reset.bind(this) // Resetting highlighted stars to real value when the mouse is done hovering
+        },
+        stars,
+        '                                 ',
+
+        // If not readOnly mode, render a hidden input so that the component can act like a real input
+        this.props.readOnly || !this.props.id ? null : _react2.default.createElement('input', {
+          type: 'hidden',
+          id: this.props.id,
+          value: this.state.rating })
+      );
+    }
+
+    /*
+    Rendering stars
+    */
+
+  }, {
+    key: '_renderStars',
+    value: function _renderStars() {
+      // Initializing
+      var stars = [];
+
+      // Rendering stars
+      for (var i = 1; i <= this.props.max; i++) {
+        // Rendering star
+        stars.push(_react2.default.createElement(
+          'span',
+          { // Creating star
+            className: i <= this.state.tmpRating ? 'RatingOn' : null // Highlighting star if position is within temp rating
+            , key: i // adding key because it is requested by react
+            , onClick: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing real rating on click
+            , onMouseOver: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing temp rating on mouse over 
+          },
+          '\u2606                                                          '
+        ));
+      }
+
+      return stars;
+    }
+  }]);
+
+  return RatingField;
+}(_react.Component);
+
+RatingField.defaultProps = {
+  defaultValue: 0,
+  max: 5,
+  readOnly: false
+};
+exports.default = RatingField;
+},{"classnames":23,"invariant":32,"react":41}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+SuggestField component which is a regular input field with suggestions
+*/
+
+
+/*
+Special properties for SuggestField
+-------------------------------
+id: component id
+defaultValue: initial value
+options: the options to suggest
+*/
+
+
+/*
+SuggestField state fields:
+----------------------------------------------------------------
+value: current given value in input
+*/
+var SuggestField = function (_Component) {
+  _inherits(SuggestField, _Component);
+
+  /*
+  Component constructor
+  */
+  function SuggestField(props) {
+    _classCallCheck(this, SuggestField);
+
+    // Initializing component state
+    var _this = _possibleConstructorReturn(this, (SuggestField.__proto__ || Object.getPrototypeOf(SuggestField)).call(this, props));
+    // Calling meta class constructor
+
+
+    _this.state = { value: props.defaultValue || '' };
+    return _this;
+  }
+
+  /*
+  Returning input value
+  */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
+
+
+  _createClass(SuggestField, [{
+    key: 'getValue',
+    value: function getValue() {
+      return this.state.value;
+    }
+
+    /*
+    Rendering component
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
+      // otherwise, render it as input
+      if (this.props.readOnly) {
+        return this._renderReadOnly();
+      } else {
+        return this._renderInput();
+      }
+    }
+
+    /*
+    Rendering component as readonly
+    */
+
+  }, {
+    key: '_renderReadOnly',
+    value: function _renderReadOnly() {
+      // Render as a simple span with a hidden input for the label because readonly
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'span',
+          null,
+          this.state.value
+        ),
+        _react2.default.createElement('input', _extends({}, this.props, {
+          type: 'hidden'
+        }))
+      );
+    }
+
+    /*
+    Rendering component as input
+    */
+
+  }, {
+    key: '_renderInput',
+    value: function _renderInput() {
+      var _this2 = this;
+
+      // Generating id for the suggest part
+      var randomID = Math.random().toString(16).substring(2);
+
+      // Rendering as input because not read only
+      return _react2.default.createElement(
+        'div',
+        null,
+        '                                                            ',
+        _react2.default.createElement('input', {
+          // Setting the id of the suggest field so that it will
+          // receive the input text as it is entered so that it can suggest                                                  
+          list: randomID,
+          defaultValue: this.props.defaultValue // Setting the default value of the input field part
+
+          // Setting callback to update the state of the component as user types
+          , onChange: function onChange(e) {
+            return _this2.setState({ value: e.target.value });
+          },
+          id: this.props.id // Setting the id of the input part as the component id
+        }),
+        _react2.default.createElement(
+          'datalist',
+          {
+            id: randomID // Setting id to connect the input part to the suggest part
+          },
+
+          // Creating all possible suggested options                            
+          this.props.options.map(function (item, idx) {
+            return _react2.default.createElement('option', { value: item, key: idx });
+          })
+        )
+      );
+    }
+  }]);
+
+  return SuggestField;
+}(_react.Component);
+
+SuggestField.defaultProps = {
+  readOnly: false
+};
+exports.default = SuggestField;
+},{"react":41}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+TelField component for picking a telephone number
+*/
+var TelField = function (_BasicField) {
+    _inherits(TelField, _BasicField);
+
+    /*
+    Component constructor
+    */
+    function TelField(props) {
+        _classCallCheck(this, TelField);
+
+        // Calling meta class constructor
+        return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
+    }
+
+    /*
+    Rendering component
+    */
+
+    // Setting the default values for the properties 
+
+
+    _createClass(TelField, [{
+        key: 'render',
+        value: function render() {
+            // Rendering with check if the field is in read only mode so that it can render
+            // not an input if possible
+            return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+                type: 'tel' // Setting the required type for this input
+            }, this.props, { // Setting all given properties to input
+                onChange: this._onChange.bind(this) // Setting callback to update state on each change
+            })));
+        }
+    }]);
+
+    return TelField;
+}(_BasicField3.default);
+
+TelField.defaultProps = {
+    defaultValue: "123-45-678",
+    readOnly: false
+};
+exports.default = TelField;
+},{"./BasicField":3,"react":41}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+TextField component writing text
+*/
+var TextField = function (_BasicField) {
+  _inherits(TextField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function TextField(props) {
+    _classCallCheck(this, TextField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(TextField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'text' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return TextField;
+}(_BasicField3.default);
+
+TextField.defaultProps = {
+  defaultValue: "",
+  readOnly: false
+};
+exports.default = TextField;
+},{"./BasicField":3,"react":41}],20:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _invariant = require('invariant');
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+Retrieving document body element with checking not null invariant
+*/
+var retrieveDocBodyWithInv = function retrieveDocBodyWithInv() {
+    // Asserting body is not null
+    (0, _invariant2.default)(document.body, 'retrieveDocBodyWithInv: Document body is null');
+
+    // Returning document body
+    return document.body;
+};
+
+/*
+Retrieving element by id
+*/
+/*flow*/
+
+var retrieveElementByID = function retrieveElementByID(id) {
+    // Retrieving element
+    var elem = document.getElementById(id);
+
+    // Asserting element retrieved successfully
+    (0, _invariant2.default)(elem || elem === null, 'retrieveElementByID: element is null');
+
+    return elem;
+};
+
+exports.default = { retrieveDocBodyWithInv: retrieveDocBodyWithInv, retrieveElementByID: retrieveElementByID };
+},{"invariant":32}],21:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _CRUDStore = require('./CRUDStore');
+
+var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
+
+var _immutable = require('immutable');
+
+var _invariant = require('invariant');
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+A store actions interface capable of performing action on a store data
+*/
+var CRUDActions = function () {
+
+  /*
+  Component constructor
+  */
+
+  // Properties type definitions
+  function CRUDActions(crudStore) {
+    _classCallCheck(this, CRUDActions);
+
+    // Initializing fields
+    this.crudStore = crudStore;
+    this._preSearchData = null;
+  }
+
+  /*
+  Adding a record to the store data
+  */
+
+
+  _createClass(CRUDActions, [{
+    key: 'create',
+    value: function create(newRecord) {
+      this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
+    }
+
+    /*
+    Deleting a record from the store data
+    */
+
+  }, {
+    key: 'delete',
+    value: function _delete(recordId) {
+      // Retrieving store data
+      var data = this.crudStore.getData();
+
+      // Deleting a record from the store data and updating store data
+      this.crudStore.setData(data.remove(recordId));
+    }
+
+    /*
+    Updating record in the store data
+    */
+
+  }, {
+    key: 'updateRecord',
+    value: function updateRecord(recordId, newRecord) {
+      this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
+    }
+
+    /*
+    Updating a field on a record in the store data
+    */
+
+  }, {
+    key: 'updateField',
+    value: function updateField(recordId, key, value) {
+      // Retrieving the record that is requested to go over the field update 
+      var record = this.crudStore.getData().get(recordId);
+
+      // Asserting record retrieved successfully
+      if (record) {
+        // Updating field of record
+        record[key] = value;
+
+        // Updating data with the updated record
+        this.crudStore.setData(this.crudStore.getData().set(recordId, record));
+      } else {
+        throw "CRUDActions.updateField: record wasn't retrieved successfully";
+      }
+    }
+
+    /*
+    Initializing a search on the store data
+    */
+
+  }, {
+    key: 'startSearching',
+    value: function startSearching() {
+      // Initializing the pre search data so that the data can be recovered when search is finished
+      this._preSearchData = this.crudStore.getData();
+    }
+
+    /*
+    Searching data, i.e, filter the store data to records that have the search string
+    */
+
+  }, {
+    key: 'search',
+    value: function search(e) {
+      // Retrieving input html element with the search string
+      var target = e.target;
+
+      // Retrieving search string
+      var needle = target.value.toLowerCase();
+
+      // Asserting search was initialized
+      (0, _invariant2.default)(this._preSearchData && this._preSearchData != null, "CRUDActions.search: search wasn't initialized");
+
+      // If search string wasn't retrieved successfully or it is an empty string, stop search
+      if (!needle) {
+        this.crudStore.setData(this._preSearchData);
+        return;
+      }
+
+      // Retrieving fields of data
+      var fields = this.crudStore.getSchema().map(function (item) {
+        return item.id;
+      });
+
+      // Retrieving all records that have the search string
+      var searchData = void 0;
+      if (this._preSearchData && this._preSearchData != null) {
+        searchData = this._retrieveSearchData(this._preSearchData, fields, needle);
+
+        // Updating data in store without committing since this update is temporary until
+        // search in finished
+        this.crudStore.setData(searchData, /* commit */false);
+      }
+    }
+
+    /*
+    // Retrieving all records that have the search string
+    */
+
+  }, {
+    key: '_retrieveSearchData',
+    value: function _retrieveSearchData(data, fields, needle) {
+      // Retrieving all records that have the search string
+      return data.filter(function (row) {
+        // Searching for search string in all fields
+        for (var f = 0; f < fields.size; f++) {
+          // Asserting current field has search string, if yes return true and if no 
+          // continue searching
+          if (row.get(fields.get(f)).toString().toLowerCase().indexOf(needle) > -1) {
+            return true;
+          }
+        }
+
+        // Declaring search string was not found in any field
+        return false;
+      });
+    }
+
+    /*
+    Equality compare between strings or numbers
+    */
+
+  }, {
+    key: '_eq',
+    value: function _eq(a, b, descending) {
+      // Initializing result
+      var res = 0;
+
+      // If both are numbers, make a number comparision
+      if (typeof a === 'number' && typeof b === 'number') {
+        res = a - b;
+        // If not both are numbers, compare them as strings
+      } else {
+        res = String(a).localeCompare(String(b));
+      }
+
+      // Returning result based on if this is a descending or ascending order
+      return descending ? -1 * res : res;
+    }
+
+    /*
+    Sorting data in store
+    */
+
+  }, {
+    key: 'sort',
+    value: function sort(key, descending) {
+      var _this = this;
+
+      // Sorting data in store using in the given field
+      this.crudStore.setData(this.crudStore.getData().sort(function (a, b) {
+        return _this._eq(a[key], b[key], descending);
+      }));
+    }
+  }]);
+
+  return CRUDActions;
+}();
+
+exports.default = CRUDActions;
+},{"./CRUDStore":22,"immutable":31,"invariant":32}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _fbemitter = require('fbemitter');
+
+var _immutable = require('immutable');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+A store of data where one can listen for changes
+*/
+
+
+/*
+Defining the type of the store type, either a local storage store or a server store
+*/
+
+
+/*
+Defining the type of a local store
+-----------------------------------
+storeType: the type of the store, in this case it is local
+schema: in a local store, a schema must be provided
+*/
+
+
+/*
+Defining the type of a server store
+-----------------------------------
+storeType: the type of the store, in this case it is server
+serverURL: in a server store, a server url must be provided
+*/
+
+
+/*
+Defining type of a store init object, it must have the required data
+to initialize the store
+*/
+var CRUDStore = function () {
+
+  /*
+  Component constructor
+  */
+  function CRUDStore(initObj) {
+    _classCallCheck(this, CRUDStore);
+
+    // Initializing fields
+    this.type = initObj.storeType;
+
+    // Initializing store emitter to inform on store changes
+    this.emitter = new _fbemitter.EventEmitter();
+
+    // Initializing store
+    this._init(initObj);
+  }
+
+  /*
+  Initializing store
+  */
+
+  // Properties type definitions
+
+
+  _createClass(CRUDStore, [{
+    key: '_init',
+    value: function _init(initObj) {
+      // Asserting init object is for a local store
+      if (initObj.storeType === 'local') {
+        // Initializing local store
+        this._initLocalStore(initObj);
+      } // Asserting init object is for a server store
+      else if (initObj.storeType === 'server') {
+          // Initializing server store 
+          this._initServerStore(initObj);
+        } else {
+          // Declaring unrecognized store type
+          throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
+        }
+    }
+
+    /*
+    Initializing local store
+    */
+
+  }, {
+    key: '_initLocalStore',
+    value: function _initLocalStore(initObj) {
+      // Retrieving schema
+      this.schema = (0, _immutable.List)(initObj.schema);
+
+      // Retrieving data if it is available in local storage
+      var storage = 'localStorage' in window ? localStorage.getItem('data') : null;
+
+      // If storage not available, initializing it
+      if (!storage) {
+        // Initializing initial record
+        var initialRecord = {};
+        this.schema.forEach(function (item) {
+          return initialRecord[item.id] = item.sample;
+        });
+
+        // Adding initial record to data
+        this.data = (0, _immutable.List)([initialRecord]);
+      } else {
+        // If storage available, retrieve it
+        this.data = (0, _immutable.List)(JSON.parse(storage));
+      }
+    }
+
+    /*
+    Initializing server store
+    */
+
+  }, {
+    key: '_initServerStore',
+    value: function _initServerStore(initObj) {
+      throw 'CRUDStore._initServerStore: Not implemented';
+    }
+
+    /*
+    Returning data
+    */
+
+  }, {
+    key: 'getData',
+    value: function getData() {
+      return this.data;
+    }
+
+    /*
+    Returning schema
+    */
+
+  }, {
+    key: 'getSchema',
+    value: function getSchema() {
+      return this.schema;
+    }
+
+    /*
+    Setting the data with a new data
+    */
+
+  }, {
+    key: 'setData',
+    value: function setData(newData) {
+      var commit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      // Updating data
+      this.data = newData;
+
+      // If a commit is requested, commit the change
+      // Assert this is a local store, if so update local storage
+      if (commit && this.type === 'local' && 'localStorage' in window) {
+        localStorage.setItem('data', JSON.stringify(newData));
+      }
+      // Assert this is a server store, if so update server storage
+      else if (commit && this.type === 'server') {
+          throw 'CRUDStore.setData: not implemented';
+        } else {
+          // Declaring unrecognized store type
+          throw 'CRUDStore.setData: unknown store type ' + this.type;
+        }
+
+      // Informing all listeners to the change in data
+      this.emitter.emit('change');
+    }
+
+    /*
+    Adding listener for data change
+    */
+
+  }, {
+    key: 'addListener',
+    value: function addListener(eventType, fn) {
+      this.emitter.addListener(eventType, fn);
+    }
+
+    /*
+    Returning number of rows in data
+    */
+
+  }, {
+    key: 'getCount',
+    value: function getCount() {
+      return this.data.count();
+    }
+
+    /*
+    Returning a record
+    */
+
+  }, {
+    key: 'getRecord',
+    value: function getRecord(recordId) {
+      return this.data.get(recordId);
+    }
+  }]);
+
+  return CRUDStore;
+}();
+
+exports.default = CRUDStore;
+},{"fbemitter":24,"immutable":31}],23:[function(require,module,exports){
 /*!
   Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -1308,7 +2999,7 @@ exports.default = [{
 	}
 }());
 
-},{}],17:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -1325,7 +3016,7 @@ var fbemitter = {
 
 module.exports = fbemitter;
 
-},{"./lib/BaseEventEmitter":18,"./lib/EmitterSubscription":19}],18:[function(require,module,exports){
+},{"./lib/BaseEventEmitter":25,"./lib/EmitterSubscription":26}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -1519,7 +3210,7 @@ var BaseEventEmitter = (function () {
 
 module.exports = BaseEventEmitter;
 }).call(this,require('_process'))
-},{"./EmitterSubscription":19,"./EventSubscriptionVendor":21,"_process":41,"fbjs/lib/emptyFunction":22,"fbjs/lib/invariant":23}],19:[function(require,module,exports){
+},{"./EmitterSubscription":26,"./EventSubscriptionVendor":28,"_process":48,"fbjs/lib/emptyFunction":29,"fbjs/lib/invariant":30}],26:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -1568,7 +3259,7 @@ var EmitterSubscription = (function (_EventSubscription) {
 })(EventSubscription);
 
 module.exports = EmitterSubscription;
-},{"./EventSubscription":20}],20:[function(require,module,exports){
+},{"./EventSubscription":27}],27:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -1618,7 +3309,7 @@ var EventSubscription = (function () {
 })();
 
 module.exports = EventSubscription;
-},{}],21:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -1724,7 +3415,7 @@ var EventSubscriptionVendor = (function () {
 
 module.exports = EventSubscriptionVendor;
 }).call(this,require('_process'))
-},{"_process":41,"fbjs/lib/invariant":23}],22:[function(require,module,exports){
+},{"_process":48,"fbjs/lib/invariant":30}],29:[function(require,module,exports){
 "use strict";
 
 /**
@@ -1761,7 +3452,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],23:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -1817,7 +3508,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":41}],24:[function(require,module,exports){
+},{"_process":48}],31:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -7683,7 +9374,7 @@ module.exports = invariant;
 
 })));
 
-},{}],25:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -7736,7 +9427,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":41}],26:[function(require,module,exports){
+},{"_process":48}],33:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -7828,7 +9519,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],27:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -7934,7 +9625,7 @@ checkPropTypes.resetWarningCache = function() {
 module.exports = checkPropTypes;
 
 }).call(this,require('_process'))
-},{"./lib/ReactPropTypesSecret":28,"_process":41}],28:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":35,"_process":48}],35:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -7948,7 +9639,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],29:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (process){
 /** @license React v16.12.0
  * react-dom.development.js
@@ -35747,7 +37438,7 @@ module.exports = reactDom;
 }
 
 }).call(this,require('_process'))
-},{"_process":41,"object-assign":26,"prop-types/checkPropTypes":27,"react":34,"scheduler":39,"scheduler/tracing":40}],30:[function(require,module,exports){
+},{"_process":48,"object-assign":33,"prop-types/checkPropTypes":34,"react":41,"scheduler":46,"scheduler/tracing":47}],37:[function(require,module,exports){
 /** @license React v16.12.0
  * react-dom.production.min.js
  *
@@ -36039,7 +37730,7 @@ xe,ye,Ca.injectEventPluginsByName,fa,Sc,function(a){ya(a,Rc)},cb,db,Pd,Ba,Sj,{cu
 (function(a){var b=a.findFiberByHostInstance;return ok(n({},a,{overrideHookState:null,overrideProps:null,setSuspenseHandler:null,scheduleUpdate:null,currentDispatcherRef:Ea.ReactCurrentDispatcher,findHostInstanceByFiber:function(a){a=ic(a);return null===a?null:a.stateNode},findFiberByHostInstance:function(a){return b?b(a):null},findHostInstancesForRefresh:null,scheduleRefresh:null,scheduleRoot:null,setRefreshHandler:null,getCurrentFiber:null}))})({findFiberByHostInstance:Fc,bundleType:0,version:"16.12.0",
 rendererPackageName:"react-dom"});var Dk={default:Ck},Ek=Dk&&Ck||Dk;module.exports=Ek.default||Ek;
 
-},{"object-assign":26,"react":34,"scheduler":39}],31:[function(require,module,exports){
+},{"object-assign":33,"react":41,"scheduler":46}],38:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -36081,7 +37772,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-dom.development.js":29,"./cjs/react-dom.production.min.js":30,"_process":41}],32:[function(require,module,exports){
+},{"./cjs/react-dom.development.js":36,"./cjs/react-dom.production.min.js":37,"_process":48}],39:[function(require,module,exports){
 (function (process){
 /** @license React v16.12.0
  * react.development.js
@@ -38405,7 +40096,7 @@ module.exports = react;
 }
 
 }).call(this,require('_process'))
-},{"_process":41,"object-assign":26,"prop-types/checkPropTypes":27}],33:[function(require,module,exports){
+},{"_process":48,"object-assign":33,"prop-types/checkPropTypes":34}],40:[function(require,module,exports){
 /** @license React v16.12.0
  * react.production.min.js
  *
@@ -38432,7 +40123,7 @@ b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayout
 if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.12.0",
 __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
-},{"object-assign":26}],34:[function(require,module,exports){
+},{"object-assign":33}],41:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -38443,7 +40134,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react.development.js":32,"./cjs/react.production.min.js":33,"_process":41}],35:[function(require,module,exports){
+},{"./cjs/react.development.js":39,"./cjs/react.production.min.js":40,"_process":48}],42:[function(require,module,exports){
 (function (process){
 /** @license React v0.18.0
  * scheduler-tracing.development.js
@@ -38870,7 +40561,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 }
 
 }).call(this,require('_process'))
-},{"_process":41}],36:[function(require,module,exports){
+},{"_process":48}],43:[function(require,module,exports){
 /** @license React v0.18.0
  * scheduler-tracing.production.min.js
  *
@@ -38882,7 +40573,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 
 'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b=0;exports.__interactionsRef=null;exports.__subscriberRef=null;exports.unstable_clear=function(a){return a()};exports.unstable_getCurrent=function(){return null};exports.unstable_getThreadID=function(){return++b};exports.unstable_trace=function(a,d,c){return c()};exports.unstable_wrap=function(a){return a};exports.unstable_subscribe=function(){};exports.unstable_unsubscribe=function(){};
 
-},{}],37:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process){
 /** @license React v0.18.0
  * scheduler.development.js
@@ -39790,7 +41481,7 @@ exports.unstable_Profiling = unstable_Profiling;
 }
 
 }).call(this,require('_process'))
-},{"_process":41}],38:[function(require,module,exports){
+},{"_process":48}],45:[function(require,module,exports){
 /** @license React v0.18.0
  * scheduler.production.min.js
  *
@@ -39814,7 +41505,7 @@ exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();i
 exports.unstable_wrapCallback=function(a){var b=R;return function(){var c=R;R=b;try{return a.apply(this,arguments)}finally{R=c}}};exports.unstable_getCurrentPriorityLevel=function(){return R};exports.unstable_shouldYield=function(){var a=exports.unstable_now();V(a);var b=L(N);return b!==Q&&null!==Q&&null!==b&&null!==b.callback&&b.startTime<=a&&b.expirationTime<Q.expirationTime||k()};exports.unstable_requestPaint=Z;exports.unstable_continueExecution=function(){T||S||(T=!0,f(X))};
 exports.unstable_pauseExecution=function(){};exports.unstable_getFirstCallbackNode=function(){return L(N)};exports.unstable_Profiling=null;
 
-},{}],39:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -39825,7 +41516,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler.development.js":37,"./cjs/scheduler.production.min.js":38,"_process":41}],40:[function(require,module,exports){
+},{"./cjs/scheduler.development.js":44,"./cjs/scheduler.production.min.js":45,"_process":48}],47:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -39836,7 +41527,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler-tracing.development.js":35,"./cjs/scheduler-tracing.production.min.js":36,"_process":41}],41:[function(require,module,exports){
+},{"./cjs/scheduler-tracing.development.js":42,"./cjs/scheduler-tracing.production.min.js":43,"_process":48}],48:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 

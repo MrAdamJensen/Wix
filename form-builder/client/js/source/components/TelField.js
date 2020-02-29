@@ -11,7 +11,7 @@ class TelField extends BasicField {
   // Setting the default values for the properties 
   static defaultProps = {
       defaultValue: "123-45-678",
-      readonly: false,
+      readOnly: false,
   };
 
   /*
@@ -26,15 +26,15 @@ class TelField extends BasicField {
   Rendering component
   */
   render() {
-    // Rendering
-    return <input 
-              type="tel"                                      // Setting the required type for this input
-              {...(this.props: any)}                          // Setting all given properties to input
-              {...(this.props.readonly ? "disabled" : null)}  // If readonly, disable input
-              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" 
-      
-            />  
+    // Rendering with check if the field is in read only mode so that it can render
+    // not an input if possible
+    return this._renderWithReadOnlyCheck(<input 
+                                            type="tel"                          // Setting the required type for this input
+                                            {...(this.props: any)}               // Setting all given properties to input
+                                            onChange={this._onChange.bind(this)} // Setting callback to update state on each change
+                                          />)   
     }
 }
 
 export default TelField
+

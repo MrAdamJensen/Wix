@@ -11,7 +11,7 @@ class EmailField extends BasicField {
   // Setting the default values for the properties 
   static defaultProps = {
     defaultValue: "johndo@gmail.com",
-    readonly: false,
+    readOnly: false,
   };
   
   /*
@@ -26,13 +26,15 @@ class EmailField extends BasicField {
   Rendering component
   */
   render() {
-    // Rendering
-    return <input 
-              type="email"                                    // Setting the required type for this input
-              {...(this.props: any)}                          // Setting all given properties to input
-              {...(this.props.readonly ? "disabled" : null)}  // If readonly, disable input
-            />    
+    // Rendering with check if the field is in read only mode so that it can render
+    // not an input if possible
+    return this._renderWithReadOnlyCheck(<input 
+                                            type="email"                          // Setting the required type for this input
+                                            {...(this.props: any)}               // Setting all given properties to input
+                                            onChange={this._onChange.bind(this)} // Setting callback to update state on each change
+                                          />)  
   }
 }
 
 export default EmailField
+

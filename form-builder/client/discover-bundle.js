@@ -71,7 +71,124 @@ Actions.defaultProps = {
 };
 
 exports.default = Actions;
-},{"react":30}],3:[function(require,module,exports){
+},{"react":41}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+BasicField component for basic input field
+*/
+
+
+/*
+Special properties for BasicField
+-------------------------------
+defaultValue: the default value
+readOnly: does the value can be edited
+*/
+
+
+/*
+BasicField state fields:
+------------------------
+value: current given value in input
+*/
+var BasicField = function (_Component) {
+  _inherits(BasicField, _Component);
+
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
+  function BasicField(props) {
+    _classCallCheck(this, BasicField);
+
+    // Initializing component state
+    var _this = _possibleConstructorReturn(this, (BasicField.__proto__ || Object.getPrototypeOf(BasicField)).call(this, props));
+    // Calling meta class constructor
+
+
+    if (typeof props.defaultValue !== 'undefined') {
+      _this.state = { value: props.defaultValue.toString() };
+    }
+    return _this;
+  }
+
+  /*
+  Callback for change in input to update state
+  */
+
+
+  _createClass(BasicField, [{
+    key: '_onChange',
+    value: function _onChange(e) {
+      this.setState({ value: e.target.value });
+    }
+
+    /*
+    Returning value
+    */
+
+  }, {
+    key: 'getValue',
+    value: function getValue() {
+      return this.state.value;
+    }
+
+    /*
+    If field is in read only mode, render it as a simple span and a hidden input for the label,
+    otherwise, render the given element
+    */
+
+  }, {
+    key: '_renderWithReadOnlyCheck',
+    value: function _renderWithReadOnlyCheck(notReadOnlyComp) {
+      // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
+      // otherwise, render it as input
+      if (this.props.readOnly) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'span',
+            null,
+            this.state.value
+          ),
+          _react2.default.createElement('input', _extends({}, this.props, {
+            type: 'hidden'
+          }))
+        );
+      } else {
+        return notReadOnlyComp;
+      }
+    }
+  }]);
+
+  return BasicField;
+}(_react.Component);
+
+exports.default = BasicField;
+},{"react":41}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -108,7 +225,148 @@ var Button = function Button(props) {
 };
 
 exports.default = Button;
-},{"classnames":13,"react":30}],4:[function(require,module,exports){
+},{"classnames":23,"react":41}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+ColorField component for picking a color
+*/
+var ColorField = function (_BasicField) {
+  _inherits(ColorField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function ColorField(props) {
+    _classCallCheck(this, ColorField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (ColorField.__proto__ || Object.getPrototypeOf(ColorField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(ColorField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering
+      return _react2.default.createElement('input', _extends({
+        type: 'color' // Setting the required type for this input
+      }, this.props, this.props.readOnly ? "disabled" : null, { // If readOnly, disable input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      }));
+    }
+  }]);
+
+  return ColorField;
+}(_BasicField3.default);
+
+ColorField.defaultProps = {
+  defaultValue: "#ff0000",
+  readOnly: false
+};
+exports.default = ColorField;
+},{"./BasicField":3,"react":41}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+DateField component for picking a color
+*/
+var DateField = function (_BasicField) {
+  _inherits(DateField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function DateField(props) {
+    _classCallCheck(this, DateField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (DateField.__proto__ || Object.getPrototypeOf(DateField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(DateField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'date' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return DateField;
+}(_BasicField3.default);
+
+DateField.defaultProps = {
+  defaultValue: new Date().getFullYear().toString(),
+  readOnly: false
+};
+exports.default = DateField;
+},{"./BasicField":3,"react":41}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -125,6 +383,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Utils = require('./Utils.js');
+
+var _Utils2 = _interopRequireDefault(_Utils);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -133,6 +395,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Dialog component which displays a dialog
+*/
+
+
+/*
+Special properties for Dialog
+-------------------------------
+header: Dialog title
+confirmLabel: dialog confirmation button label
+modal: is dialog is a modal dialog
+onAction: dialog confirmation callback
+hasCancel: is dialog includes a cancel button
+children: dialog body
+*/
 var Dialog = function (_Component) {
   _inherits(Dialog, _Component);
 
@@ -144,38 +421,71 @@ var Dialog = function (_Component) {
 
   _createClass(Dialog, [{
     key: 'componentWillUnmount',
+
+
+    /*
+    Executed before component is inserted into the DOM
+    */
+
+    /*
+    Fields types definitions 
+    */
     value: function componentWillUnmount() {
-      document.body.classList.remove('DialogModalOpen');
+      // If dialog is a modal dialog, remove class to remove render body not in focus
+      _Utils2.default.retrieveDocBodyWithInv().classList.remove('DialogModalOpen');
     }
+
+    /*
+    Executed after component was inserted into the DOM
+    */
+
+
+    /*
+    Default properties of component
+    */
+
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      // If dialog is a modal dialog, add class to render body not in focus
       if (this.props.modal) {
-        document.body.classList.add('DialogModalOpen');
+        _Utils2.default.retrieveDocBodyWithInv().classList.add('DialogModalOpen');
       }
     }
+
+    /*
+    Dialog component render
+    */
+
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         { className: this.props.modal ? 'Dialog DialogModal' : 'Dialog' },
+        ' ',
         _react2.default.createElement(
           'div',
           { className: this.props.modal ? 'DialogModalWrap' : null },
+          ' ',
           _react2.default.createElement(
             'div',
             { className: 'DialogHeader' },
             this.props.header
           ),
+          ' ',
           _react2.default.createElement(
             'div',
             { className: 'DialogBody' },
             this.props.children
           ),
+          ' ',
           _react2.default.createElement(
             'div',
             { className: 'DialogFooter' },
+            '                          ',
+
+            // If cancel button requested, create it
             this.props.hasCancel ? _react2.default.createElement(
               'span',
               {
@@ -204,7 +514,78 @@ Dialog.defaultProps = {
   hasCancel: true
 };
 exports.default = Dialog;
-},{"./Button":3,"react":30}],5:[function(require,module,exports){
+},{"./Button":4,"./Utils.js":19,"react":41}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+EmailField component for picking an email
+*/
+var EmailField = function (_BasicField) {
+  _inherits(EmailField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function EmailField(props) {
+    _classCallCheck(this, EmailField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (EmailField.__proto__ || Object.getPrototypeOf(EmailField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(EmailField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'email' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return EmailField;
+}(_BasicField3.default);
+
+EmailField.defaultProps = {
+  defaultValue: "johndo@gmail.com",
+  readOnly: false
+};
+exports.default = EmailField;
+},{"./BasicField":3,"react":41}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -223,13 +604,11 @@ var _FormInput = require('./FormInput');
 
 var _FormInput2 = _interopRequireDefault(_FormInput);
 
-var _Rating = require('./Rating');
-
-var _Rating2 = _interopRequireDefault(_Rating);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _immutable = require('immutable');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -239,74 +618,115 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Form component which displays a form
+*/
+
+
+/*
+Special properties for Form
+-------------------------------
+readOnly: true if the form should be editable
+recordId: the id of data to be displayed in the form
+crudStore: the CRUD store from which to retrieve the data
+*/
 var Form = function (_Component) {
   _inherits(Form, _Component);
 
+  /*
+  Component constructor
+  */
+
+  // Component fields type definitions
   function Form(props) {
     _classCallCheck(this, Form);
 
+    // Retrieving the store and store actions objects
     var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+    // Calling meta class constructor
 
-    _this.fields = _CRUDStore2.default.getSchema();
-    if ('recordId' in _this.props) {
-      _this.initialData = _CRUDStore2.default.getRecord(_this.props.recordId);
+
+    _this.crudStore = props.crudStore;
+    // Retrieving form schema
+    _this.fields = _this.crudStore.getSchema();
+
+    // If a record id for the form is being given, initializing form with the data
+    // that belongs to the record id
+    if (_this.props.recordId !== -1) {
+      _this.initialData = _this.crudStore.getRecord(_this.props.recordId);
     }
     return _this;
   }
+
+  /*
+  Returning form data
+  */
+
+
+  // Setting the default values for the properties 
+
 
   _createClass(Form, [{
     key: 'getData',
     value: function getData() {
       var _this2 = this;
 
+      // Initializing data to be returned
       var data = {};
+
+      // Retrieving each form field data and setting it in data to be returned
       this.fields.forEach(function (field) {
         return data[field.id] = _this2.refs[field.id].getValue();
       });
       return data;
     }
+
+    /*
+    Rendering form
+    */
+
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
-        this.fields.map(function (field) {
-          var prefilled = _this3.initialData && _this3.initialData[field.id] || '';
-          if (!_this3.props.readonly) {
-            return _react2.default.createElement(
-              'div',
-              { className: 'FormRow', key: field.id },
-              _react2.default.createElement(
-                'label',
-                { className: 'FormLabel', htmlFor: field.id },
-                field.label,
-                ':'
-              ),
-              _react2.default.createElement(_FormInput2.default, _extends({}, field, { ref: field.id, defaultValue: prefilled }))
-            );
-          }
-          if (!prefilled) {
-            return null;
-          }
-          return _react2.default.createElement(
-            'div',
-            { className: 'FormRow', key: field.id },
-            _react2.default.createElement(
-              'span',
-              { className: 'FormLabel' },
-              field.label,
-              ':'
-            ),
-            field.type === 'rating' ? _react2.default.createElement(_Rating2.default, { readonly: true, defaultValue: parseInt(prefilled, 10) }) : _react2.default.createElement(
-              'div',
-              null,
-              prefilled
-            )
-          );
-        }, this)
+        this.fields.map(this._renderFormField, this),
+        ' '
+      );
+    }
+
+    /*
+    Rendering a form field
+    */
+
+  }, {
+    key: '_renderFormField',
+    value: function _renderFormField(field) {
+      // Retrieving field prefilled data
+      var prefilled = this.initialData && this.initialData[field.id] || 'was not filled';
+
+      // Rendering form field
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'FormRow' // Adding class for styling of form field
+          , key: field.id },
+        '                       ',
+        _react2.default.createElement(
+          'label',
+          { // Setting form field label                            
+            className: 'FormLabel' // Setting form field label class for styling
+            , htmlFor: field.id },
+          '                 ',
+          field.label,
+          ':                    '
+        ),
+        _react2.default.createElement(_FormInput2.default // Setting form field as an editable field
+        , _extends({}, field, { // Setting field properties
+          ref: field.id // Setting field ref so that it can be accessed easily
+          , defaultValue: prefilled })),
+        '         '
       );
     }
   }]);
@@ -314,8 +734,12 @@ var Form = function (_Component) {
   return Form;
 }(_react.Component);
 
+Form.defaultProps = {
+  readOnly: false,
+  recordId: -1
+};
 exports.default = Form;
-},{"../flux-imm/CRUDStore":11,"./FormInput":6,"./Rating":8,"react":30}],6:[function(require,module,exports){
+},{"../flux-imm/CRUDStore":21,"./FormInput":10,"immutable":31,"react":41}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -326,19 +750,45 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Rating = require('./Rating');
+var _RatingField = require('./RatingField');
 
-var _Rating2 = _interopRequireDefault(_Rating);
+var _RatingField2 = _interopRequireDefault(_RatingField);
+
+var _NumberField = require('./NumberField');
+
+var _NumberField2 = _interopRequireDefault(_NumberField);
+
+var _SuggestField = require('./SuggestField');
+
+var _SuggestField2 = _interopRequireDefault(_SuggestField);
+
+var _ColorField = require('./ColorField');
+
+var _ColorField2 = _interopRequireDefault(_ColorField);
+
+var _DateField = require('./DateField');
+
+var _DateField2 = _interopRequireDefault(_DateField);
+
+var _EmailField = require('./EmailField');
+
+var _EmailField2 = _interopRequireDefault(_EmailField);
+
+var _TelField = require('./TelField');
+
+var _TelField2 = _interopRequireDefault(_TelField);
+
+var _TextField = require('./TextField');
+
+var _TextField2 = _interopRequireDefault(_TextField);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Suggest = require('./Suggest');
-
-var _Suggest2 = _interopRequireDefault(_Suggest);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -346,6 +796,26 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/*
+Form Input component which displays a form input of certain types
+*/
+
+
+// Declaring form input field type, i.e, all the different kinds of forms
+
+
+// Declaring form input field values, i.e, all the different kinds of values a form can receive
+
+
+/*
+Declaring form input field
+-----------------------------
+type: the type of the form field
+defaultValue: the default value of the form field
+id: the id of the form field, used to identify it with ref
+options: the options for a form field that accept a set of options
+label: the form field label
+*/
 var FormInput = function (_Component) {
   _inherits(FormInput, _Component);
 
@@ -357,31 +827,66 @@ var FormInput = function (_Component) {
 
   _createClass(FormInput, [{
     key: 'getValue',
+
+
+    /*
+    Returning field value
+    */
+
+    // Component fields type definitions
     value: function getValue() {
-      return 'value' in this.refs.input ? this.refs.input.value : this.refs.input.getValue();
+      return this.refs.input.getValue();
     }
+
+    /*
+    Rendering component
+    */
+
+
+    // Setting the default values for the properties 
+
   }, {
     key: 'render',
     value: function render() {
-      var common = {
+      // Setting the common properties each component need to have 
+      var commonProps = _defineProperty({
         id: this.props.id,
         ref: 'input',
-        defaultValue: this.props.defaultValue
-      };
+        defaultValue: this.props.defaultValue,
+        readOnly: this.props.readOnly
+      }, 'defaultValue', this.props.defaultValue);
+
+      // Creating field based on the form field type
       switch (this.props.type) {
-        case 'year':
-          return _react2.default.createElement('input', _extends({}, common, {
-            type: 'number',
-            defaultValue: this.props.defaultValue || new Date().getFullYear() }));
-        case 'suggest':
-          return _react2.default.createElement(_Suggest2.default, _extends({}, common, { options: this.props.options }));
         case 'rating':
-          return _react2.default.createElement(_Rating2.default, _extends({}, common, {
-            defaultValue: parseInt(this.props.defaultValue, 10) }));
+          return _react2.default.createElement(_RatingField2.default // Creating a rating field type, a field with stars to pick a rating
+          , commonProps);
+        case 'number':
+          return _react2.default.createElement(_NumberField2.default // Creating a number field type, which is a filed that accept only numbers
+          , commonProps);
+        case 'suggest':
+          return _react2.default.createElement(_SuggestField2.default // Creating a suggest field type, a field with options to select from
+          , _extends({}, commonProps, { // Inserting common properties
+            options: this.props.options // Setting options to select from
+          }));
+        case 'color':
+          return _react2.default.createElement(_ColorField2.default // Creating a color field type, which is a filed that accept only colors
+          , commonProps);
+        case 'date':
+          return _react2.default.createElement(_DateField2.default // Creating a date field type, which is a filed that accept only dates
+          , commonProps);
+        case 'email':
+          return _react2.default.createElement(_EmailField2.default // Creating a email field type, which is a filed that accept only emails
+          , commonProps);
+        case 'tel':
+          return _react2.default.createElement(_TelField2.default // Creating a telephone type, which is a filed that accept only telephones
+          , commonProps);
         case 'text':
-          return _react2.default.createElement('textarea', common);
+          return _react2.default.createElement(_TextField2.default // Creating a text type, which is a filed that accept only text
+          , commonProps);
         default:
-          return _react2.default.createElement('input', _extends({}, common, { type: 'text' }));
+          // Declaring unrecognized input type
+          throw 'FormInput.render: bad input type ' + this.props.type;
       }
     }
   }]);
@@ -390,10 +895,14 @@ var FormInput = function (_Component) {
 }(_react.Component);
 
 FormInput.defaultProps = {
-  type: 'input'
+  type: 'text',
+  defaultValue: "",
+  options: [],
+  readOnly: false,
+  label: ""
 };
 exports.default = FormInput;
-},{"./Rating":8,"./Suggest":9,"react":30}],7:[function(require,module,exports){
+},{"./ColorField":5,"./DateField":6,"./EmailField":8,"./NumberField":12,"./RatingField":14,"./SuggestField":16,"./TelField":17,"./TextField":18,"react":41}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -406,12 +915,88 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+Logo component for displaying a logo which can be configured in the
+logo css file
+*/
 var Logo = function Logo() {
   return _react2.default.createElement("div", { className: "Logo" });
 };
 
 exports.default = Logo;
-},{"react":30}],8:[function(require,module,exports){
+},{"react":41}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+NumberField component for picking a number
+*/
+var NumberField = function (_BasicField) {
+  _inherits(NumberField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function NumberField(props) {
+    _classCallCheck(this, NumberField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (NumberField.__proto__ || Object.getPrototypeOf(NumberField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(NumberField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'number' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return NumberField;
+}(_BasicField3.default);
+
+NumberField.defaultProps = {
+  defaultValue: "0",
+  readOnly: false,
+  onChange: null
+};
+exports.default = NumberField;
+},{"./BasicField":3,"react":41}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -522,7 +1107,223 @@ Rating.defaultProps = {
   readonly: false
 };
 exports.default = Rating;
-},{"classnames":13,"react":30}],9:[function(require,module,exports){
+},{"classnames":23,"react":41}],14:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _invariant = require('invariant');
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+Rating field component, displaying rating with stars highlighted
+*/
+
+
+/*
+Special properties for RatingField
+-------------------------------
+defaultValue: the default number of stars to highlight 
+readOnly: does the number of stars highlighted can be edited
+max: number of stars to display
+*/
+
+
+/*
+RatingField state fields: 
+----------------------------------------------------------------
+rating: the number of stars highlighted
+tmpRating: the number of stars temporary highlighted
+*/
+var RatingField = function (_Component) {
+  _inherits(RatingField, _Component);
+
+  /*
+  Component constructor
+  */
+  function RatingField(props) {
+    _classCallCheck(this, RatingField);
+
+    // If default value is string, convert it to int
+    var _this = _possibleConstructorReturn(this, (RatingField.__proto__ || Object.getPrototypeOf(RatingField)).call(this, props));
+    // Calling meta class constructor
+
+
+    if (typeof props.defaultValue === 'string') {
+      props.defaultValue = parseInt(props.defaultValue, 10);
+    }
+
+    // Asserting default value initialized
+    (0, _invariant2.default)(props.defaultValue, "RatingField.constructor: default value not initialized");
+
+    // Initializing component state
+    _this.state = {
+      rating: props.defaultValue,
+      tmpRating: props.defaultValue
+    };
+    return _this;
+  }
+
+  /*
+  Returning number of stars highlighted
+  */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
+
+
+  _createClass(RatingField, [{
+    key: 'getValue',
+    value: function getValue() {
+      return this.state.rating;
+    }
+
+    /*
+    Setting the number of stars temporary highlighted
+    */
+
+  }, {
+    key: 'setTemp',
+    value: function setTemp(rating) {
+      this.setState({ tmpRating: rating });
+    }
+
+    /*
+    Setting the real number of stars highlighted
+    */
+
+  }, {
+    key: 'setRating',
+    value: function setRating(rating) {
+      this.setState({
+        tmpRating: rating,
+        rating: rating
+      });
+    }
+
+    /*
+    Resetting the number of stars highlighted to the real value
+    */
+
+  }, {
+    key: 'reset',
+    value: function reset() {
+      this.setTemp(this.state.rating);
+    }
+
+    /*
+    Executed when new properties are given so that when a new component 
+    is created it will receive the new default value
+    */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // If default value is string, convert it to int
+      if (typeof nextProps.defaultValue === 'string') {
+        nextProps.defaultValue = parseInt(nextProps.defaultValue, 10);
+      }
+
+      // Asserting default value initialized
+      (0, _invariant2.default)(nextProps.defaultValue, "RatingField.constructor: default value not initialized");
+
+      // Updating number of stars highlighted
+      this.setRating(nextProps.defaultValue);
+    }
+
+    /*
+    Rendering component
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      // Rendering stars
+      var stars = this._renderStars();
+
+      return _react2.default.createElement(
+        'div',
+        { // Rendering rating
+          // Setting classes for styling for when the component is in readOnly mode and edit mode
+          className: (0, _classnames2.default)({
+            'Rating': true,
+            'RatingReadonly': this.props.readOnly
+          }),
+          onMouseOut: this.reset.bind(this) // Resetting highlighted stars to real value when the mouse is done hovering
+        },
+        stars,
+        '                                 ',
+
+        // If not readOnly mode, render a hidden input so that the component can act like a real input
+        this.props.readOnly || !this.props.id ? null : _react2.default.createElement('input', {
+          type: 'hidden',
+          id: this.props.id,
+          value: this.state.rating })
+      );
+    }
+
+    /*
+    Rendering stars
+    */
+
+  }, {
+    key: '_renderStars',
+    value: function _renderStars() {
+      // Initializing
+      var stars = [];
+
+      // Rendering stars
+      for (var i = 1; i <= this.props.max; i++) {
+        // Rendering star
+        stars.push(_react2.default.createElement(
+          'span',
+          { // Creating star
+            className: i <= this.state.tmpRating ? 'RatingOn' : null // Highlighting star if position is within temp rating
+            , key: i // adding key because it is requested by react
+            , onClick: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing real rating on click
+            , onMouseOver: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing temp rating on mouse over 
+          },
+          '\u2606                                                          '
+        ));
+      }
+
+      return stars;
+    }
+  }]);
+
+  return RatingField;
+}(_react.Component);
+
+RatingField.defaultProps = {
+  defaultValue: 0,
+  max: 5,
+  readOnly: false
+};
+exports.default = RatingField;
+},{"classnames":23,"invariant":32,"react":41}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -591,7 +1392,354 @@ var Suggest = function (_Component) {
 }(_react.Component);
 
 exports.default = Suggest;
-},{"react":30}],10:[function(require,module,exports){
+},{"react":41}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+SuggestField component which is a regular input field with suggestions
+*/
+
+
+/*
+Special properties for SuggestField
+-------------------------------
+id: component id
+defaultValue: initial value
+options: the options to suggest
+*/
+
+
+/*
+SuggestField state fields:
+----------------------------------------------------------------
+value: current given value in input
+*/
+var SuggestField = function (_Component) {
+  _inherits(SuggestField, _Component);
+
+  /*
+  Component constructor
+  */
+  function SuggestField(props) {
+    _classCallCheck(this, SuggestField);
+
+    // Initializing component state
+    var _this = _possibleConstructorReturn(this, (SuggestField.__proto__ || Object.getPrototypeOf(SuggestField)).call(this, props));
+    // Calling meta class constructor
+
+
+    _this.state = { value: props.defaultValue || '' };
+    return _this;
+  }
+
+  /*
+  Returning input value
+  */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
+
+
+  _createClass(SuggestField, [{
+    key: 'getValue',
+    value: function getValue() {
+      return this.state.value;
+    }
+
+    /*
+    Rendering component
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
+      // otherwise, render it as input
+      if (this.props.readOnly) {
+        return this._renderReadOnly();
+      } else {
+        return this._renderInput();
+      }
+    }
+
+    /*
+    Rendering component as readonly
+    */
+
+  }, {
+    key: '_renderReadOnly',
+    value: function _renderReadOnly() {
+      // Render as a simple span with a hidden input for the label because readonly
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'span',
+          null,
+          this.state.value
+        ),
+        _react2.default.createElement('input', _extends({}, this.props, {
+          type: 'hidden'
+        }))
+      );
+    }
+
+    /*
+    Rendering component as input
+    */
+
+  }, {
+    key: '_renderInput',
+    value: function _renderInput() {
+      var _this2 = this;
+
+      // Generating id for the suggest part
+      var randomID = Math.random().toString(16).substring(2);
+
+      // Rendering as input because not read only
+      return _react2.default.createElement(
+        'div',
+        null,
+        '                                                            ',
+        _react2.default.createElement('input', {
+          // Setting the id of the suggest field so that it will
+          // receive the input text as it is entered so that it can suggest                                                  
+          list: randomID,
+          defaultValue: this.props.defaultValue // Setting the default value of the input field part
+
+          // Setting callback to update the state of the component as user types
+          , onChange: function onChange(e) {
+            return _this2.setState({ value: e.target.value });
+          },
+          id: this.props.id // Setting the id of the input part as the component id
+        }),
+        _react2.default.createElement(
+          'datalist',
+          {
+            id: randomID // Setting id to connect the input part to the suggest part
+          },
+
+          // Creating all possible suggested options                            
+          this.props.options.map(function (item, idx) {
+            return _react2.default.createElement('option', { value: item, key: idx });
+          })
+        )
+      );
+    }
+  }]);
+
+  return SuggestField;
+}(_react.Component);
+
+SuggestField.defaultProps = {
+  readOnly: false
+};
+exports.default = SuggestField;
+},{"react":41}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+TelField component for picking a telephone number
+*/
+var TelField = function (_BasicField) {
+    _inherits(TelField, _BasicField);
+
+    /*
+    Component constructor
+    */
+    function TelField(props) {
+        _classCallCheck(this, TelField);
+
+        // Calling meta class constructor
+        return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
+    }
+
+    /*
+    Rendering component
+    */
+
+    // Setting the default values for the properties 
+
+
+    _createClass(TelField, [{
+        key: 'render',
+        value: function render() {
+            // Rendering with check if the field is in read only mode so that it can render
+            // not an input if possible
+            return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+                type: 'tel' // Setting the required type for this input
+            }, this.props, { // Setting all given properties to input
+                onChange: this._onChange.bind(this) // Setting callback to update state on each change
+            })));
+        }
+    }]);
+
+    return TelField;
+}(_BasicField3.default);
+
+TelField.defaultProps = {
+    defaultValue: "123-45-678",
+    readOnly: false
+};
+exports.default = TelField;
+},{"./BasicField":3,"react":41}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BasicField2 = require('./BasicField');
+
+var _BasicField3 = _interopRequireDefault(_BasicField2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/*
+TextField component writing text
+*/
+var TextField = function (_BasicField) {
+  _inherits(TextField, _BasicField);
+
+  /*
+  Component constructor
+  */
+  function TextField(props) {
+    _classCallCheck(this, TextField);
+
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+  // Setting the default values for the properties 
+
+
+  _createClass(TextField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'text' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
+    }
+  }]);
+
+  return TextField;
+}(_BasicField3.default);
+
+TextField.defaultProps = {
+  defaultValue: "",
+  readOnly: false
+};
+exports.default = TextField;
+},{"./BasicField":3,"react":41}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _invariant = require('invariant');
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+Retrieving document body element with checking not null invariant
+*/
+var retrieveDocBodyWithInv = function retrieveDocBodyWithInv() {
+    // Asserting body is not null
+    (0, _invariant2.default)(document.body, 'retrieveDocBodyWithInv: Document body is null');
+
+    // Returning document body
+    return document.body;
+};
+
+/*
+Retrieving element by id
+*/
+/*flow*/
+
+var retrieveElementByID = function retrieveElementByID(id) {
+    // Retrieving element
+    var elem = document.getElementById(id);
+
+    // Asserting element retrieved successfully
+    (0, _invariant2.default)(elem || elem === null, 'retrieveElementByID: element is null');
+
+    return elem;
+};
+
+exports.default = { retrieveDocBodyWithInv: retrieveDocBodyWithInv, retrieveElementByID: retrieveElementByID };
+},{"invariant":32}],20:[function(require,module,exports){
 'use strict';
 
 var _Actions = require('./components/Actions');
@@ -904,63 +2052,217 @@ _reactDom2.default.render(_react2.default.createElement(
     )
   )
 ), document.getElementById('pad'));
-},{"./components/Actions":2,"./components/Button":3,"./components/Dialog":4,"./components/Form":5,"./components/FormInput":6,"./components/Logo":7,"./components/Rating":8,"./components/Suggest":9,"./flux-imm/CRUDStore":11,"./schema":12,"react":30,"react-dom":27}],11:[function(require,module,exports){
+},{"./components/Actions":2,"./components/Button":4,"./components/Dialog":7,"./components/Form":9,"./components/FormInput":10,"./components/Logo":11,"./components/Rating":13,"./components/Suggest":15,"./flux-imm/CRUDStore":21,"./schema":22,"react":41,"react-dom":38}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _fbemitter = require('fbemitter');
 
 var _immutable = require('immutable');
 
-var data = void 0;
-var schema = void 0;
-var emitter = new _fbemitter.EventEmitter();
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CRUDStore = {
-  init: function init(initialSchema) {
-    schema = initialSchema;
-    var storage = 'localStorage' in window ? localStorage.getItem('data') : null;
-    if (!storage) {
-      var initialRecord = {};
-      schema.forEach(function (item) {
-        return initialRecord[item.id] = item.sample;
-      });
-      data = (0, _immutable.List)([initialRecord]);
-    } else {
-      data = (0, _immutable.List)(JSON.parse(storage));
-    }
-  },
-  getData: function getData() {
-    return data;
-  },
-  getSchema: function getSchema() {
-    return schema;
-  },
-  setData: function setData(newData) {
-    var commit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+/*
+A store of data where one can listen for changes
+*/
 
-    data = newData;
-    if (commit && 'localStorage' in window) {
-      localStorage.setItem('data', JSON.stringify(newData));
-    }
-    emitter.emit('change');
-  },
-  addListener: function addListener(eventType, fn) {
-    emitter.addListener(eventType, fn);
-  },
-  getCount: function getCount() {
-    return data.count();
-  },
-  getRecord: function getRecord(recordId) {
-    return data.get(recordId);
+
+/*
+Defining the type of the store type, either a local storage store or a server store
+*/
+
+
+/*
+Defining the type of a local store
+-----------------------------------
+storeType: the type of the store, in this case it is local
+schema: in a local store, a schema must be provided
+*/
+
+
+/*
+Defining the type of a server store
+-----------------------------------
+storeType: the type of the store, in this case it is server
+serverURL: in a server store, a server url must be provided
+*/
+
+
+/*
+Defining type of a store init object, it must have the required data
+to initialize the store
+*/
+var CRUDStore = function () {
+
+  /*
+  Component constructor
+  */
+  function CRUDStore(initObj) {
+    _classCallCheck(this, CRUDStore);
+
+    // Initializing fields
+    this.type = initObj.storeType;
+
+    // Initializing store emitter to inform on store changes
+    this.emitter = new _fbemitter.EventEmitter();
+
+    // Initializing store
+    this._init(initObj);
   }
-};
+
+  /*
+  Initializing store
+  */
+
+  // Properties type definitions
+
+
+  _createClass(CRUDStore, [{
+    key: '_init',
+    value: function _init(initObj) {
+      // Asserting init object is for a local store
+      if (initObj.storeType === 'local') {
+        // Initializing local store
+        this._initLocalStore(initObj);
+      } // Asserting init object is for a server store
+      else if (initObj.storeType === 'server') {
+          // Initializing server store 
+          this._initServerStore(initObj);
+        } else {
+          // Declaring unrecognized store type
+          throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
+        }
+    }
+
+    /*
+    Initializing local store
+    */
+
+  }, {
+    key: '_initLocalStore',
+    value: function _initLocalStore(initObj) {
+      // Retrieving schema
+      this.schema = (0, _immutable.List)(initObj.schema);
+
+      // Retrieving data if it is available in local storage
+      var storage = 'localStorage' in window ? localStorage.getItem('data') : null;
+
+      // If storage not available, initializing it
+      if (!storage) {
+        // Initializing initial record
+        var initialRecord = {};
+        this.schema.forEach(function (item) {
+          return initialRecord[item.id] = item.sample;
+        });
+
+        // Adding initial record to data
+        this.data = (0, _immutable.List)([initialRecord]);
+      } else {
+        // If storage available, retrieve it
+        this.data = (0, _immutable.List)(JSON.parse(storage));
+      }
+    }
+
+    /*
+    Initializing server store
+    */
+
+  }, {
+    key: '_initServerStore',
+    value: function _initServerStore(initObj) {
+      throw 'CRUDStore._initServerStore: Not implemented';
+    }
+
+    /*
+    Returning data
+    */
+
+  }, {
+    key: 'getData',
+    value: function getData() {
+      return this.data;
+    }
+
+    /*
+    Returning schema
+    */
+
+  }, {
+    key: 'getSchema',
+    value: function getSchema() {
+      return this.schema;
+    }
+
+    /*
+    Setting the data with a new data
+    */
+
+  }, {
+    key: 'setData',
+    value: function setData(newData) {
+      var commit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      // Updating data
+      this.data = newData;
+
+      // If a commit is requested, commit the change
+      // Assert this is a local store, if so update local storage
+      if (commit && this.type === 'local' && 'localStorage' in window) {
+        localStorage.setItem('data', JSON.stringify(newData));
+      }
+      // Assert this is a server store, if so update server storage
+      else if (commit && this.type === 'server') {
+          throw 'CRUDStore.setData: not implemented';
+        } else {
+          // Declaring unrecognized store type
+          throw 'CRUDStore.setData: unknown store type ' + this.type;
+        }
+
+      // Informing all listeners to the change in data
+      this.emitter.emit('change');
+    }
+
+    /*
+    Adding listener for data change
+    */
+
+  }, {
+    key: 'addListener',
+    value: function addListener(eventType, fn) {
+      this.emitter.addListener(eventType, fn);
+    }
+
+    /*
+    Returning number of rows in data
+    */
+
+  }, {
+    key: 'getCount',
+    value: function getCount() {
+      return this.data.count();
+    }
+
+    /*
+    Returning a record
+    */
+
+  }, {
+    key: 'getRecord',
+    value: function getRecord(recordId) {
+      return this.data.get(recordId);
+    }
+  }]);
+
+  return CRUDStore;
+}();
 
 exports.default = CRUDStore;
-},{"fbemitter":14,"immutable":21}],12:[function(require,module,exports){
+},{"fbemitter":24,"immutable":31}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1005,7 +2307,7 @@ exports.default = [{
   type: 'text',
   sample: 'Nice for the price'
 }];
-},{"./classification":1}],13:[function(require,module,exports){
+},{"./classification":1}],23:[function(require,module,exports){
 /*!
   Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -1059,7 +2361,7 @@ exports.default = [{
 	}
 }());
 
-},{}],14:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -1076,7 +2378,7 @@ var fbemitter = {
 
 module.exports = fbemitter;
 
-},{"./lib/BaseEventEmitter":15,"./lib/EmitterSubscription":16}],15:[function(require,module,exports){
+},{"./lib/BaseEventEmitter":25,"./lib/EmitterSubscription":26}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -1270,7 +2572,7 @@ var BaseEventEmitter = (function () {
 
 module.exports = BaseEventEmitter;
 }).call(this,require('_process'))
-},{"./EmitterSubscription":16,"./EventSubscriptionVendor":18,"_process":37,"fbjs/lib/emptyFunction":19,"fbjs/lib/invariant":20}],16:[function(require,module,exports){
+},{"./EmitterSubscription":26,"./EventSubscriptionVendor":28,"_process":48,"fbjs/lib/emptyFunction":29,"fbjs/lib/invariant":30}],26:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -1319,7 +2621,7 @@ var EmitterSubscription = (function (_EventSubscription) {
 })(EventSubscription);
 
 module.exports = EmitterSubscription;
-},{"./EventSubscription":17}],17:[function(require,module,exports){
+},{"./EventSubscription":27}],27:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -1369,7 +2671,7 @@ var EventSubscription = (function () {
 })();
 
 module.exports = EventSubscription;
-},{}],18:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -1475,7 +2777,7 @@ var EventSubscriptionVendor = (function () {
 
 module.exports = EventSubscriptionVendor;
 }).call(this,require('_process'))
-},{"_process":37,"fbjs/lib/invariant":20}],19:[function(require,module,exports){
+},{"_process":48,"fbjs/lib/invariant":30}],29:[function(require,module,exports){
 "use strict";
 
 /**
@@ -1512,7 +2814,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],20:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -1568,7 +2870,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":37}],21:[function(require,module,exports){
+},{"_process":48}],31:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -7434,7 +8736,60 @@ module.exports = invariant;
 
 })));
 
-},{}],22:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
+(function (process){
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+'use strict';
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (process.env.NODE_ENV !== 'production') {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+}).call(this,require('_process'))
+},{"_process":48}],33:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -7526,7 +8881,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],23:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -7632,7 +8987,7 @@ checkPropTypes.resetWarningCache = function() {
 module.exports = checkPropTypes;
 
 }).call(this,require('_process'))
-},{"./lib/ReactPropTypesSecret":24,"_process":37}],24:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":35,"_process":48}],35:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -7646,7 +9001,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],25:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (process){
 /** @license React v16.12.0
  * react-dom.development.js
@@ -35445,7 +36800,7 @@ module.exports = reactDom;
 }
 
 }).call(this,require('_process'))
-},{"_process":37,"object-assign":22,"prop-types/checkPropTypes":23,"react":30,"scheduler":35,"scheduler/tracing":36}],26:[function(require,module,exports){
+},{"_process":48,"object-assign":33,"prop-types/checkPropTypes":34,"react":41,"scheduler":46,"scheduler/tracing":47}],37:[function(require,module,exports){
 /** @license React v16.12.0
  * react-dom.production.min.js
  *
@@ -35737,7 +37092,7 @@ xe,ye,Ca.injectEventPluginsByName,fa,Sc,function(a){ya(a,Rc)},cb,db,Pd,Ba,Sj,{cu
 (function(a){var b=a.findFiberByHostInstance;return ok(n({},a,{overrideHookState:null,overrideProps:null,setSuspenseHandler:null,scheduleUpdate:null,currentDispatcherRef:Ea.ReactCurrentDispatcher,findHostInstanceByFiber:function(a){a=ic(a);return null===a?null:a.stateNode},findFiberByHostInstance:function(a){return b?b(a):null},findHostInstancesForRefresh:null,scheduleRefresh:null,scheduleRoot:null,setRefreshHandler:null,getCurrentFiber:null}))})({findFiberByHostInstance:Fc,bundleType:0,version:"16.12.0",
 rendererPackageName:"react-dom"});var Dk={default:Ck},Ek=Dk&&Ck||Dk;module.exports=Ek.default||Ek;
 
-},{"object-assign":22,"react":30,"scheduler":35}],27:[function(require,module,exports){
+},{"object-assign":33,"react":41,"scheduler":46}],38:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -35779,7 +37134,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-dom.development.js":25,"./cjs/react-dom.production.min.js":26,"_process":37}],28:[function(require,module,exports){
+},{"./cjs/react-dom.development.js":36,"./cjs/react-dom.production.min.js":37,"_process":48}],39:[function(require,module,exports){
 (function (process){
 /** @license React v16.12.0
  * react.development.js
@@ -38103,7 +39458,7 @@ module.exports = react;
 }
 
 }).call(this,require('_process'))
-},{"_process":37,"object-assign":22,"prop-types/checkPropTypes":23}],29:[function(require,module,exports){
+},{"_process":48,"object-assign":33,"prop-types/checkPropTypes":34}],40:[function(require,module,exports){
 /** @license React v16.12.0
  * react.production.min.js
  *
@@ -38130,7 +39485,7 @@ b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayout
 if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.12.0",
 __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
-},{"object-assign":22}],30:[function(require,module,exports){
+},{"object-assign":33}],41:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -38141,7 +39496,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react.development.js":28,"./cjs/react.production.min.js":29,"_process":37}],31:[function(require,module,exports){
+},{"./cjs/react.development.js":39,"./cjs/react.production.min.js":40,"_process":48}],42:[function(require,module,exports){
 (function (process){
 /** @license React v0.18.0
  * scheduler-tracing.development.js
@@ -38568,7 +39923,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 }
 
 }).call(this,require('_process'))
-},{"_process":37}],32:[function(require,module,exports){
+},{"_process":48}],43:[function(require,module,exports){
 /** @license React v0.18.0
  * scheduler-tracing.production.min.js
  *
@@ -38580,7 +39935,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 
 'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b=0;exports.__interactionsRef=null;exports.__subscriberRef=null;exports.unstable_clear=function(a){return a()};exports.unstable_getCurrent=function(){return null};exports.unstable_getThreadID=function(){return++b};exports.unstable_trace=function(a,d,c){return c()};exports.unstable_wrap=function(a){return a};exports.unstable_subscribe=function(){};exports.unstable_unsubscribe=function(){};
 
-},{}],33:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process){
 /** @license React v0.18.0
  * scheduler.development.js
@@ -39488,7 +40843,7 @@ exports.unstable_Profiling = unstable_Profiling;
 }
 
 }).call(this,require('_process'))
-},{"_process":37}],34:[function(require,module,exports){
+},{"_process":48}],45:[function(require,module,exports){
 /** @license React v0.18.0
  * scheduler.production.min.js
  *
@@ -39512,7 +40867,7 @@ exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();i
 exports.unstable_wrapCallback=function(a){var b=R;return function(){var c=R;R=b;try{return a.apply(this,arguments)}finally{R=c}}};exports.unstable_getCurrentPriorityLevel=function(){return R};exports.unstable_shouldYield=function(){var a=exports.unstable_now();V(a);var b=L(N);return b!==Q&&null!==Q&&null!==b&&null!==b.callback&&b.startTime<=a&&b.expirationTime<Q.expirationTime||k()};exports.unstable_requestPaint=Z;exports.unstable_continueExecution=function(){T||S||(T=!0,f(X))};
 exports.unstable_pauseExecution=function(){};exports.unstable_getFirstCallbackNode=function(){return L(N)};exports.unstable_Profiling=null;
 
-},{}],35:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -39523,7 +40878,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler.development.js":33,"./cjs/scheduler.production.min.js":34,"_process":37}],36:[function(require,module,exports){
+},{"./cjs/scheduler.development.js":44,"./cjs/scheduler.production.min.js":45,"_process":48}],47:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -39534,7 +40889,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler-tracing.development.js":31,"./cjs/scheduler-tracing.production.min.js":32,"_process":37}],37:[function(require,module,exports){
+},{"./cjs/scheduler-tracing.development.js":42,"./cjs/scheduler-tracing.production.min.js":43,"_process":48}],48:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -39720,4 +41075,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[10]);
+},{}]},{},[20]);

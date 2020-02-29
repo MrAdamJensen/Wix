@@ -50,7 +50,7 @@ Excel state fields
 -------------------
 data: excel table data
 sortby: the column id to sort the table by
-descending: sort in decending order
+descending: sort in descending order
 edit: table edit state
 dialog: table dialog state
 */
@@ -107,7 +107,7 @@ class Excel extends Component<Props, State> {
   Sorting table
   */
   _sort(key: string) {
-    // Asserting sorting in decending order
+    // Asserting sorting in descending order
     const descending = this.state.sortby === key && !this.state.descending;
 
     // Sorting table
@@ -254,17 +254,17 @@ class Excel extends Component<Props, State> {
     invariant(row, 'Excel._renderDeleteDialog: failed retrieving dialog row')
 
     // Retrieving dialog row name
-    const nameguess = row[Object.keys(row)[0]];
+    const nameGuess = row[Object.keys(row)[0]];
 
     // Rendering dialog
     return (
       <Dialog 
         modal={true}                                          // Setting it to be a modal dialog, meaning above body
-        header="Confirm deletion"                             // Settign title
+        header="Confirm deletion"                             // Setting title
         confirmLabel="Delete"                                 // Setting confirm button label
         onAction={this._deleteConfirmationClick.bind(this)}   // Setting the callback to call when confirm button is clicked
       >
-        {`Are you sure you want to delete "${nameguess}"?`}   {/*Settign the text to show in dialog*/}
+        {`Are you sure you want to delete "${nameGuess}"?`}   {/*Setting the text to show in dialog*/}
       </Dialog>
     );
   }
@@ -272,7 +272,7 @@ class Excel extends Component<Props, State> {
   /*
   Rendering form dialog
   */
-  _renderFormDialog(readonly: ?boolean) {
+  _renderFormDialog(readOnly: ?boolean) {
     // Retrieving dialog row(the row that was the dialog click origin) index
     let index =  this._retrieve_dialog_row_origin_index()
 
@@ -280,16 +280,16 @@ class Excel extends Component<Props, State> {
     return (
       <Dialog 
         modal={true}                                         // Setting it to be a modal dialog, meaning above body
-        header={readonly ? 'Item info' : 'Edit item'}        // Settign title
-        confirmLabel={readonly ? 'ok' : 'Save'}              // Setting confirm button label
-        hasCancel={!readonly}                                // Setting a cancel button only if the dialog is editable
+        header={readOnly ? 'Item info' : 'Edit item'}        // Setting title
+        confirmLabel={readOnly ? 'ok' : 'Save'}              // Setting confirm button label
+        hasCancel={!readOnly}                                // Setting a cancel button only if the dialog is editable
         onAction={this._saveDataDialog.bind(this)}           // Setting the callback to call when confirm button is clicked
       >
         <Form                                                // Creating dialog body as a form
           crudStore={this.crudStore}                         // Setting form CRUD store from which to retrieve from the data
-          ref="form"                                         // Setting reference for this form so that later it will be easily rechable
+          ref="form"                                         // Setting reference for this form so that later it will be easily reachable
           recordId={index}                                   // Setting the dialog row index so that the form can access the correct table row
-          readonly={!!readonly} />                           {/*Setting if the form can be edit or not*/}
+          readOnly={!!readOnly} />                           {/*Setting if the form can be edit or not*/}
       </Dialog>
     ); 
   }
@@ -297,7 +297,7 @@ class Excel extends Component<Props, State> {
   /*
   Retrieving dialog row(the row that was the dialog click origin) index
   */
- _retrieve_dialog_row_origin_index() : number{
+ _retrieve_dialog_row_origin_index() : number {
     // Retrieving dialog row(the row that was the dialog click origin) index
     const index = this.state.dialog && this.state.dialog.idx;
 
@@ -313,16 +313,16 @@ class Excel extends Component<Props, State> {
   _renderTable() {
     return (
       <table>
-        {this._renderTableHead()}  {/*Renderting table head*/}
-        {this._renderTableBody()}  {/*Renderting table body*/}
+        {this._renderTableHead()}  {/*Rendering table head*/}
+        {this._renderTableBody()}  {/*Rendering table body*/}
       </table>
     );
   }
 
   /*
-  Renderting table head
+  Rendering table head
   */
-  _renderTableHead(){
+  _renderTableHead() {
     return  <thead>
             <tr>{
               // Creating each table column title from the schema
@@ -346,7 +346,7 @@ class Excel extends Component<Props, State> {
                 return (
                   <th 
                     className={`schema-${item.id}`}             // adding class for css styling of this current header
-                    key={item.id}                               // adding key becuase it is requested by react
+                    key={item.id}                               // adding key because it is requested by react
 
                     // adding callback for sorting the table in the event that a user clicks a column header
                     onClick={this._sort.bind(this, item.id)}    
@@ -362,9 +362,9 @@ class Excel extends Component<Props, State> {
   }
 
   /*
-  Renderting table body
+  Rendering table body
   */
-  _renderTableBody(){
+  _renderTableBody() {
     return <tbody onDoubleClick={this._showEditor.bind(this)}> {/*Setting table body callback to be called when a cell is being clicked*/}
                                                                {/*so that it can be edited*/}
       {/*Creating table body rows */}
@@ -372,7 +372,7 @@ class Excel extends Component<Props, State> {
         return (
           // Creating table row
           <tr 
-            key={rowidx}>                                      {/*adding key becuase it is requested by react*/}
+            key={rowidx}>                                      {/*adding key because it is requested by react*/}
             { 
             // Creating row cells
             Object.keys(row).map(this._renderTableBodyCell.bind(this, row, rowidx))}
@@ -390,7 +390,7 @@ class Excel extends Component<Props, State> {
   /*
   Rendering table body cell
   */
-  _renderTableBodyCell(row: Object, rowidx: number, cell:string, idx:number){
+  _renderTableBodyCell(row: Object, rowidx: number, cell:string, idx:number) {
     // Retrieving table schema
     const column_schema = this.schema.get(idx);
 
@@ -415,7 +415,11 @@ class Excel extends Component<Props, State> {
         </form>
       );
     }
-    
+    // Other wise, creating a readonly input cell
+    else {
+      content = <FormInput ref="input" {...column_schema} defaultValue={content} readOnly={true}/> 
+    }
+
     // Creating cell
     return (
       <td 
@@ -427,9 +431,9 @@ class Excel extends Component<Props, State> {
           'ExcelDataRight': column_schema.align === 'right',
           'ExcelDataCenter': column_schema.align !== 'left' && column_schema.align !== 'right',
         })} 
-        key={idx}                       // adding key becuase it is requested by react
+        key={idx}                       // adding key because it is requested by react
         data-row={rowidx}               // adding dataset row to be able to identify cell identity
-        data-key={column_schema.id}>           {/*adding dataset column to be able to identify cell identity*/}
+        data-key={column_schema.id}>    {/*adding dataset column to be able to identify cell identity*/}
         {content}                       {/*adding cell content*/}
       </td>
     );

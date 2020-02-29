@@ -11,7 +11,8 @@ class NumberField extends BasicField {
   // Setting the default values for the properties 
   static defaultProps = {
     defaultValue: "0",
-    readonly: false,
+    readOnly: false,
+    onChange: null,
   };
   
   /*
@@ -26,13 +27,15 @@ class NumberField extends BasicField {
   Rendering component
   */
   render() {
-    // Rendering
-    return <input 
-              type="number"                                   // Setting the required type for this input
-              {...(this.props: any)}                          // Setting all given properties to input
-              {...(this.props.readonly ? "disabled" : null)}  // If readonly, disable input
-          />  
+    // Rendering with check if the field is in read only mode so that it can render
+    // not an input if possible
+    return this._renderWithReadOnlyCheck(<input 
+                                            type="number"                          // Setting the required type for this input
+                                            {...(this.props: any)}               // Setting all given properties to input
+                                            onChange={this._onChange.bind(this)} // Setting callback to update state on each change
+                                          />)  
   }
 }
 
 export default NumberField
+
