@@ -10,8 +10,8 @@ href: using href will transform button to a link
 className: extra class names for css
 */
 type Props = {
-  href: string,
-  className: string,
+  href?: string,
+  className?: string,
 };
 
 /* 

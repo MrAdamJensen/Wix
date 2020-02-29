@@ -1,0 +1,22 @@
+.ExcelWithFunc .ExcelWithFuncToolbar {
+  margin: 40px;
+}
+
+.ExcelWithFunc .ExcelWithFuncToolbarAction {
+  float: left;
+}
+
+.ExcelWithFunc .ExcelWithFuncToolbarSearch {
+  float: right;
+}
+
+.ExcelWithFunc .ExcelWithFuncToolbarButton {
+  font-size: 32px;
+}
+
+.ExcelWithFunc .ExcelWithFuncDatagrid {
+  clear: both;
+  margin: 40px;
+  padding-top: 20px;
+}
+

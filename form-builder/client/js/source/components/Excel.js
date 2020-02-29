@@ -76,7 +76,7 @@ class Excel extends Component<Props, State> {
   */
   constructor(props: Props) {
     // Calling meta class constructor
-    super();
+    super(props);
     
     // Retrieving the store and store actions objects
     this.crudStore = props.crudStore;
