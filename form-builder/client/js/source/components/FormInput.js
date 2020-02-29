@@ -24,6 +24,7 @@ defaultValue: the default value of the form field
 id: the id of the form field, used to identify it with ref
 options: the options for a form field that accept a set of options
 label: the form field label
+getForm: returning the inclosing form
 */
 export type FormInputField = {
   type: FormInputFieldType,
@@ -31,7 +32,8 @@ export type FormInputField = {
   id: string,
   options: Array<string>,
   readOnly:bool,
-  label: string
+  label: string,
+  getForm: () => any
 };
 
 /*
@@ -47,7 +49,8 @@ class FormInput extends Component<FormInputField> {
     defaultValue: "",
     options: [],
     readOnly: false,
-    label:""
+    label: "",
+    getForm: () => {}
   };
   
   /*
@@ -68,7 +71,7 @@ class FormInput extends Component<FormInputField> {
       ref: 'input',
       defaultValue: this.props.defaultValue,
       readOnly: this.props.readOnly,
-      defaultValue: this.props.defaultValue
+      defaultValue: this.props.defaultValue,
     };
 
     // Creating field based on the form field type
@@ -77,6 +80,7 @@ class FormInput extends Component<FormInputField> {
         return (
           <RatingField                             // Creating a rating field type, a field with stars to pick a rating
             {...commonProps}                       // Inserting common properties
+            getForm={this.props.getForm}          // Rating field need to communicate with the inclosing form
           />
         );
       case 'number':

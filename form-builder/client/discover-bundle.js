@@ -815,6 +815,7 @@ defaultValue: the default value of the form field
 id: the id of the form field, used to identify it with ref
 options: the options for a form field that accept a set of options
 label: the form field label
+getForm: returning the inclosing form
 */
 var FormInput = function (_Component) {
   _inherits(FormInput, _Component);
@@ -860,7 +861,9 @@ var FormInput = function (_Component) {
       switch (this.props.type) {
         case 'rating':
           return _react2.default.createElement(_RatingField2.default // Creating a rating field type, a field with stars to pick a rating
-          , commonProps);
+          , _extends({}, commonProps, { // Inserting common properties
+            getForm: this.props.getForm // Rating field need to communicate with the inclosing form
+          }));
         case 'number':
           return _react2.default.createElement(_NumberField2.default // Creating a number field type, which is a filed that accept only numbers
           , commonProps);
@@ -899,7 +902,8 @@ FormInput.defaultProps = {
   defaultValue: "",
   options: [],
   readOnly: false,
-  label: ""
+  label: "",
+  getForm: function getForm() {}
 };
 exports.default = FormInput;
 },{"./ColorField":5,"./DateField":6,"./EmailField":8,"./NumberField":12,"./RatingField":14,"./SuggestField":16,"./TelField":17,"./TextField":18,"react":41}],11:[function(require,module,exports){
@@ -1147,6 +1151,7 @@ Special properties for RatingField
 defaultValue: the default number of stars to highlight 
 readOnly: does the number of stars highlighted can be edited
 max: number of stars to display
+getForm: returning the inclosing form
 */
 
 
@@ -1218,6 +1223,7 @@ var RatingField = function (_Component) {
   }, {
     key: 'setRating',
     value: function setRating(rating) {
+      // Updating rating
       this.setState({
         tmpRating: rating,
         rating: rating
@@ -1292,19 +1298,35 @@ var RatingField = function (_Component) {
   }, {
     key: '_renderStars',
     value: function _renderStars() {
+      var _this2 = this;
+
       // Initializing
       var stars = [];
 
       // Rendering stars
       for (var i = 1; i <= this.props.max; i++) {
         // Rendering star
-        stars.push(_react2.default.createElement(
+        stars.push(
+        // // Creating star
+        _react2.default.createElement(
           'span',
-          { // Creating star
-            className: i <= this.state.tmpRating ? 'RatingOn' : null // Highlighting star if position is within temp rating
-            , key: i // adding key because it is requested by react
-            , onClick: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing real rating on click
-            , onMouseOver: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing temp rating on mouse over 
+          {
+            // Highlighting star if position is within temp rating
+            className: i <= this.state.tmpRating ? 'RatingOn' : null
+
+            // adding key because it is requested by react
+            , key: i
+
+            // If no readOnly, setting callback for changing real rating on click
+            , onClick: this.props.readOnly ? undefined : this.setRating.bind(this, i)
+
+            // If no readOnly, setting callback for changing temp rating on mouse over 
+            , onMouseOver: this.props.readOnly ? undefined : this.setRating.bind(this, i)
+
+            // If double click, then trigger the inclosing form submit event
+            , onDoubleClick: function onDoubleClick() {
+              _this2.props.getForm() ? _this2.props.getForm().dispatchEvent(new Event('submit')) : null;
+            }
           },
           '\u2606                                                          '
         ));

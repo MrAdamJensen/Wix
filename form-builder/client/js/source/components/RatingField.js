@@ -10,12 +10,14 @@ Special properties for RatingField
 defaultValue: the default number of stars to highlight 
 readOnly: does the number of stars highlighted can be edited
 max: number of stars to display
+getForm: returning the inclosing form
 */
 type Props = {
   defaultValue: number | string,
   readOnly: boolean,
   max: number,
-  id: string
+  id: string,
+  getForm: () => any
 };
 
 /*
@@ -84,6 +86,7 @@ class RatingField extends Component<Props, State> {
   Setting the real number of stars highlighted
   */
   setRating(rating: number) {
+    // Updating rating
     this.setState({
       tmpRating: rating,
       rating: rating,
@@ -155,11 +158,22 @@ class RatingField extends Component<Props, State> {
     for (let i: number = 1; i <= this.props.max; i++) {
       // Rendering star
       stars.push(
-        <span                                                                          // Creating star
-          className={i <= this.state.tmpRating ? 'RatingOn' : null}                    // Highlighting star if position is within temp rating
-          key={i}                                                                      // adding key because it is requested by react
-          onClick={this.props.readOnly ? undefined : this.setRating.bind(this, i)}     // If no readOnly, setting callback for changing real rating on click
-          onMouseOver={this.props.readOnly ? undefined : this.setRating.bind(this, i)} // If no readOnly, setting callback for changing temp rating on mouse over 
+        // // Creating star
+        <span  
+          // Highlighting star if position is within temp rating
+          className={i <= this.state.tmpRating ? 'RatingOn' : null} 
+          
+          // adding key because it is requested by react
+          key={i}                                    
+          
+          // If no readOnly, setting callback for changing real rating on click
+          onClick={this.props.readOnly ? undefined : this.setRating.bind(this, i)}  
+          
+          // If no readOnly, setting callback for changing temp rating on mouse over 
+          onMouseOver={this.props.readOnly ? undefined : this.setRating.bind(this, i)} 
+
+          // If double click, then trigger the inclosing form submit event
+          onDoubleClick={() => {this.props.getForm() ? this.props.getForm().dispatchEvent(new Event('submit')) : null}}
         >
           &#9734;                                                          {/*Creating star symbol*/}
         </span>);

@@ -37,6 +37,7 @@ Special properties for RatingField
 defaultValue: the default number of stars to highlight 
 readOnly: does the number of stars highlighted can be edited
 max: number of stars to display
+getForm: returning the inclosing form
 */
 
 
@@ -108,6 +109,7 @@ var RatingField = function (_Component) {
   }, {
     key: 'setRating',
     value: function setRating(rating) {
+      // Updating rating
       this.setState({
         tmpRating: rating,
         rating: rating
@@ -182,19 +184,35 @@ var RatingField = function (_Component) {
   }, {
     key: '_renderStars',
     value: function _renderStars() {
+      var _this2 = this;
+
       // Initializing
       var stars = [];
 
       // Rendering stars
       for (var i = 1; i <= this.props.max; i++) {
         // Rendering star
-        stars.push(_react2.default.createElement(
+        stars.push(
+        // // Creating star
+        _react2.default.createElement(
           'span',
-          { // Creating star
-            className: i <= this.state.tmpRating ? 'RatingOn' : null // Highlighting star if position is within temp rating
-            , key: i // adding key because it is requested by react
-            , onClick: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing real rating on click
-            , onMouseOver: this.props.readOnly ? undefined : this.setRating.bind(this, i) // If no readOnly, setting callback for changing temp rating on mouse over 
+          {
+            // Highlighting star if position is within temp rating
+            className: i <= this.state.tmpRating ? 'RatingOn' : null
+
+            // adding key because it is requested by react
+            , key: i
+
+            // If no readOnly, setting callback for changing real rating on click
+            , onClick: this.props.readOnly ? undefined : this.setRating.bind(this, i)
+
+            // If no readOnly, setting callback for changing temp rating on mouse over 
+            , onMouseOver: this.props.readOnly ? undefined : this.setRating.bind(this, i)
+
+            // If double click, then trigger the inclosing form submit event
+            , onDoubleClick: function onDoubleClick() {
+              _this2.props.getForm() ? _this2.props.getForm().dispatchEvent(new Event('submit')) : null;
+            }
           },
           '\u2606                                                          '
         ));

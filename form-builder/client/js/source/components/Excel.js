@@ -407,15 +407,18 @@ class Excel extends Component<Props, State> {
     // Asserting current cell is editable
     // if yes then creating cell content as an editable cell
     if (edit && edit.row === rowidx && edit.key === column_schema.id) {
+      // Creating form reference string
+      let refStr = `$Form_{rowidx}_${idx}`
+      
       content = (
         /*Setting callback to be called when the user finished editing cell*/
-        <form onSubmit={this._save.bind(this)}>
+        <form ref={refStr} onSubmit={this._save.bind(this)}>
           {/*Creating cell as an input cell with input reference so that it can be accessed easily*/}                           
-          <FormInput ref="input" {...column_schema} defaultValue={content} /> 
+          <FormInput getForm={() => this.refs[refStr]} ref="input" {...column_schema} defaultValue={content} /> 
         </form>
       );
     }
-    // Other wise, creating a readonly input cell
+    // Otherwise, creating a readonly input cell
     else {
       content = <FormInput ref="input" {...column_schema} defaultValue={content} readOnly={true}/> 
     }

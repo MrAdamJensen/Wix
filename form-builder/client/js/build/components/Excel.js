@@ -491,7 +491,8 @@ var Excel = function (_Component) {
   }, {
     key: '_renderTableBodyCell',
     value: function _renderTableBodyCell(row, rowidx, cell, idx) {
-      var _classNames;
+      var _this4 = this,
+          _classNames;
 
       // Retrieving table schema
       var column_schema = this.schema.get(idx);
@@ -509,15 +510,20 @@ var Excel = function (_Component) {
       // Asserting current cell is editable
       // if yes then creating cell content as an editable cell
       if (edit && edit.row === rowidx && edit.key === column_schema.id) {
+        // Creating form reference string
+        var refStr = '$Form_{rowidx}_' + idx;
+
         content =
         /*Setting callback to be called when the user finished editing cell*/
         _react2.default.createElement(
           'form',
-          { onSubmit: this._save.bind(this) },
-          _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, column_schema, { defaultValue: content }))
+          { ref: refStr, onSubmit: this._save.bind(this) },
+          _react2.default.createElement(_FormInput2.default, _extends({ getForm: function getForm() {
+              return _this4.refs[refStr];
+            }, ref: 'input' }, column_schema, { defaultValue: content }))
         );
       }
-      // Other wise, creating a readonly input cell
+      // Otherwise, creating a readonly input cell
       else {
           content = _react2.default.createElement(_FormInput2.default, _extends({ ref: 'input' }, column_schema, { defaultValue: content, readOnly: true }));
         }

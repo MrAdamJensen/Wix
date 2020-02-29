@@ -73,6 +73,7 @@ defaultValue: the default value of the form field
 id: the id of the form field, used to identify it with ref
 options: the options for a form field that accept a set of options
 label: the form field label
+getForm: returning the inclosing form
 */
 var FormInput = function (_Component) {
   _inherits(FormInput, _Component);
@@ -118,7 +119,9 @@ var FormInput = function (_Component) {
       switch (this.props.type) {
         case 'rating':
           return _react2.default.createElement(_RatingField2.default // Creating a rating field type, a field with stars to pick a rating
-          , commonProps);
+          , _extends({}, commonProps, { // Inserting common properties
+            getForm: this.props.getForm // Rating field need to communicate with the inclosing form
+          }));
         case 'number':
           return _react2.default.createElement(_NumberField2.default // Creating a number field type, which is a filed that accept only numbers
           , commonProps);
@@ -157,6 +160,7 @@ FormInput.defaultProps = {
   defaultValue: "",
   options: [],
   readOnly: false,
-  label: ""
+  label: "",
+  getForm: function getForm() {}
 };
 exports.default = FormInput;
