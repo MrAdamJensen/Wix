@@ -3,6 +3,7 @@
 import CRUDStore from '../flux-imm/CRUDStore';
 import FormInput from './FormInput';
 import React, {Component} from 'react';
+import {List} from 'immutable';
 
 import type {FormInputField, FormInputFieldValue} from './FormInput';
 
@@ -24,7 +25,7 @@ Form component which displays a form
 */
 class Form extends Component<Props> {
   // Component fields type definitions
-  fields: Array<Object>;
+  fields: List<Object>;
   initialData: ?Object;
   crudStore: CRUDStore;
 

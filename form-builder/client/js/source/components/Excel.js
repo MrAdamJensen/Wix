@@ -10,6 +10,7 @@ import FormInput from './FormInput';
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
+import {List} from 'immutable';
 
 /*
 Edit state fields: the state of a cell being edited
@@ -67,7 +68,7 @@ Excel component which displays a table given data
 class Excel extends Component<Props, State> {
   // Component fields type definitions
   state: State;
-  schema: Array<Object>;
+  schema: List<Object>;
   crudStore: CRUDStore;
   crudActions: CRUDActions;
 
@@ -391,7 +392,7 @@ class Excel extends Component<Props, State> {
   */
   _renderTableBodyCell(row: Object, rowidx: number, cell:string, idx:number){
     // Retrieving table schema
-    const column_schema = this.schema[idx];
+    const column_schema = this.schema.get(idx);
 
     // If schema failed to be retrieved or current column is not to be displayed then 
     // don't render column
