@@ -1,13 +1,13 @@
 /* @flow */
 
 import RatingField from './RatingField';
-import NumberField from './NumberField'
+import NumberField from './NumberField';
 import SuggestField from './SuggestField';
-import ColorField from '/ColorField'
-import DateField from './DateField'
-import EmailField from './EmailField'
-import TelField from './TelField'
-import TextField from './TextField'
+import ColorField from './ColorField';
+import DateField from './DateField';
+import EmailField from './EmailField';
+import TelField from './TelField';
+import TextField from './TextField';
 import React, {Component} from 'react';
 
 // Declaring form input field type, i.e, all the different kinds of forms
@@ -36,7 +36,7 @@ export type FormInputField = {
 /*
 Form Input component which displays a form input of certain types
 */
-class FormInput extends Component {
+class FormInput extends Component<FormInputField> {
   // Component fields type definitions
   props: FormInputField;
   

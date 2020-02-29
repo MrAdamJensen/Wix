@@ -79,20 +79,7 @@ class Form extends Component<Props> {
     // Retrieving field prefilled data
     const prefilled: FormInputFieldValue = (this.initialData && this.initialData[field.id]) || 'was not filled';
 
-    // If form field is not readonly, render it as an editable field
-    if (!this.props.readonly) {
-      return this._renderInputField(field, prefilled)
-    }
-
-    // If form field is readonly, render it as a regular text field or as 
-    // a special field
-    return this._renderReadOnlyField(field, prefilled)
-  }
-
-  /*
-  Rendering read only field
-  */
-  _renderInputField(field: FormInputField, prefilled: FormInputFieldValue){
+    // Rendering form field
     return (
       <div 
         className="FormRow"                   // Adding class for styling of form field
@@ -106,26 +93,6 @@ class Form extends Component<Props> {
           {...field}                          // Setting field properties
           ref={field.id}                      // Settign field ref so that it can be accessed easily
           defaultValue={prefilled} />         {/*Setting field default value*/}
-      </div>
-    );
-  }
-
-  /*
-  Rendering read only field
-  */
-  _renderReadOnlyField(field: FormInputField, prefilled: FormInputFieldValue){
-    return (
-      <div 
-        className="FormRow"                                  // Adding class for styling of form field 
-        key={field.id}>                                      {/*adding key becuase it is requested by react*/}
-        <span                                                // Setting form field label
-          className="FormLabel">                             {/*Setting form field label class for styling*/}  
-          {field.label}:                                     {/*Setting form field label text*/}
-        </span>
-        <FormInput                                           // Creating form field 
-            type={field.type}                                // Setting form field type
-            readonly={true}                                  // Setting readonly to true since this field is readonly
-            defaultValue={prefilled}/>                       {/*Setting field default value*/}
       </div>
     );
   }
