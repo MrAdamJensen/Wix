@@ -1183,10 +1183,8 @@ var RatingField = function (_Component) {
       _this.defaultValue = props.defaultValue;
     }
 
-    console.log(JSON.stringify(props));
-
     // Asserting default value initialized
-    //invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
+    (0, _invariant2.default)(_this.defaultValue, "RatingField.constructor: default value not initialized");
 
     // Initializing component state
     _this.state = {
@@ -2247,7 +2245,7 @@ var CRUDStore = function () {
       // Assert this is a server store, if so update server storage
       else if (commit && this.type === 'server') {
           throw 'CRUDStore.setData: not implemented';
-        } else {
+        } else if (!(this.type === 'local' || this.type === 'server')) {
           // Declaring unrecognized store type
           throw 'CRUDStore.setData: unknown store type ' + this.type;
         }

@@ -143,7 +143,7 @@ class CRUDStore {
     else if (commit && this.type === 'server') {
       throw 'CRUDStore.setData: not implemented'
     }
-    else {
+    else if(!(this.type === 'local' || this.type === 'server')) {
       // Declaring unrecognized store type
       throw `CRUDStore.setData: unknown store type ${this.type}`
     }

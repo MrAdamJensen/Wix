@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 /*
 Defining function types to be used for the actions callbacks
 */
-type VoidMethod = () => any;
+export type VoidMethod = () => any;
 export type ActionMethods = (func: VoidMethod) => any;
 
 /*
@@ -159,8 +159,8 @@ class ExcelWithFunc extends Component<Props, State> {
 
                 // Setting callback to activate table search upon focus and callback to 
                 // initiate a new search upon input change
-                onChange={this.crudActions.search}
-                onFocus={this.crudActions.startSearching} />
+                onChange={this.crudActions.search.bind(this.crudActions)}
+                onFocus={this.crudActions.startSearching.bind(this.crudActions)} />
             </div>
   }
 

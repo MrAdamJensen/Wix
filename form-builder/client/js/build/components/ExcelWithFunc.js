@@ -212,8 +212,8 @@ var ExcelWithFunc = function (_Component) {
 
           // Setting callback to activate table search upon focus and callback to 
           // initiate a new search upon input change
-          , onChange: this.crudActions.search,
-          onFocus: this.crudActions.startSearching })
+          , onChange: this.crudActions.search.bind(this.crudActions),
+          onFocus: this.crudActions.startSearching.bind(this.crudActions) })
       );
     }
 

@@ -1378,8 +1378,8 @@ var ExcelWithFunc = function (_Component) {
 
           // Setting callback to activate table search upon focus and callback to 
           // initiate a new search upon input change
-          , onChange: this.crudActions.search,
-          onFocus: this.crudActions.startSearching })
+          , onChange: this.crudActions.search.bind(this.crudActions),
+          onFocus: this.crudActions.startSearching.bind(this.crudActions) })
       );
     }
 
@@ -1671,8 +1671,11 @@ var FormBuilder = function (_Component) {
     key: '_addNew',
     value: function _addNew(finishActionExecution, action) {
       if (action === 'confirm') {
-        crudActions.create(this.refs.form.getData());
+        crudActions.create(this.refs.excelWithFunc.refs.form.getData());
       }
+
+      // Finishing action
+      finishActionExecution();
     }
 
     /*
@@ -1682,28 +1685,30 @@ var FormBuilder = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       // Rendering
       return _react2.default.createElement(_ExcelWithFunc2.default, {
+        ref: 'excelWithFunc',
         crudStore: crudStore,
         crudActions: crudActions,
-        actions: [function (finishActionExecution) {
-          return _react2.default.createElement(
-            _Dialog2.default,
-            {
-              modal: true,
-              header: 'Add new item',
-              confirmLabel: 'Add',
-              onAction: _this2._addNew.bind(_this2, finishActionExecution) },
-            _react2.default.createElement(_Form2.default, {
-              ref: 'form',
-              crudStore: crudStore
-            })
-          );
-        }],
+        actions: [this._createAction.bind(this)],
         actionsDefs: ["add +"]
       });
+    }
+  }, {
+    key: '_createAction',
+    value: function _createAction(finishActionExecution) {
+      return _react2.default.createElement(
+        _Dialog2.default,
+        {
+          modal: true,
+          header: 'Add new item',
+          confirmLabel: 'Add',
+          onAction: this._addNew.bind(this, finishActionExecution) },
+        _react2.default.createElement(_Form2.default, {
+          ref: 'form',
+          crudStore: crudStore
+        })
+      );
     }
   }]);
 
@@ -2045,10 +2050,8 @@ var RatingField = function (_Component) {
       _this.defaultValue = props.defaultValue;
     }
 
-    console.log(JSON.stringify(props));
-
     // Asserting default value initialized
-    //invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
+    (0, _invariant2.default)(_this.defaultValue, "RatingField.constructor: default value not initialized");
 
     // Initializing component state
     _this.state = {
@@ -2721,7 +2724,7 @@ var CRUDActions = function () {
         for (var f = 0; f < fields.size; f++) {
           // Asserting current field has search string, if yes return true and if no 
           // continue searching
-          if (row.get(fields.get(f)).toString().toLowerCase().indexOf(needle) > -1) {
+          if (row[fields.get(f)].toString().toLowerCase().indexOf(needle) > -1) {
             return true;
           }
         }
@@ -2939,7 +2942,7 @@ var CRUDStore = function () {
       // Assert this is a server store, if so update server storage
       else if (commit && this.type === 'server') {
           throw 'CRUDStore.setData: not implemented';
-        } else {
+        } else if (!(this.type === 'local' || this.type === 'server')) {
           // Declaring unrecognized store type
           throw 'CRUDStore.setData: unknown store type ' + this.type;
         }

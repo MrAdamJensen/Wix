@@ -70,10 +70,8 @@ var RatingField = function (_Component) {
       _this.defaultValue = props.defaultValue;
     }
 
-    console.log(JSON.stringify(props));
-
     // Asserting default value initialized
-    //invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
+    (0, _invariant2.default)(_this.defaultValue, "RatingField.constructor: default value not initialized");
 
     // Initializing component state
     _this.state = {

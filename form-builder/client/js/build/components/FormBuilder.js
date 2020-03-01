@@ -112,8 +112,11 @@ var FormBuilder = function (_Component) {
     key: '_addNew',
     value: function _addNew(finishActionExecution, action) {
       if (action === 'confirm') {
-        crudActions.create(this.refs.form.getData());
+        crudActions.create(this.refs.excelWithFunc.refs.form.getData());
       }
+
+      // Finishing action
+      finishActionExecution();
     }
 
     /*
@@ -123,28 +126,30 @@ var FormBuilder = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       // Rendering
       return _react2.default.createElement(_ExcelWithFunc2.default, {
+        ref: 'excelWithFunc',
         crudStore: crudStore,
         crudActions: crudActions,
-        actions: [function (finishActionExecution) {
-          return _react2.default.createElement(
-            _Dialog2.default,
-            {
-              modal: true,
-              header: 'Add new item',
-              confirmLabel: 'Add',
-              onAction: _this2._addNew.bind(_this2, finishActionExecution) },
-            _react2.default.createElement(_Form2.default, {
-              ref: 'form',
-              crudStore: crudStore
-            })
-          );
-        }],
+        actions: [this._createAction.bind(this)],
         actionsDefs: ["add +"]
       });
+    }
+  }, {
+    key: '_createAction',
+    value: function _createAction(finishActionExecution) {
+      return _react2.default.createElement(
+        _Dialog2.default,
+        {
+          modal: true,
+          header: 'Add new item',
+          confirmLabel: 'Add',
+          onAction: this._addNew.bind(this, finishActionExecution) },
+        _react2.default.createElement(_Form2.default, {
+          ref: 'form',
+          crudStore: crudStore
+        })
+      );
     }
   }]);
 

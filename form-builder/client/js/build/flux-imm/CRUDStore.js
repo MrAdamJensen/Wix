@@ -163,7 +163,7 @@ var CRUDStore = function () {
       // Assert this is a server store, if so update server storage
       else if (commit && this.type === 'server') {
           throw 'CRUDStore.setData: not implemented';
-        } else {
+        } else if (!(this.type === 'local' || this.type === 'server')) {
           // Declaring unrecognized store type
           throw 'CRUDStore.setData: unknown store type ' + this.type;
         }

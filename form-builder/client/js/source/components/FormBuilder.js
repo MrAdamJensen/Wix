@@ -6,7 +6,7 @@ import Dialog from './Dialog'
 import Form from './Form'
 import CRUDStore from '../flux-imm/CRUDStore';
 import CRUDActions from '../flux-imm/CRUDActions';
-import type {ActionMethods} from './ExcelWithFunc'
+import type {VoidMethod} from './ExcelWithFunc'
 
 let classification =  {
   grapes: [
@@ -116,10 +116,13 @@ class FormBuilder extends Component<Props> {
   /*
   Remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   */
-  _addNew(finishActionExecution: ActionMethods, action: string) {
+  _addNew(finishActionExecution: VoidMethod, action: string) {
     if (action === 'confirm') {
-      crudActions.create(this.refs.form.getData());
+      crudActions.create(this.refs.excelWithFunc.refs.form.getData());
     }
+
+    // Finishing action
+    finishActionExecution()
   }
 
   /*
@@ -127,23 +130,26 @@ class FormBuilder extends Component<Props> {
   */
   render() {
     // Rendering
-    return <ExcelWithFunc 
+    return <ExcelWithFunc
+            ref="excelWithFunc"
             crudStore={crudStore}
             crudActions={crudActions}
-            actions={[(finishActionExecution) => {
-              return <Dialog 
-                modal={true}
-                header="Add new item"
-                confirmLabel="Add"
-                onAction={this._addNew.bind(this, finishActionExecution)}>
-                <Form 
-                  ref="form" 
-                  crudStore={crudStore}
-                />
-              </Dialog>
-            }]}
+            actions={[this._createAction.bind(this)]}
             actionsDefs={["add +"]}
           /> 
+  }
+
+  _createAction(finishActionExecution: VoidMethod) {
+    return <Dialog 
+              modal={true}
+              header="Add new item"
+              confirmLabel="Add"
+              onAction={this._addNew.bind(this, finishActionExecution)}>
+              <Form 
+                ref="form" 
+                crudStore={crudStore}
+              />
+            </Dialog>
   }
 }
 

@@ -117,7 +117,7 @@ class CRUDActions {
       for (let f = 0; f < fields.size; f++) {
         // Asserting current field has search string, if yes return true and if no 
         // continue searching
-        if (row.get(fields.get(f)).toString().toLowerCase().indexOf(needle) > -1) {
+        if (row[fields.get(f)].toString().toLowerCase().indexOf(needle) > -1) {
           return true;
         }
       }

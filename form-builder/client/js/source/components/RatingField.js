@@ -63,10 +63,8 @@ class RatingField extends Component<Props, State> {
       this.defaultValue = props.defaultValue
     }
     
-    console.log(JSON.stringify(props))
-    
     // Asserting default value initialized
-    //invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
+    invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
 
     // Initializing component state
     this.state = {
