@@ -68,7 +68,7 @@ class ExcelWithFunc extends Component<Props, State> {
       actionActivated: -1,
       count: this.crudStore.getCount(),
     };
-    
+
     // Listening for table data change, when notified on a change, update component copy
     this.crudStore.addListener('change', () => {
       this.setState({
@@ -129,13 +129,16 @@ class ExcelWithFunc extends Component<Props, State> {
               {
                 this.props.actions.map((action, index) => {
                   // Creating an action button
-                  <Button 
-                    // Setting a callback to declare on click which action is activated when button is clicked
-                    onClick={this._executeAction.bind(this, index)} 
+                  return <Button 
+                            // Setting a callback to declare on click which action is activated when button is clicked
+                            onClick={this._executeAction.bind(this, index)} 
 
-                    className="ExcelWithFuncToolbarButton">
-                    {this.props.actionsDefs[index]}              {/* Setting button text */}
-                  </Button>
+                            // Setting key because react demands it
+                            key={index}
+
+                            className="ExcelWithFuncToolbarButton">
+                            {this.props.actionsDefs[index]}              {/* Setting button text */}
+                          </Button>
                 })
               }
             </div>

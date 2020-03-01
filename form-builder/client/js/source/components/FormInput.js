@@ -28,7 +28,7 @@ getForm: returning the inclosing form
 */
 export type FormInputField = {
   type: FormInputFieldType,
-  defaultValue: FormInputFieldValue,
+  defaultValue?: ?FormInputFieldValue,
   id: string,
   options: Array<string>,
   readOnly:bool,
@@ -46,7 +46,6 @@ class FormInput extends Component<FormInputField> {
   // Setting the default values for the properties 
   static defaultProps = {
     type: 'text',
-    defaultValue: "",
     options: [],
     readOnly: false,
     label: "",

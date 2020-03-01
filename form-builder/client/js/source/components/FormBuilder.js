@@ -131,7 +131,7 @@ class FormBuilder extends Component<Props> {
             crudStore={crudStore}
             crudActions={crudActions}
             actions={[(finishActionExecution) => {
-              <Dialog 
+              return <Dialog 
                 modal={true}
                 header="Add new item"
                 confirmLabel="Add"

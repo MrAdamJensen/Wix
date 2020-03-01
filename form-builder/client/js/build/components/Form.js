@@ -116,7 +116,7 @@ var Form = function (_Component) {
     key: '_renderFormField',
     value: function _renderFormField(field) {
       // Retrieving field prefilled data
-      var prefilled = this.initialData && this.initialData[field.id] || 'was not filled';
+      var prefilled = this.initialData && this.initialData[field.id];
 
       // Rendering form field
       return _react2.default.createElement(

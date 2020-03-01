@@ -157,7 +157,6 @@ var FormInput = function (_Component) {
 
 FormInput.defaultProps = {
   type: 'text',
-  defaultValue: "",
   options: [],
   readOnly: false,
   label: "",

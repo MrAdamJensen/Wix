@@ -178,11 +178,14 @@ var ExcelWithFunc = function (_Component) {
         '        ',
         this.props.actions.map(function (action, index) {
           // Creating an action button
-          _react2.default.createElement(
+          return _react2.default.createElement(
             _Button2.default
             // Setting a callback to declare on click which action is activated when button is clicked
             ,
-            { onClick: _this2._executeAction.bind(_this2, index),
+            { onClick: _this2._executeAction.bind(_this2, index)
+
+              // Setting key because react demands it
+              , key: index,
 
               className: 'ExcelWithFuncToolbarButton' },
             _this2.props.actionsDefs[index],

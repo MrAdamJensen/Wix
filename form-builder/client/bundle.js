@@ -1344,11 +1344,14 @@ var ExcelWithFunc = function (_Component) {
         '        ',
         this.props.actions.map(function (action, index) {
           // Creating an action button
-          _react2.default.createElement(
+          return _react2.default.createElement(
             _Button2.default
             // Setting a callback to declare on click which action is activated when button is clicked
             ,
-            { onClick: _this2._executeAction.bind(_this2, index),
+            { onClick: _this2._executeAction.bind(_this2, index)
+
+              // Setting key because react demands it
+              , key: index,
 
               className: 'ExcelWithFuncToolbarButton' },
             _this2.props.actionsDefs[index],
@@ -1518,7 +1521,7 @@ var Form = function (_Component) {
     key: '_renderFormField',
     value: function _renderFormField(field) {
       // Retrieving field prefilled data
-      var prefilled = this.initialData && this.initialData[field.id] || 'was not filled';
+      var prefilled = this.initialData && this.initialData[field.id];
 
       // Rendering form field
       return _react2.default.createElement(
@@ -1686,7 +1689,7 @@ var FormBuilder = function (_Component) {
         crudStore: crudStore,
         crudActions: crudActions,
         actions: [function (finishActionExecution) {
-          _react2.default.createElement(
+          return _react2.default.createElement(
             _Dialog2.default,
             {
               modal: true,
@@ -1869,7 +1872,6 @@ var FormInput = function (_Component) {
 
 FormInput.defaultProps = {
   type: 'text',
-  defaultValue: "",
   options: [],
   readOnly: false,
   label: "",
@@ -2026,25 +2028,32 @@ var RatingField = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function RatingField(props) {
     _classCallCheck(this, RatingField);
 
     // If default value is string, convert it to int
+    // otherwise, just save it
     var _this = _possibleConstructorReturn(this, (RatingField.__proto__ || Object.getPrototypeOf(RatingField)).call(this, props));
     // Calling meta class constructor
 
 
     if (typeof props.defaultValue === 'string') {
-      props.defaultValue = parseInt(props.defaultValue, 10);
+      _this.defaultValue = parseInt(props.defaultValue, 10);
+    } else {
+      _this.defaultValue = props.defaultValue;
     }
 
+    console.log(JSON.stringify(props));
+
     // Asserting default value initialized
-    (0, _invariant2.default)(props.defaultValue, "RatingField.constructor: default value not initialized");
+    //invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
 
     // Initializing component state
     _this.state = {
-      rating: props.defaultValue,
-      tmpRating: props.defaultValue
+      rating: _this.defaultValue,
+      tmpRating: _this.defaultValue
     };
     return _this;
   }
@@ -2055,8 +2064,6 @@ var RatingField = function (_Component) {
 
 
   // Setting the default values for the properties 
-
-  // Component fields type definitions
 
 
   _createClass(RatingField, [{
@@ -2108,15 +2115,18 @@ var RatingField = function (_Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       // If default value is string, convert it to int
+      // Otherwise, just save it
       if (typeof nextProps.defaultValue === 'string') {
-        nextProps.defaultValue = parseInt(nextProps.defaultValue, 10);
+        this.defaultValue = parseInt(nextProps.defaultValue, 10);
+      } else {
+        this.defaultValue = nextProps.defaultValue;
       }
 
       // Asserting default value initialized
-      (0, _invariant2.default)(nextProps.defaultValue, "RatingField.constructor: default value not initialized");
+      (0, _invariant2.default)(this.defaultValue, "RatingField.constructor: default value not initialized");
 
       // Updating number of stars highlighted
-      this.setRating(nextProps.defaultValue);
+      this.setRating(this.defaultValue);
     }
 
     /*
@@ -2199,7 +2209,7 @@ var RatingField = function (_Component) {
 }(_react.Component);
 
 RatingField.defaultProps = {
-  defaultValue: 0,
+  defaultValue: 3,
   max: 5,
   readOnly: false
 };

@@ -38,10 +38,11 @@ class RatingField extends Component<Props, State> {
   // Component fields type definitions
   props: Props;
   state: State;
-  
+  defaultValue: number
+
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: 0,
+    defaultValue: 3,
     max: 5,
     readOnly: false,
   };
@@ -52,19 +53,25 @@ class RatingField extends Component<Props, State> {
   constructor(props: Props) {
     // Calling meta class constructor
     super(props);
-
+    
     // If default value is string, convert it to int
+    // otherwise, just save it
     if (typeof props.defaultValue === 'string') {
-      props.defaultValue = parseInt(props.defaultValue, 10)
+      this.defaultValue = parseInt(props.defaultValue, 10)
+    }
+    else{
+      this.defaultValue = props.defaultValue
     }
     
+    console.log(JSON.stringify(props))
+    
     // Asserting default value initialized
-    invariant(props.defaultValue, "RatingField.constructor: default value not initialized")
+    //invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
 
     // Initializing component state
     this.state = {
-      rating: props.defaultValue,
-      tmpRating: props.defaultValue,
+      rating: this.defaultValue,
+      tmpRating: this.defaultValue,
     };
   }
   
@@ -106,15 +113,19 @@ class RatingField extends Component<Props, State> {
   */
   componentWillReceiveProps(nextProps: Props) {
     // If default value is string, convert it to int
+    // Otherwise, just save it
     if (typeof nextProps.defaultValue === 'string') {
-      nextProps.defaultValue = parseInt(nextProps.defaultValue, 10)
+      this.defaultValue = parseInt(nextProps.defaultValue, 10)
+    }
+    else{
+      this.defaultValue = nextProps.defaultValue
     }
     
     // Asserting default value initialized
-    invariant(nextProps.defaultValue, "RatingField.constructor: default value not initialized")
+    invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
 
     // Updating number of stars highlighted
-    this.setRating(nextProps.defaultValue);
+    this.setRating(this.defaultValue);
   }
   
   /*

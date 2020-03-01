@@ -130,7 +130,7 @@ var FormBuilder = function (_Component) {
         crudStore: crudStore,
         crudActions: crudActions,
         actions: [function (finishActionExecution) {
-          _react2.default.createElement(
+          return _react2.default.createElement(
             _Dialog2.default,
             {
               modal: true,

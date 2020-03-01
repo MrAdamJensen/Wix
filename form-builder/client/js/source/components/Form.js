@@ -84,7 +84,7 @@ class Form extends Component<Props> {
   */
   _renderFormField(field: FormInputField) {
     // Retrieving field prefilled data
-    const prefilled: FormInputFieldValue = (this.initialData && this.initialData[field.id]) || 'was not filled';
+    const prefilled = (this.initialData && this.initialData[field.id]);
 
     // Rendering form field
     return (
