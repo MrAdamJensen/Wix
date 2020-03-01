@@ -44,8 +44,6 @@ var BasicField = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function BasicField(props) {
     _classCallCheck(this, BasicField);
 
@@ -61,12 +59,22 @@ var BasicField = function (_Component) {
   }
 
   /*
-  Callback for change in input to update state
+  Updating state on props change, not recommended but no time to change model
   */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
 
 
   _createClass(BasicField, [{
     key: '_onChange',
+
+
+    /*
+    Callback for change in input to update state
+    */
     value: function _onChange(e) {
       this.setState({ value: e.target.value });
     }
@@ -108,9 +116,24 @@ var BasicField = function (_Component) {
         return notReadOnlyComp;
       }
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      // Hack, asserting this call happened upon props change
+      // if yes, update state, if not don't update
+      if (nextProps.defaultValue !== "") {
+        return { value: nextProps.defaultValue };
+      } else {
+        return null;
+      }
+    }
   }]);
 
   return BasicField;
 }(_react.Component);
 
+BasicField.defaultProps = {
+  defaultValue: "",
+  readOnly: false
+};
 exports.default = BasicField;

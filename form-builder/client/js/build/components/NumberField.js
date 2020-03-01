@@ -44,8 +44,6 @@ var NumberField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(NumberField, [{
     key: 'render',
@@ -63,9 +61,4 @@ var NumberField = function (_BasicField) {
   return NumberField;
 }(_BasicField3.default);
 
-NumberField.defaultProps = {
-  defaultValue: "0",
-  readOnly: false,
-  onChange: null
-};
 exports.default = NumberField;

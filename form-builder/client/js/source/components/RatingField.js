@@ -109,7 +109,7 @@ class RatingField extends Component<Props, State> {
   Executed when new properties are given so that when a new component 
   is created it will receive the new default value
   */
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     // If default value is string, convert it to int
     // Otherwise, just save it
     if (typeof nextProps.defaultValue === 'string') {

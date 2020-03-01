@@ -7,13 +7,7 @@ import type {Props} from './BasicField'
 /*
 EmailField component for picking an email
 */
-class EmailField extends BasicField {
-  // Setting the default values for the properties 
-  static defaultProps = {
-    defaultValue: "johndo@gmail.com",
-    readOnly: false,
-  };
-  
+class EmailField extends BasicField {  
   /*
   Component constructor
   */

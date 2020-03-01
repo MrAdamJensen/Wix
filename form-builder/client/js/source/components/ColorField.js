@@ -8,12 +8,6 @@ import type {Props} from './BasicField'
 ColorField component for picking a color
 */
 class ColorField extends BasicField {
-  // Setting the default values for the properties 
-  static defaultProps = {
-    defaultValue: "#ff0000",
-    readOnly: false,
-  };
-  
   /*
   Component constructor
   */

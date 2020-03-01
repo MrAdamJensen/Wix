@@ -118,8 +118,6 @@ var BasicField = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function BasicField(props) {
     _classCallCheck(this, BasicField);
 
@@ -135,12 +133,22 @@ var BasicField = function (_Component) {
   }
 
   /*
-  Callback for change in input to update state
+  Updating state on props change, not recommended but no time to change model
   */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
 
 
   _createClass(BasicField, [{
     key: '_onChange',
+
+
+    /*
+    Callback for change in input to update state
+    */
     value: function _onChange(e) {
       this.setState({ value: e.target.value });
     }
@@ -182,11 +190,26 @@ var BasicField = function (_Component) {
         return notReadOnlyComp;
       }
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      // Hack, asserting this call happened upon props change
+      // if yes, update state, if not don't update
+      if (nextProps.defaultValue !== "") {
+        return { value: nextProps.defaultValue };
+      } else {
+        return null;
+      }
+    }
   }]);
 
   return BasicField;
 }(_react.Component);
 
+BasicField.defaultProps = {
+  defaultValue: "",
+  readOnly: false
+};
 exports.default = BasicField;
 },{"react":41}],4:[function(require,module,exports){
 'use strict';
@@ -272,8 +295,6 @@ var ColorField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(ColorField, [{
     key: 'render',
@@ -290,10 +311,6 @@ var ColorField = function (_BasicField) {
   return ColorField;
 }(_BasicField3.default);
 
-ColorField.defaultProps = {
-  defaultValue: "#ff0000",
-  readOnly: false
-};
 exports.default = ColorField;
 },{"./BasicField":3,"react":41}],6:[function(require,module,exports){
 'use strict';
@@ -342,8 +359,6 @@ var DateField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(DateField, [{
     key: 'render',
@@ -361,10 +376,6 @@ var DateField = function (_BasicField) {
   return DateField;
 }(_BasicField3.default);
 
-DateField.defaultProps = {
-  defaultValue: new Date().getFullYear().toString(),
-  readOnly: false
-};
 exports.default = DateField;
 },{"./BasicField":3,"react":41}],7:[function(require,module,exports){
 'use strict';
@@ -561,8 +572,6 @@ var EmailField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(EmailField, [{
     key: 'render',
@@ -580,10 +589,6 @@ var EmailField = function (_BasicField) {
   return EmailField;
 }(_BasicField3.default);
 
-EmailField.defaultProps = {
-  defaultValue: "johndo@gmail.com",
-  readOnly: false
-};
 exports.default = EmailField;
 },{"./BasicField":3,"react":41}],9:[function(require,module,exports){
 'use strict';
@@ -974,8 +979,6 @@ var NumberField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(NumberField, [{
     key: 'render',
@@ -993,11 +996,6 @@ var NumberField = function (_BasicField) {
   return NumberField;
 }(_BasicField3.default);
 
-NumberField.defaultProps = {
-  defaultValue: "0",
-  readOnly: false,
-  onChange: null
-};
 exports.default = NumberField;
 },{"./BasicField":3,"react":41}],13:[function(require,module,exports){
 'use strict';
@@ -1248,8 +1246,8 @@ var RatingField = function (_Component) {
     */
 
   }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
+    key: 'UNSAFE_componentWillReceiveProps',
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       // If default value is string, convert it to int
       // Otherwise, just save it
       if (typeof nextProps.defaultValue === 'string') {
@@ -1588,7 +1586,7 @@ exports.default = SuggestField;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1615,45 +1613,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 TelField component for picking a telephone number
 */
 var TelField = function (_BasicField) {
-    _inherits(TelField, _BasicField);
+  _inherits(TelField, _BasicField);
 
-    /*
-    Component constructor
-    */
-    function TelField(props) {
-        _classCallCheck(this, TelField);
+  /*
+  Component constructor
+  */
+  function TelField(props) {
+    _classCallCheck(this, TelField);
 
-        // Calling meta class constructor
-        return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+
+  _createClass(TelField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'tel' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
     }
+  }]);
 
-    /*
-    Rendering component
-    */
-
-    // Setting the default values for the properties 
-
-
-    _createClass(TelField, [{
-        key: 'render',
-        value: function render() {
-            // Rendering with check if the field is in read only mode so that it can render
-            // not an input if possible
-            return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
-                type: 'tel' // Setting the required type for this input
-            }, this.props, { // Setting all given properties to input
-                onChange: this._onChange.bind(this) // Setting callback to update state on each change
-            })));
-        }
-    }]);
-
-    return TelField;
+  return TelField;
 }(_BasicField3.default);
 
-TelField.defaultProps = {
-    defaultValue: "123-45-678",
-    readOnly: false
-};
 exports.default = TelField;
 },{"./BasicField":3,"react":41}],18:[function(require,module,exports){
 'use strict';
@@ -1702,8 +1694,6 @@ var TextField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(TextField, [{
     key: 'render',
@@ -1721,10 +1711,6 @@ var TextField = function (_BasicField) {
   return TextField;
 }(_BasicField3.default);
 
-TextField.defaultProps = {
-  defaultValue: "",
-  readOnly: false
-};
 exports.default = TextField;
 },{"./BasicField":3,"react":41}],19:[function(require,module,exports){
 'use strict';

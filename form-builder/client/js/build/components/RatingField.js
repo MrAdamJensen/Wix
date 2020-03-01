@@ -135,8 +135,8 @@ var RatingField = function (_Component) {
     */
 
   }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
+    key: 'UNSAFE_componentWillReceiveProps',
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       // If default value is string, convert it to int
       // Otherwise, just save it
       if (typeof nextProps.defaultValue === 'string') {

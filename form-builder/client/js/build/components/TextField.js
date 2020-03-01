@@ -44,8 +44,6 @@ var TextField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(TextField, [{
     key: 'render',
@@ -63,8 +61,4 @@ var TextField = function (_BasicField) {
   return TextField;
 }(_BasicField3.default);
 
-TextField.defaultProps = {
-  defaultValue: "",
-  readOnly: false
-};
 exports.default = TextField;

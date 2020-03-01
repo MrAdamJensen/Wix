@@ -368,7 +368,7 @@ class Excel extends Component<Props, State> {
     return <tbody onDoubleClick={this._showEditor.bind(this)}> {/*Setting table body callback to be called when a cell is being clicked*/}
                                                                {/*so that it can be edited*/}
       {/*Creating table body rows */}
-      {this.state.data.map((row, rowidx) => {                   
+      {this.state.data.map((row, rowidx) => {             
         return (
           // Creating table row
           <tr 

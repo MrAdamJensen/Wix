@@ -8,12 +8,6 @@ import type {Props} from './BasicField'
 TelField component for picking a telephone number
 */
 class TelField extends BasicField {
-  // Setting the default values for the properties 
-  static defaultProps = {
-      defaultValue: "123-45-678",
-      readOnly: false,
-  };
-
   /*
   Component constructor
   */

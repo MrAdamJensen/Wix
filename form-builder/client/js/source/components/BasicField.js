@@ -30,6 +30,12 @@ class BasicField extends Component<Props, State> {
   props: Props;
   state: State;
 
+  // Setting the default values for the properties 
+  static defaultProps = {
+    defaultValue: "",
+    readOnly: false,
+  };
+
   /*
   Component constructor
   */
@@ -42,7 +48,21 @@ class BasicField extends Component<Props, State> {
       this.state = {value: props.defaultValue.toString()};
     }
   }
-  
+
+  /*
+  Updating state on props change, not recommended but no time to change model
+  */
+  static getDerivedStateFromProps(nextProps : Props, prevState: State){
+    // Hack, asserting this call happened upon props change
+    // if yes, update state, if not don't update
+    if(nextProps.defaultValue !== ""){
+      return {value: nextProps.defaultValue}
+    }
+    else{
+      return null
+    }
+  }
+
   /*
   Callback for change in input to update state
   */

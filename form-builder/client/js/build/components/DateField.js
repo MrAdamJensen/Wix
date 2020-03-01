@@ -44,8 +44,6 @@ var DateField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(DateField, [{
     key: 'render',
@@ -63,8 +61,4 @@ var DateField = function (_BasicField) {
   return DateField;
 }(_BasicField3.default);
 
-DateField.defaultProps = {
-  defaultValue: new Date().getFullYear().toString(),
-  readOnly: false
-};
 exports.default = DateField;

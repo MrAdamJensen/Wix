@@ -44,8 +44,6 @@ var EmailField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(EmailField, [{
     key: 'render',
@@ -63,8 +61,4 @@ var EmailField = function (_BasicField) {
   return EmailField;
 }(_BasicField3.default);
 
-EmailField.defaultProps = {
-  defaultValue: "johndo@gmail.com",
-  readOnly: false
-};
 exports.default = EmailField;

@@ -8,12 +8,6 @@ import type {Props} from './BasicField'
 DateField component for picking a color
 */
 class DateField extends BasicField {
-  // Setting the default values for the properties 
-  static defaultProps = {
-    defaultValue: new Date().getFullYear().toString(),
-    readOnly: false,
-  };
-
   /*
   Component constructor
   */

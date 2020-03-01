@@ -7,14 +7,7 @@ import type {Props} from './BasicField'
 /*
 NumberField component for picking a number
 */
-class NumberField extends BasicField {
-  // Setting the default values for the properties 
-  static defaultProps = {
-    defaultValue: "0",
-    readOnly: false,
-    onChange: null,
-  };
-  
+class NumberField extends BasicField {  
   /*
   Component constructor
   */

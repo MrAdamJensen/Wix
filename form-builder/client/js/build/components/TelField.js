@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -28,43 +28,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 TelField component for picking a telephone number
 */
 var TelField = function (_BasicField) {
-    _inherits(TelField, _BasicField);
+  _inherits(TelField, _BasicField);
 
-    /*
-    Component constructor
-    */
-    function TelField(props) {
-        _classCallCheck(this, TelField);
+  /*
+  Component constructor
+  */
+  function TelField(props) {
+    _classCallCheck(this, TelField);
 
-        // Calling meta class constructor
-        return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
+    // Calling meta class constructor
+    return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
+  }
+
+  /*
+  Rendering component
+  */
+
+
+  _createClass(TelField, [{
+    key: 'render',
+    value: function render() {
+      // Rendering with check if the field is in read only mode so that it can render
+      // not an input if possible
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+        type: 'tel' // Setting the required type for this input
+      }, this.props, { // Setting all given properties to input
+        onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      })));
     }
+  }]);
 
-    /*
-    Rendering component
-    */
-
-    // Setting the default values for the properties 
-
-
-    _createClass(TelField, [{
-        key: 'render',
-        value: function render() {
-            // Rendering with check if the field is in read only mode so that it can render
-            // not an input if possible
-            return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
-                type: 'tel' // Setting the required type for this input
-            }, this.props, { // Setting all given properties to input
-                onChange: this._onChange.bind(this) // Setting callback to update state on each change
-            })));
-        }
-    }]);
-
-    return TelField;
+  return TelField;
 }(_BasicField3.default);
 
-TelField.defaultProps = {
-    defaultValue: "123-45-678",
-    readOnly: false
-};
 exports.default = TelField;

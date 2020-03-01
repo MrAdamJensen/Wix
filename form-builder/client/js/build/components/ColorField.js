@@ -44,8 +44,6 @@ var ColorField = function (_BasicField) {
   Rendering component
   */
 
-  // Setting the default values for the properties 
-
 
   _createClass(ColorField, [{
     key: 'render',
@@ -62,8 +60,4 @@ var ColorField = function (_BasicField) {
   return ColorField;
 }(_BasicField3.default);
 
-ColorField.defaultProps = {
-  defaultValue: "#ff0000",
-  readOnly: false
-};
 exports.default = ColorField;

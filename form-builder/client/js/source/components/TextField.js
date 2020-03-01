@@ -8,12 +8,6 @@ import type {Props} from './BasicField'
 TextField component writing text
 */
 class TextField extends BasicField {
-  // Setting the default values for the properties 
-  static defaultProps = {
-      defaultValue: "",
-      readOnly: false,
-  };
-
   /*
   Component constructor
   */
@@ -21,7 +15,7 @@ class TextField extends BasicField {
     // Calling meta class constructor
     super(props);
   }
-
+  
   /*
   Rendering component
   */
