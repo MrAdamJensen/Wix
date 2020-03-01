@@ -17,9 +17,9 @@ var _Utils = require('./components/Utils');
 
 var _Utils2 = _interopRequireDefault(_Utils);
 
-var _FormBuilder = require('./components/FormBuilder');
+var _FormBuilderApp = require('./components/FormBuilderApp');
 
-var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
+var _FormBuilderApp2 = _interopRequireDefault(_FormBuilderApp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,11 +30,11 @@ _reactDom2.default.render(_react2.default.createElement(
     'div',
     { className: 'app-header' },
     _react2.default.createElement(_Logo2.default, null),
-    ' Welcome to Form Builder!'
+    ' Welcome to Form Builder App!'
   ),
-  _react2.default.createElement(_FormBuilder2.default, null)
+  _react2.default.createElement(_FormBuilderApp2.default, null)
 ), _Utils2.default.retrieveElementByID('pad'));
-},{"./components/FormBuilder":12,"./components/Logo":14,"./components/Utils":20,"react":41,"react-dom":38}],2:[function(require,module,exports){
+},{"./components/FormBuilderApp":13,"./components/Logo":15,"./components/Utils":21,"react":42,"react-dom":39}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -98,7 +98,7 @@ Actions.defaultProps = {
 };
 
 exports.default = Actions;
-},{"react":41}],3:[function(require,module,exports){
+},{"react":42}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -240,7 +240,7 @@ BasicField.defaultProps = {
   readOnly: false
 };
 exports.default = BasicField;
-},{"react":41}],4:[function(require,module,exports){
+},{"react":42}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -277,7 +277,7 @@ var Button = function Button(props) {
 };
 
 exports.default = Button;
-},{"classnames":23,"react":41}],5:[function(require,module,exports){
+},{"classnames":24,"react":42}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -341,7 +341,7 @@ var ColorField = function (_BasicField) {
 }(_BasicField3.default);
 
 exports.default = ColorField;
-},{"./BasicField":3,"react":41}],6:[function(require,module,exports){
+},{"./BasicField":3,"react":42}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -406,7 +406,7 @@ var DateField = function (_BasicField) {
 }(_BasicField3.default);
 
 exports.default = DateField;
-},{"./BasicField":3,"react":41}],7:[function(require,module,exports){
+},{"./BasicField":3,"react":42}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -554,7 +554,7 @@ Dialog.defaultProps = {
   hasCancel: true
 };
 exports.default = Dialog;
-},{"./Button":4,"./Utils.js":20,"react":41}],8:[function(require,module,exports){
+},{"./Button":4,"./Utils.js":21,"react":42}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -619,7 +619,7 @@ var EmailField = function (_BasicField) {
 }(_BasicField3.default);
 
 exports.default = EmailField;
-},{"./BasicField":3,"react":41}],9:[function(require,module,exports){
+},{"./BasicField":3,"react":42}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1170,7 +1170,7 @@ var Excel = function (_Component) {
 }(_react.Component);
 
 exports.default = Excel;
-},{"../flux-imm/CRUDActions":21,"../flux-imm/CRUDStore":22,"./Actions":2,"./Dialog":7,"./Form":11,"./FormInput":13,"classnames":23,"immutable":31,"invariant":32,"react":41}],10:[function(require,module,exports){
+},{"../flux-imm/CRUDActions":22,"../flux-imm/CRUDStore":23,"./Actions":2,"./Dialog":7,"./Form":11,"./FormInput":14,"classnames":24,"immutable":32,"invariant":33,"react":42}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1409,7 +1409,7 @@ ExcelWithFunc.defaultProps = {
   actions: []
 };
 exports.default = ExcelWithFunc;
-},{"../flux-imm/CRUDActions":21,"../flux-imm/CRUDStore":22,"./Button":4,"./Excel":9,"react":41}],11:[function(require,module,exports){
+},{"../flux-imm/CRUDActions":22,"../flux-imm/CRUDStore":23,"./Button":4,"./Excel":9,"react":42}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1453,6 +1453,7 @@ Special properties for Form
 readOnly: true if the form should be editable
 recordId: the id of data to be displayed in the form
 crudStore: the CRUD store from which to retrieve the data
+disabled: set the input to be disabled if true
 */
 var Form = function (_Component) {
   _inherits(Form, _Component);
@@ -1460,32 +1461,16 @@ var Form = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Form(props) {
     _classCallCheck(this, Form);
 
-    // Retrieving the store and store actions objects
-    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
     // Calling meta class constructor
-
-
-    _this.crudStore = props.crudStore;
-    // Retrieving form schema
-    _this.fields = _this.crudStore.getSchema();
-
-    // If a record id for the form is being given, initializing form with the data
-    // that belongs to the record id
-    if (_this.props.recordId !== -1) {
-      _this.initialData = _this.crudStore.getRecord(_this.props.recordId);
-    }
-    return _this;
+    return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
   }
 
   /*
   Returning form data
   */
-
 
   // Setting the default values for the properties 
 
@@ -1499,7 +1484,7 @@ var Form = function (_Component) {
       var data = {};
 
       // Retrieving each form field data and setting it in data to be returned
-      this.fields.forEach(function (field) {
+      this.props.crudStore.getSchema().forEach(function (field) {
         return data[field.id] = _this2.refs[field.id].getValue();
       });
       return data;
@@ -1515,7 +1500,7 @@ var Form = function (_Component) {
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
-        this.fields.map(this._renderFormField, this),
+        this.props.crudStore.getSchema().map(this._renderFormField, this),
         ' '
       );
     }
@@ -1527,8 +1512,17 @@ var Form = function (_Component) {
   }, {
     key: '_renderFormField',
     value: function _renderFormField(field) {
+      // Initializing
+      var initialData = void 0;
+
+      // If a record id for the form is being given, initializing form with the data
+      // that belongs to the record id
+      if (this.props.recordId !== -1) {
+        initialData = this.props.crudStore.getRecord(this.props.recordId);
+      }
+
       // Retrieving field prefilled data
-      var prefilled = this.initialData && this.initialData[field.id];
+      var prefilled = initialData && initialData[field.id];
 
       // Rendering form field
       return _react2.default.createElement(
@@ -1547,7 +1541,9 @@ var Form = function (_Component) {
           ':                    '
         ),
         _react2.default.createElement(_FormInput2.default // Setting form field as an editable field
-        , _extends({}, field, { // Setting field properties
+        , _extends({ readOnly: this.props.readOnly // Setting field readonly or not based on properties
+          , disabled: this.props.disabled // Setting field disable or not based on properties
+        }, field, { // Setting field properties
           ref: field.id // Setting field ref so that it can be accessed easily
           , defaultValue: prefilled })),
         '         '
@@ -1560,10 +1556,11 @@ var Form = function (_Component) {
 
 Form.defaultProps = {
   readOnly: false,
-  recordId: -1
+  recordId: -1,
+  disabled: false
 };
 exports.default = Form;
-},{"../flux-imm/CRUDStore":22,"./FormInput":13,"immutable":31,"react":41}],12:[function(require,module,exports){
+},{"../flux-imm/CRUDStore":23,"./FormInput":14,"immutable":32,"react":42}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1595,6 +1592,260 @@ var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
 var _CRUDActions = require('../flux-imm/CRUDActions');
 
 var _CRUDActions2 = _interopRequireDefault(_CRUDActions);
+
+var _immutable = require('immutable');
+
+var _Button = require('./Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Listing all possible form field user can create in the editor form
+var editorPossibleFormFields = ['Color', 'Date', 'Email', 'Number', 'Rating', 'Tel', 'Text'];
+
+// Setting schema for editor form
+var editorFormSchema = [{
+  id: 'field_type',
+  label: 'Field Type',
+  type: 'suggest',
+  show: true,
+  sample: '',
+  align: 'left',
+  options: editorPossibleFormFields
+}, {
+  id: 'field_label',
+  label: 'Field Label',
+  type: 'text',
+  show: true,
+  sample: ''
+}];
+
+/*
+Special properties for FormBuilder
+-------------------------------
+*/
+
+
+/*
+FormBuilder state fields
+-------------------
+createdFormSchema: the created form schema
+*/
+
+/*
+FormBuilder component for giving the functionality to build forms
+*/
+var FormBuilder = function (_Component) {
+  _inherits(FormBuilder, _Component);
+
+  /*
+  Component constructor
+  */
+  function FormBuilder(props) {
+    _classCallCheck(this, FormBuilder);
+
+    // Initializing component state
+    var _this = _possibleConstructorReturn(this, (FormBuilder.__proto__ || Object.getPrototypeOf(FormBuilder)).call(this, props));
+    // Calling meta class constructor
+
+
+    _this.state = {
+      createdFormSchema: (0, _immutable.List)()
+    };
+
+    // Initializing component
+    _this._initializeComponent();
+    return _this;
+  }
+
+  /*
+  Initializing component
+  */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
+
+
+  _createClass(FormBuilder, [{
+    key: '_initializeComponent',
+    value: function _initializeComponent() {
+      var _this2 = this;
+
+      // Initializing the editor store for this component
+      this.editorFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: editorFormSchema });
+      this.editorFormCrudActions = new _CRUDActions2.default(this.editorFormCrudStore);
+
+      // Initializing the created form store for this component
+      this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: [] });
+      this.createdFormCrudActions = new _CRUDActions2.default(this.createdFormCrudStore);
+
+      // Listening for changes in the created form so that it can re-render the changes in the 
+      // created form
+      this.createdFormCrudStore.addListener('change', function () {
+        _this2.setState({ createdFormSchema: _this2.createdFormCrudStore.getSchema() });
+      });
+    }
+
+    /*
+    Updating the created form
+    */
+
+  }, {
+    key: '_updateCreatedForm',
+    value: function _updateCreatedForm() {
+      // Initializing
+      var newField = {
+        id: 'not filled',
+        type: 'not filled',
+        label: 'not filled',
+        show: true,
+        sample: '',
+        align: 'left'
+
+        // Retrieving current schema
+      };var currentSchema = this.createdFormCrudStore.getSchema();
+
+      // Retrieving user input to the editor form
+      var editorFormData = this.refs.editorForm.getData();
+
+      // Creating new field for created form
+      newField['id'] = String(currentSchema.size);
+      newField['type'] = editorFormData[editorFormSchema[0].id].toLowerCase();
+      newField['label'] = editorFormData[editorFormSchema[1].id];
+
+      // Asserting given type is legal
+      if (editorPossibleFormFields.map(function (type) {
+        return type.toLowerCase();
+      }).indexOf(newField['type']) < 0) {
+        window.alert("Bad input type, please choose a type from the options");
+        return;
+      }
+
+      // Creating new schema
+      var newSchema = currentSchema.push(newField);
+
+      // Updating schema with new schema 
+      this.createdFormCrudStore.setSchema(newSchema);
+    }
+    /*
+    Returning created form
+    */
+
+  }, {
+    key: 'getCreatedForm',
+    value: function getCreatedForm() {
+      return this.state.createdFormSchema;
+    }
+
+    /*
+    Resetting component, after finish use of component this method must be called
+    */
+
+  }, {
+    key: 'reset',
+    value: function reset() {
+      this._initializeComponent();
+    }
+
+    /*
+    Rendering component
+    */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      // Rendering
+      return _react2.default.createElement(
+        'div',
+        { className: 'FormBuilder' },
+        _react2.default.createElement(
+          'div',
+          { className: 'EditorForm' },
+          _react2.default.createElement(_Form2.default, {
+            ref: 'editorForm' // ref attribute for easy access to the element
+            , crudStore: this.editorFormCrudStore // editor store that will manage the form data and schema
+          }),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              _Button2.default,
+              { className: 'Button', onClick: this._updateCreatedForm.bind(this) },
+              'Created Field'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'CreatedForm' },
+          _react2.default.createElement(
+            'div',
+            { className: 'CreatedFormHeader' },
+            'New Form:'
+          ),
+          _react2.default.createElement(_Form2.default, {
+            ref: 'createdForm' // ref attribute for easy access to the element
+
+            // created form store that will manage the form data and schema that will update when a new field is added to the 
+            // created form
+            , crudStore: this.createdFormCrudStore,
+            disabled: true
+          })
+        )
+      );
+    }
+  }]);
+
+  return FormBuilder;
+}(_react.Component);
+
+FormBuilder.defaultProps = {};
+exports.default = FormBuilder;
+},{"../flux-imm/CRUDActions":22,"../flux-imm/CRUDStore":23,"./Button":4,"./Dialog":7,"./ExcelWithFunc":10,"./Form":11,"immutable":32,"react":42}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ExcelWithFunc = require('./ExcelWithFunc');
+
+var _ExcelWithFunc2 = _interopRequireDefault(_ExcelWithFunc);
+
+var _Dialog = require('./Dialog');
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _Form = require('./Form');
+
+var _Form2 = _interopRequireDefault(_Form);
+
+var _CRUDStore = require('../flux-imm/CRUDStore');
+
+var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
+
+var _CRUDActions = require('../flux-imm/CRUDActions');
+
+var _CRUDActions2 = _interopRequireDefault(_CRUDActions);
+
+var _FormBuilder = require('./FormBuilder');
+
+var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1651,34 +1902,34 @@ Special properties for FormBuilder
 */
 
 /*
-FormBuilder component for giving the functionality to build forms and display
+FormBuilderApp component for giving the functionality to build forms and display
 the created forms
 */
-var FormBuilder = function (_Component) {
-  _inherits(FormBuilder, _Component);
+var FormBuilderApp = function (_Component) {
+  _inherits(FormBuilderApp, _Component);
 
   /*
   Component constructor
   */
-  function FormBuilder(props) {
-    _classCallCheck(this, FormBuilder);
+  function FormBuilderApp(props) {
+    _classCallCheck(this, FormBuilderApp);
 
     // Calling meta class constructor
-    return _possibleConstructorReturn(this, (FormBuilder.__proto__ || Object.getPrototypeOf(FormBuilder)).call(this, props));
+    return _possibleConstructorReturn(this, (FormBuilderApp.__proto__ || Object.getPrototypeOf(FormBuilderApp)).call(this, props));
   }
 
   /*
-  Remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+  Adding form
   */
 
   // Setting the default values for the properties 
 
 
-  _createClass(FormBuilder, [{
-    key: '_addNew',
-    value: function _addNew(finishActionExecution, action) {
+  _createClass(FormBuilderApp, [{
+    key: '_addForm',
+    value: function _addForm(finishActionExecution, action) {
       if (action === 'confirm') {
-        crudActions.create(this.refs.excelWithFunc.refs.form.getData());
+        console.log(this.refs.excelWithFunc.refs.form.getCreatedForm());
       }
 
       // Finishing action
@@ -1697,34 +1948,33 @@ var FormBuilder = function (_Component) {
         ref: 'excelWithFunc',
         crudStore: crudStore,
         crudActions: crudActions,
-        actions: [this._createAction.bind(this)],
-        actionsDefs: ["add +"]
+        actions: [this._createCreateFormAction.bind(this)],
+        actionsDefs: ["Create Form"]
       });
     }
   }, {
-    key: '_createAction',
-    value: function _createAction(finishActionExecution) {
+    key: '_createCreateFormAction',
+    value: function _createCreateFormAction(finishActionExecution) {
       return _react2.default.createElement(
         _Dialog2.default,
         {
           modal: true,
-          header: 'Add new item',
-          confirmLabel: 'Add',
-          onAction: this._addNew.bind(this, finishActionExecution) },
-        _react2.default.createElement(_Form2.default, {
-          ref: 'form',
-          crudStore: crudStore
+          header: 'Create new form',
+          confirmLabel: 'Create',
+          onAction: this._addForm.bind(this, finishActionExecution) },
+        _react2.default.createElement(_FormBuilder2.default, {
+          ref: 'form'
         })
       );
     }
   }]);
 
-  return FormBuilder;
+  return FormBuilderApp;
 }(_react.Component);
 
-FormBuilder.defaultProps = {};
-exports.default = FormBuilder;
-},{"../flux-imm/CRUDActions":21,"../flux-imm/CRUDStore":22,"./Dialog":7,"./ExcelWithFunc":10,"./Form":11,"react":41}],13:[function(require,module,exports){
+FormBuilderApp.defaultProps = {};
+exports.default = FormBuilderApp;
+},{"../flux-imm/CRUDActions":22,"../flux-imm/CRUDStore":23,"./Dialog":7,"./ExcelWithFunc":10,"./Form":11,"./FormBuilder":12,"react":42}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1801,6 +2051,7 @@ id: the id of the form field, used to identify it with ref
 options: the options for a form field that accept a set of options
 label: the form field label
 getForm: returning the inclosing form
+disabled: set the input to be disabled if true
 */
 var FormInput = function (_Component) {
   _inherits(FormInput, _Component);
@@ -1834,13 +2085,15 @@ var FormInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _commonProps;
+
       // Setting the common properties each component need to have 
-      var commonProps = _defineProperty({
+      var commonProps = (_commonProps = {
         id: this.props.id,
         ref: 'input',
         defaultValue: this.props.defaultValue,
         readOnly: this.props.readOnly
-      }, 'defaultValue', this.props.defaultValue);
+      }, _defineProperty(_commonProps, 'defaultValue', this.props.defaultValue), _defineProperty(_commonProps, 'disabled', this.props.disabled ? true : undefined), _commonProps);
 
       // Creating field based on the form field type
       switch (this.props.type) {
@@ -1887,10 +2140,11 @@ FormInput.defaultProps = {
   options: [],
   readOnly: false,
   label: "",
-  getForm: function getForm() {}
+  getForm: function getForm() {},
+  disabled: false
 };
 exports.default = FormInput;
-},{"./ColorField":5,"./DateField":6,"./EmailField":8,"./NumberField":15,"./RatingField":16,"./SuggestField":17,"./TelField":18,"./TextField":19,"react":41}],14:[function(require,module,exports){
+},{"./ColorField":5,"./DateField":6,"./EmailField":8,"./NumberField":16,"./RatingField":17,"./SuggestField":18,"./TelField":19,"./TextField":20,"react":42}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1912,7 +2166,7 @@ var Logo = function Logo() {
 };
 
 exports.default = Logo;
-},{"react":41}],15:[function(require,module,exports){
+},{"react":42}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1977,7 +2231,7 @@ var NumberField = function (_BasicField) {
 }(_BasicField3.default);
 
 exports.default = NumberField;
-},{"./BasicField":3,"react":41}],16:[function(require,module,exports){
+},{"./BasicField":3,"react":42}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2227,7 +2481,7 @@ RatingField.defaultProps = {
   readOnly: false
 };
 exports.default = RatingField;
-},{"classnames":23,"invariant":32,"react":41}],17:[function(require,module,exports){
+},{"classnames":24,"invariant":33,"react":42}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2409,7 +2663,7 @@ SuggestField.defaultProps = {
   readOnly: false
 };
 exports.default = SuggestField;
-},{"react":41}],18:[function(require,module,exports){
+},{"react":42}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2474,7 +2728,7 @@ var TelField = function (_BasicField) {
 }(_BasicField3.default);
 
 exports.default = TelField;
-},{"./BasicField":3,"react":41}],19:[function(require,module,exports){
+},{"./BasicField":3,"react":42}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2539,7 +2793,7 @@ var TextField = function (_BasicField) {
 }(_BasicField3.default);
 
 exports.default = TextField;
-},{"./BasicField":3,"react":41}],20:[function(require,module,exports){
+},{"./BasicField":3,"react":42}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2579,7 +2833,7 @@ var retrieveElementByID = function retrieveElementByID(id) {
 };
 
 exports.default = { retrieveDocBodyWithInv: retrieveDocBodyWithInv, retrieveElementByID: retrieveElementByID };
-},{"invariant":32}],21:[function(require,module,exports){
+},{"invariant":33}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2791,7 +3045,7 @@ var CRUDActions = function () {
 }();
 
 exports.default = CRUDActions;
-},{"./CRUDStore":22,"immutable":31,"invariant":32}],22:[function(require,module,exports){
+},{"./CRUDStore":23,"immutable":32,"invariant":33}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2829,6 +3083,14 @@ Defining the type of a server store
 -----------------------------------
 storeType: the type of the store, in this case it is server
 serverURL: in a server store, a server url must be provided
+*/
+
+
+/*
+Defining the type of a temp store
+-----------------------------------
+storeType: the type of the store, in this case it is temporary, i.e in memory
+schema: in a temporary store, a schema must be provided
 */
 
 
@@ -2872,10 +3134,15 @@ var CRUDStore = function () {
       else if (initObj.storeType === 'server') {
           // Initializing server store 
           this._initServerStore(initObj);
-        } else {
-          // Declaring unrecognized store type
-          throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
         }
+        // Asserting temp store
+        else if (initObj.storeType === 'temp') {
+            // Initializing temp 
+            this._initTempStore(initObj);
+          } else {
+            // Declaring unrecognized store type
+            throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
+          }
     }
 
     /*
@@ -2893,14 +3160,8 @@ var CRUDStore = function () {
 
       // If storage not available, initializing it
       if (!storage) {
-        // Initializing initial record
-        var initialRecord = {};
-        this.schema.forEach(function (item) {
-          return initialRecord[item.id] = item.sample;
-        });
-
-        // Adding initial record to data
-        this.data = (0, _immutable.List)([initialRecord]);
+        // Initializing data from schema
+        this._initializeDataFromSchema();
       } else {
         // If storage available, retrieve it
         this.data = (0, _immutable.List)(JSON.parse(storage));
@@ -2915,6 +3176,37 @@ var CRUDStore = function () {
     key: '_initServerStore',
     value: function _initServerStore(initObj) {
       throw 'CRUDStore._initServerStore: Not implemented';
+    }
+
+    /*
+    Initializing temp store
+    */
+
+  }, {
+    key: '_initTempStore',
+    value: function _initTempStore(initObj) {
+      // Retrieving schema
+      this.schema = (0, _immutable.List)(initObj.schema);
+
+      // Initializing data from schema
+      this._initializeDataFromSchema();
+    }
+
+    /*
+    Initializing data from schema
+    */
+
+  }, {
+    key: '_initializeDataFromSchema',
+    value: function _initializeDataFromSchema() {
+      // Initializing initial record
+      var initialRecord = {};
+      this.schema.forEach(function (item) {
+        return initialRecord[item.id] = item.sample;
+      });
+
+      // Adding initial record to data
+      this.data = (0, _immutable.List)([initialRecord]);
     }
 
     /*
@@ -2957,13 +3249,34 @@ var CRUDStore = function () {
       // Assert this is a server store, if so update server storage
       else if (commit && this.type === 'server') {
           throw 'CRUDStore.setData: not implemented';
-        } else if (!(this.type === 'local' || this.type === 'server')) {
+        } else if (!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
           // Declaring unrecognized store type
           throw 'CRUDStore.setData: unknown store type ' + this.type;
         }
 
       // Informing all listeners to the change in data
       this.emitter.emit('change');
+    }
+
+    /*
+    Setting schema with a new schema
+    */
+
+  }, {
+    key: 'setSchema',
+    value: function setSchema(newSchema) {
+      // Asserting this is a temp store since schema update is only possible for 
+      // this type of store 
+      if (this.type === 'temp') {
+        // Changing schema
+        this.schema = (0, _immutable.List)(newSchema);
+
+        // Resetting data since schema and current data might be incompatible
+        // also, this line is responsible for alerting any listeners for change in store
+        this.setData(this.data.clear());
+      } else {
+        throw 'CRUDStore.setSchema: Schema update only possible for \n             temp store type where the current type is ' + this.type;
+      }
     }
 
     /*
@@ -3001,7 +3314,7 @@ var CRUDStore = function () {
 }();
 
 exports.default = CRUDStore;
-},{"fbemitter":24,"immutable":31}],23:[function(require,module,exports){
+},{"fbemitter":25,"immutable":32}],24:[function(require,module,exports){
 /*!
   Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -3055,7 +3368,7 @@ exports.default = CRUDStore;
 	}
 }());
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -3072,7 +3385,7 @@ var fbemitter = {
 
 module.exports = fbemitter;
 
-},{"./lib/BaseEventEmitter":25,"./lib/EmitterSubscription":26}],25:[function(require,module,exports){
+},{"./lib/BaseEventEmitter":26,"./lib/EmitterSubscription":27}],26:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -3266,7 +3579,7 @@ var BaseEventEmitter = (function () {
 
 module.exports = BaseEventEmitter;
 }).call(this,require('_process'))
-},{"./EmitterSubscription":26,"./EventSubscriptionVendor":28,"_process":48,"fbjs/lib/emptyFunction":29,"fbjs/lib/invariant":30}],26:[function(require,module,exports){
+},{"./EmitterSubscription":27,"./EventSubscriptionVendor":29,"_process":49,"fbjs/lib/emptyFunction":30,"fbjs/lib/invariant":31}],27:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -3315,7 +3628,7 @@ var EmitterSubscription = (function (_EventSubscription) {
 })(EventSubscription);
 
 module.exports = EmitterSubscription;
-},{"./EventSubscription":27}],27:[function(require,module,exports){
+},{"./EventSubscription":28}],28:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -3365,7 +3678,7 @@ var EventSubscription = (function () {
 })();
 
 module.exports = EventSubscription;
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
@@ -3471,7 +3784,7 @@ var EventSubscriptionVendor = (function () {
 
 module.exports = EventSubscriptionVendor;
 }).call(this,require('_process'))
-},{"_process":48,"fbjs/lib/invariant":30}],29:[function(require,module,exports){
+},{"_process":49,"fbjs/lib/invariant":31}],30:[function(require,module,exports){
 "use strict";
 
 /**
@@ -3508,7 +3821,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -3564,7 +3877,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":48}],31:[function(require,module,exports){
+},{"_process":49}],32:[function(require,module,exports){
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -9430,7 +9743,7 @@ module.exports = invariant;
 
 })));
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -9483,7 +9796,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":48}],33:[function(require,module,exports){
+},{"_process":49}],34:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -9575,7 +9888,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -9681,7 +9994,7 @@ checkPropTypes.resetWarningCache = function() {
 module.exports = checkPropTypes;
 
 }).call(this,require('_process'))
-},{"./lib/ReactPropTypesSecret":35,"_process":48}],35:[function(require,module,exports){
+},{"./lib/ReactPropTypesSecret":36,"_process":49}],36:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -9695,7 +10008,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (process){
 /** @license React v16.12.0
  * react-dom.development.js
@@ -37494,7 +37807,7 @@ module.exports = reactDom;
 }
 
 }).call(this,require('_process'))
-},{"_process":48,"object-assign":33,"prop-types/checkPropTypes":34,"react":41,"scheduler":46,"scheduler/tracing":47}],37:[function(require,module,exports){
+},{"_process":49,"object-assign":34,"prop-types/checkPropTypes":35,"react":42,"scheduler":47,"scheduler/tracing":48}],38:[function(require,module,exports){
 /** @license React v16.12.0
  * react-dom.production.min.js
  *
@@ -37786,7 +38099,7 @@ xe,ye,Ca.injectEventPluginsByName,fa,Sc,function(a){ya(a,Rc)},cb,db,Pd,Ba,Sj,{cu
 (function(a){var b=a.findFiberByHostInstance;return ok(n({},a,{overrideHookState:null,overrideProps:null,setSuspenseHandler:null,scheduleUpdate:null,currentDispatcherRef:Ea.ReactCurrentDispatcher,findHostInstanceByFiber:function(a){a=ic(a);return null===a?null:a.stateNode},findFiberByHostInstance:function(a){return b?b(a):null},findHostInstancesForRefresh:null,scheduleRefresh:null,scheduleRoot:null,setRefreshHandler:null,getCurrentFiber:null}))})({findFiberByHostInstance:Fc,bundleType:0,version:"16.12.0",
 rendererPackageName:"react-dom"});var Dk={default:Ck},Ek=Dk&&Ck||Dk;module.exports=Ek.default||Ek;
 
-},{"object-assign":33,"react":41,"scheduler":46}],38:[function(require,module,exports){
+},{"object-assign":34,"react":42,"scheduler":47}],39:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -37828,7 +38141,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react-dom.development.js":36,"./cjs/react-dom.production.min.js":37,"_process":48}],39:[function(require,module,exports){
+},{"./cjs/react-dom.development.js":37,"./cjs/react-dom.production.min.js":38,"_process":49}],40:[function(require,module,exports){
 (function (process){
 /** @license React v16.12.0
  * react.development.js
@@ -40152,7 +40465,7 @@ module.exports = react;
 }
 
 }).call(this,require('_process'))
-},{"_process":48,"object-assign":33,"prop-types/checkPropTypes":34}],40:[function(require,module,exports){
+},{"_process":49,"object-assign":34,"prop-types/checkPropTypes":35}],41:[function(require,module,exports){
 /** @license React v16.12.0
  * react.production.min.js
  *
@@ -40179,7 +40492,7 @@ b,c){return W().useImperativeHandle(a,b,c)},useDebugValue:function(){},useLayout
 if(null!=b){void 0!==b.ref&&(g=b.ref,l=J.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(k in b)K.call(b,k)&&!L.hasOwnProperty(k)&&(e[k]=void 0===b[k]&&void 0!==f?f[k]:b[k])}var k=arguments.length-2;if(1===k)e.children=c;else if(1<k){f=Array(k);for(var m=0;m<k;m++)f[m]=arguments[m+2];e.children=f}return{$$typeof:p,type:a.type,key:d,ref:g,props:e,_owner:l}},createFactory:function(a){var b=M.bind(null,a);b.type=a;return b},isValidElement:N,version:"16.12.0",
 __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,ReactCurrentBatchConfig:{suspense:null},ReactCurrentOwner:J,IsSomeRendererActing:{current:!1},assign:h}},Y={default:X},Z=Y&&X||Y;module.exports=Z.default||Z;
 
-},{"object-assign":33}],41:[function(require,module,exports){
+},{"object-assign":34}],42:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -40190,7 +40503,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/react.development.js":39,"./cjs/react.production.min.js":40,"_process":48}],42:[function(require,module,exports){
+},{"./cjs/react.development.js":40,"./cjs/react.production.min.js":41,"_process":49}],43:[function(require,module,exports){
 (function (process){
 /** @license React v0.18.0
  * scheduler-tracing.development.js
@@ -40617,7 +40930,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 }
 
 }).call(this,require('_process'))
-},{"_process":48}],43:[function(require,module,exports){
+},{"_process":49}],44:[function(require,module,exports){
 /** @license React v0.18.0
  * scheduler-tracing.production.min.js
  *
@@ -40629,7 +40942,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 
 'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b=0;exports.__interactionsRef=null;exports.__subscriberRef=null;exports.unstable_clear=function(a){return a()};exports.unstable_getCurrent=function(){return null};exports.unstable_getThreadID=function(){return++b};exports.unstable_trace=function(a,d,c){return c()};exports.unstable_wrap=function(a){return a};exports.unstable_subscribe=function(){};exports.unstable_unsubscribe=function(){};
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process){
 /** @license React v0.18.0
  * scheduler.development.js
@@ -41537,7 +41850,7 @@ exports.unstable_Profiling = unstable_Profiling;
 }
 
 }).call(this,require('_process'))
-},{"_process":48}],45:[function(require,module,exports){
+},{"_process":49}],46:[function(require,module,exports){
 /** @license React v0.18.0
  * scheduler.production.min.js
  *
@@ -41561,7 +41874,7 @@ exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();i
 exports.unstable_wrapCallback=function(a){var b=R;return function(){var c=R;R=b;try{return a.apply(this,arguments)}finally{R=c}}};exports.unstable_getCurrentPriorityLevel=function(){return R};exports.unstable_shouldYield=function(){var a=exports.unstable_now();V(a);var b=L(N);return b!==Q&&null!==Q&&null!==b&&null!==b.callback&&b.startTime<=a&&b.expirationTime<Q.expirationTime||k()};exports.unstable_requestPaint=Z;exports.unstable_continueExecution=function(){T||S||(T=!0,f(X))};
 exports.unstable_pauseExecution=function(){};exports.unstable_getFirstCallbackNode=function(){return L(N)};exports.unstable_Profiling=null;
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -41572,7 +41885,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler.development.js":44,"./cjs/scheduler.production.min.js":45,"_process":48}],47:[function(require,module,exports){
+},{"./cjs/scheduler.development.js":45,"./cjs/scheduler.production.min.js":46,"_process":49}],48:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -41583,7 +41896,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 }).call(this,require('_process'))
-},{"./cjs/scheduler-tracing.development.js":42,"./cjs/scheduler-tracing.production.min.js":43,"_process":48}],48:[function(require,module,exports){
+},{"./cjs/scheduler-tracing.development.js":43,"./cjs/scheduler-tracing.production.min.js":44,"_process":49}],49:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 

@@ -39,6 +39,14 @@ serverURL: in a server store, a server url must be provided
 
 
 /*
+Defining the type of a temp store
+-----------------------------------
+storeType: the type of the store, in this case it is temporary, i.e in memory
+schema: in a temporary store, a schema must be provided
+*/
+
+
+/*
 Defining type of a store init object, it must have the required data
 to initialize the store
 */
@@ -78,10 +86,15 @@ var CRUDStore = function () {
       else if (initObj.storeType === 'server') {
           // Initializing server store 
           this._initServerStore(initObj);
-        } else {
-          // Declaring unrecognized store type
-          throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
         }
+        // Asserting temp store
+        else if (initObj.storeType === 'temp') {
+            // Initializing temp 
+            this._initTempStore(initObj);
+          } else {
+            // Declaring unrecognized store type
+            throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
+          }
     }
 
     /*
@@ -99,14 +112,8 @@ var CRUDStore = function () {
 
       // If storage not available, initializing it
       if (!storage) {
-        // Initializing initial record
-        var initialRecord = {};
-        this.schema.forEach(function (item) {
-          return initialRecord[item.id] = item.sample;
-        });
-
-        // Adding initial record to data
-        this.data = (0, _immutable.List)([initialRecord]);
+        // Initializing data from schema
+        this._initializeDataFromSchema();
       } else {
         // If storage available, retrieve it
         this.data = (0, _immutable.List)(JSON.parse(storage));
@@ -121,6 +128,37 @@ var CRUDStore = function () {
     key: '_initServerStore',
     value: function _initServerStore(initObj) {
       throw 'CRUDStore._initServerStore: Not implemented';
+    }
+
+    /*
+    Initializing temp store
+    */
+
+  }, {
+    key: '_initTempStore',
+    value: function _initTempStore(initObj) {
+      // Retrieving schema
+      this.schema = (0, _immutable.List)(initObj.schema);
+
+      // Initializing data from schema
+      this._initializeDataFromSchema();
+    }
+
+    /*
+    Initializing data from schema
+    */
+
+  }, {
+    key: '_initializeDataFromSchema',
+    value: function _initializeDataFromSchema() {
+      // Initializing initial record
+      var initialRecord = {};
+      this.schema.forEach(function (item) {
+        return initialRecord[item.id] = item.sample;
+      });
+
+      // Adding initial record to data
+      this.data = (0, _immutable.List)([initialRecord]);
     }
 
     /*
@@ -163,13 +201,34 @@ var CRUDStore = function () {
       // Assert this is a server store, if so update server storage
       else if (commit && this.type === 'server') {
           throw 'CRUDStore.setData: not implemented';
-        } else if (!(this.type === 'local' || this.type === 'server')) {
+        } else if (!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
           // Declaring unrecognized store type
           throw 'CRUDStore.setData: unknown store type ' + this.type;
         }
 
       // Informing all listeners to the change in data
       this.emitter.emit('change');
+    }
+
+    /*
+    Setting schema with a new schema
+    */
+
+  }, {
+    key: 'setSchema',
+    value: function setSchema(newSchema) {
+      // Asserting this is a temp store since schema update is only possible for 
+      // this type of store 
+      if (this.type === 'temp') {
+        // Changing schema
+        this.schema = (0, _immutable.List)(newSchema);
+
+        // Resetting data since schema and current data might be incompatible
+        // also, this line is responsible for alerting any listeners for change in store
+        this.setData(this.data.clear());
+      } else {
+        throw 'CRUDStore.setSchema: Schema update only possible for \n             temp store type where the current type is ' + this.type;
+      }
     }
 
     /*

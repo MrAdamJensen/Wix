@@ -5,14 +5,14 @@ import Logo from './components/Logo';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Utils from './components/Utils'
-import FormBuilder from './components/FormBuilder'
+import FormBuilderApp from './components/FormBuilderApp'
 
 ReactDOM.render(
   <div>
     <div className="app-header">
-      <Logo /> Welcome to Form Builder!
+      <Logo /> Welcome to Form Builder App!
     </div>
-    <FormBuilder/>
+    <FormBuilderApp/>
   </div>,
   Utils.retrieveElementByID('pad')
 );

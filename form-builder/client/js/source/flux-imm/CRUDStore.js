@@ -6,7 +6,7 @@ import {List} from 'immutable';
 /*
 Defining the type of the store type, either a local storage store or a server store
 */
-type storeType = 'local' | 'server'
+type storeType = 'local' | 'server' | 'temp'
 
 /*
 Defining the type of a local store
@@ -31,10 +31,21 @@ type storeInitServer = {
 }
 
 /*
+Defining the type of a temp store
+-----------------------------------
+storeType: the type of the store, in this case it is temporary, i.e in memory
+schema: in a temporary store, a schema must be provided
+*/
+type storeInitTemp = {
+  storeType: 'temp';
+  schema: Array<Object>;
+}
+
+/*
 Defining type of a store init object, it must have the required data
 to initialize the store
 */
-type storeInit = storeInitLocal | storeInitServer
+type storeInit = storeInitLocal | storeInitServer | storeInitTemp
 
 /*
 A store of data where one can listen for changes
@@ -74,6 +85,11 @@ class CRUDStore {
       // Initializing server store 
       this._initServerStore(initObj)
     }
+    // Asserting temp store
+    else if (initObj.storeType === 'temp'){
+      // Initializing temp 
+      this._initTempStore(initObj)
+    }
     else {
       // Declaring unrecognized store type
       throw `CRUDStore._init: unknown store type ${initObj.storeType}`
@@ -94,12 +110,8 @@ class CRUDStore {
     
     // If storage not available, initializing it
     if (!storage) {
-      // Initializing initial record
-      let initialRecord = {};
-      this.schema.forEach(item => initialRecord[item.id] = item.sample);
-
-      // Adding initial record to data
-      this.data = List([initialRecord]);
+      // Initializing data from schema
+      this._initializeDataFromSchema()
     } else {
       // If storage available, retrieve it
       this.data = List(JSON.parse(storage));
@@ -111,6 +123,29 @@ class CRUDStore {
   */
   _initServerStore(initObj: storeInitServer) {
     throw 'CRUDStore._initServerStore: Not implemented'
+  }
+
+  /*
+  Initializing temp store
+  */
+ _initTempStore(initObj: storeInitTemp) {
+    // Retrieving schema
+    this.schema = List(initObj.schema);
+
+    // Initializing data from schema
+    this._initializeDataFromSchema()
+  }
+
+  /*
+  Initializing data from schema
+  */
+  _initializeDataFromSchema() {
+    // Initializing initial record
+    let initialRecord = {};
+    this.schema.forEach(item => initialRecord[item.id] = item.sample);
+
+    // Adding initial record to data
+    this.data = List([initialRecord]);
   }
 
   /*
@@ -143,7 +178,7 @@ class CRUDStore {
     else if (commit && this.type === 'server') {
       throw 'CRUDStore.setData: not implemented'
     }
-    else if(!(this.type === 'local' || this.type === 'server')) {
+    else if(!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
       // Declaring unrecognized store type
       throw `CRUDStore.setData: unknown store type ${this.type}`
     }
@@ -152,6 +187,26 @@ class CRUDStore {
     this.emitter.emit('change');
   }
   
+  /*
+  Setting schema with a new schema
+  */
+  setSchema(newSchema: (Array<Object> | List<Object>)){
+    // Asserting this is a temp store since schema update is only possible for 
+    // this type of store 
+    if (this.type === 'temp'){
+      // Changing schema
+      this.schema = List(newSchema)
+
+      // Resetting data since schema and current data might be incompatible
+      // also, this line is responsible for alerting any listeners for change in store
+      this.setData(this.data.clear())
+    }
+    else{
+      throw `CRUDStore.setSchema: Schema update only possible for 
+             temp store type where the current type is ${this.type}`
+    }
+  }
+
   /*
   Adding listener for data change
   */

@@ -41,6 +41,7 @@ Special properties for Form
 readOnly: true if the form should be editable
 recordId: the id of data to be displayed in the form
 crudStore: the CRUD store from which to retrieve the data
+disabled: set the input to be disabled if true
 */
 var Form = function (_Component) {
   _inherits(Form, _Component);
@@ -48,32 +49,16 @@ var Form = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Form(props) {
     _classCallCheck(this, Form);
 
-    // Retrieving the store and store actions objects
-    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
     // Calling meta class constructor
-
-
-    _this.crudStore = props.crudStore;
-    // Retrieving form schema
-    _this.fields = _this.crudStore.getSchema();
-
-    // If a record id for the form is being given, initializing form with the data
-    // that belongs to the record id
-    if (_this.props.recordId !== -1) {
-      _this.initialData = _this.crudStore.getRecord(_this.props.recordId);
-    }
-    return _this;
+    return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
   }
 
   /*
   Returning form data
   */
-
 
   // Setting the default values for the properties 
 
@@ -87,7 +72,7 @@ var Form = function (_Component) {
       var data = {};
 
       // Retrieving each form field data and setting it in data to be returned
-      this.fields.forEach(function (field) {
+      this.props.crudStore.getSchema().forEach(function (field) {
         return data[field.id] = _this2.refs[field.id].getValue();
       });
       return data;
@@ -103,7 +88,7 @@ var Form = function (_Component) {
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
-        this.fields.map(this._renderFormField, this),
+        this.props.crudStore.getSchema().map(this._renderFormField, this),
         ' '
       );
     }
@@ -115,8 +100,17 @@ var Form = function (_Component) {
   }, {
     key: '_renderFormField',
     value: function _renderFormField(field) {
+      // Initializing
+      var initialData = void 0;
+
+      // If a record id for the form is being given, initializing form with the data
+      // that belongs to the record id
+      if (this.props.recordId !== -1) {
+        initialData = this.props.crudStore.getRecord(this.props.recordId);
+      }
+
       // Retrieving field prefilled data
-      var prefilled = this.initialData && this.initialData[field.id];
+      var prefilled = initialData && initialData[field.id];
 
       // Rendering form field
       return _react2.default.createElement(
@@ -135,7 +129,9 @@ var Form = function (_Component) {
           ':                    '
         ),
         _react2.default.createElement(_FormInput2.default // Setting form field as an editable field
-        , _extends({}, field, { // Setting field properties
+        , _extends({ readOnly: this.props.readOnly // Setting field readonly or not based on properties
+          , disabled: this.props.disabled // Setting field disable or not based on properties
+        }, field, { // Setting field properties
           ref: field.id // Setting field ref so that it can be accessed easily
           , defaultValue: prefilled })),
         '         '
@@ -148,6 +144,7 @@ var Form = function (_Component) {
 
 Form.defaultProps = {
   readOnly: false,
-  recordId: -1
+  recordId: -1,
+  disabled: false
 };
 exports.default = Form;

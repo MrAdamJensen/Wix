@@ -13,26 +13,24 @@ Special properties for Form
 readOnly: true if the form should be editable
 recordId: the id of data to be displayed in the form
 crudStore: the CRUD store from which to retrieve the data
+disabled: set the input to be disabled if true
 */
 type Props = {
   readOnly: boolean,
   recordId: number,
   crudStore: CRUDStore,
+  disabled: boolean,
 };
 
 /*
 Form component which displays a form
 */
 class Form extends Component<Props> {
-  // Component fields type definitions
-  fields: List<Object>;
-  initialData: ?Object;
-  crudStore: CRUDStore;
-
   // Setting the default values for the properties 
   static defaultProps = {
     readOnly: false,
     recordId: -1,
+    disabled: false,
   };
 
   /*
@@ -41,17 +39,6 @@ class Form extends Component<Props> {
   constructor(props: Props) {
     // Calling meta class constructor
     super(props);
-
-    // Retrieving the store and store actions objects
-    this.crudStore = props.crudStore;
-  // Retrieving form schema
-    this.fields = this.crudStore.getSchema();
-
-    // If a record id for the form is being given, initializing form with the data
-    // that belongs to the record id
-    if (this.props.recordId !== -1) {
-      this.initialData = this.crudStore.getRecord(this.props.recordId);
-    }
   }
   
   /*
@@ -62,7 +49,7 @@ class Form extends Component<Props> {
     let data: Object = {};
 
     // Retrieving each form field data and setting it in data to be returned
-    this.fields.forEach((field: FormInputField) => 
+    this.props.crudStore.getSchema().forEach((field: FormInputField) => 
       data[field.id] = this.refs[field.id].getValue()
     );
     return data;
@@ -74,7 +61,7 @@ class Form extends Component<Props> {
   render() {
     return (
       <form className="Form">
-        {this.fields.map(this._renderFormField, this)} {/*Rendering all form fields*/}
+        {this.props.crudStore.getSchema().map(this._renderFormField, this)} {/*Rendering all form fields*/}
       </form>
     );
   }
@@ -83,8 +70,17 @@ class Form extends Component<Props> {
   Rendering a form field
   */
   _renderFormField(field: FormInputField) {
+    // Initializing
+    let initialData;
+
+    // If a record id for the form is being given, initializing form with the data
+    // that belongs to the record id
+    if (this.props.recordId !== -1) {
+      initialData = this.props.crudStore.getRecord(this.props.recordId);
+    }
+
     // Retrieving field prefilled data
-    const prefilled = (this.initialData && this.initialData[field.id]);
+    const prefilled = (initialData && initialData[field.id]);
 
     // Rendering form field
     return (
@@ -97,6 +93,8 @@ class Form extends Component<Props> {
             {field.label}:                    {/*Setting form field label text*/}
         </label>   
         <FormInput                            // Setting form field as an editable field
+          readOnly={this.props.readOnly}      // Setting field readonly or not based on properties
+          disabled={this.props.disabled}        // Setting field disable or not based on properties
           {...field}                          // Setting field properties
           ref={field.id}                      // Setting field ref so that it can be accessed easily
           defaultValue={prefilled} />         {/*Setting field default value*/}

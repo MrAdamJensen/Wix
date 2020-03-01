@@ -74,6 +74,7 @@ id: the id of the form field, used to identify it with ref
 options: the options for a form field that accept a set of options
 label: the form field label
 getForm: returning the inclosing form
+disabled: set the input to be disabled if true
 */
 var FormInput = function (_Component) {
   _inherits(FormInput, _Component);
@@ -107,13 +108,15 @@ var FormInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _commonProps;
+
       // Setting the common properties each component need to have 
-      var commonProps = _defineProperty({
+      var commonProps = (_commonProps = {
         id: this.props.id,
         ref: 'input',
         defaultValue: this.props.defaultValue,
         readOnly: this.props.readOnly
-      }, 'defaultValue', this.props.defaultValue);
+      }, _defineProperty(_commonProps, 'defaultValue', this.props.defaultValue), _defineProperty(_commonProps, 'disabled', this.props.disabled ? true : undefined), _commonProps);
 
       // Creating field based on the form field type
       switch (this.props.type) {
@@ -160,6 +163,7 @@ FormInput.defaultProps = {
   options: [],
   readOnly: false,
   label: "",
-  getForm: function getForm() {}
+  getForm: function getForm() {},
+  disabled: false
 };
 exports.default = FormInput;

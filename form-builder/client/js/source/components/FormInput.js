@@ -25,6 +25,7 @@ id: the id of the form field, used to identify it with ref
 options: the options for a form field that accept a set of options
 label: the form field label
 getForm: returning the inclosing form
+disabled: set the input to be disabled if true
 */
 export type FormInputField = {
   type: FormInputFieldType,
@@ -33,7 +34,8 @@ export type FormInputField = {
   options: Array<string>,
   readOnly:bool,
   label: string,
-  getForm: () => any
+  getForm: () => any,
+  disabled: boolean,
 };
 
 /*
@@ -49,7 +51,8 @@ class FormInput extends Component<FormInputField> {
     options: [],
     readOnly: false,
     label: "",
-    getForm: () => {}
+    getForm: () => {},
+    disabled: false
   };
   
   /*
@@ -71,6 +74,7 @@ class FormInput extends Component<FormInputField> {
       defaultValue: this.props.defaultValue,
       readOnly: this.props.readOnly,
       defaultValue: this.props.defaultValue,
+      disabled: this.props.disabled ? true : undefined 
     };
 
     // Creating field based on the form field type

@@ -16,9 +16,9 @@ var _Utils = require('./components/Utils');
 
 var _Utils2 = _interopRequireDefault(_Utils);
 
-var _FormBuilder = require('./components/FormBuilder');
+var _FormBuilderApp = require('./components/FormBuilderApp');
 
-var _FormBuilder2 = _interopRequireDefault(_FormBuilder);
+var _FormBuilderApp2 = _interopRequireDefault(_FormBuilderApp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29,7 +29,7 @@ _reactDom2.default.render(_react2.default.createElement(
     'div',
     { className: 'app-header' },
     _react2.default.createElement(_Logo2.default, null),
-    ' Welcome to Form Builder!'
+    ' Welcome to Form Builder App!'
   ),
-  _react2.default.createElement(_FormBuilder2.default, null)
+  _react2.default.createElement(_FormBuilderApp2.default, null)
 ), _Utils2.default.retrieveElementByID('pad'));
