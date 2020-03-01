@@ -1494,6 +1494,17 @@ var SuggestField = function (_Component) {
     }
 
     /*
+    Executed when new properties are given so that when a new component 
+    is created it will receive the new default value
+    */
+
+  }, {
+    key: 'UNSAFE_componentWillReceiveProps',
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
+      this.setState({ value: nextProps.defaultValue });
+    }
+
+    /*
     Rendering component
     */
 

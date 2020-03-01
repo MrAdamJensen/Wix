@@ -57,6 +57,14 @@ class SuggestField extends Component<Props, State> {
   }
   
   /*
+  Executed when new properties are given so that when a new component 
+  is created it will receive the new default value
+  */
+ UNSAFE_componentWillReceiveProps(nextProps: Props) {
+  this.setState({value: nextProps.defaultValue})
+  }
+
+  /*
   Rendering component
   */
   render() {
