@@ -74,22 +74,16 @@ var SuggestField = function (_Component) {
     }
 
     /*
-    Executed when new properties are given so that when a new component 
-    is created it will receive the new default value
-    */
-
-  }, {
-    key: 'UNSAFE_componentWillReceiveProps',
-    value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      this.setState({ value: nextProps.defaultValue });
-    }
-
-    /*
-    Rendering component
+    Updating state on props change, not recommended but no time to change model
     */
 
   }, {
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
       // otherwise, render it as input
@@ -164,12 +158,24 @@ var SuggestField = function (_Component) {
         )
       );
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      // Hack, asserting this call happened upon props change
+      // if yes, update state, if not don't update
+      if (nextProps.defaultValue !== null) {
+        return { value: nextProps.defaultValue };
+      } else {
+        return null;
+      }
+    }
   }]);
 
   return SuggestField;
 }(_react.Component);
 
 SuggestField.defaultProps = {
+  defaultValue: null,
   readOnly: false
 };
 exports.default = SuggestField;

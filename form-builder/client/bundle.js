@@ -153,8 +153,10 @@ var BasicField = function (_Component) {
     // Calling meta class constructor
 
 
-    if (typeof props.defaultValue !== 'undefined') {
+    if (typeof props.defaultValue !== 'undefined' && props.defaultValue != null) {
       _this.state = { value: props.defaultValue.toString() };
+    } else {
+      _this.state = { value: "" };
     }
     return _this;
   }
@@ -222,7 +224,7 @@ var BasicField = function (_Component) {
     value: function getDerivedStateFromProps(nextProps, prevState) {
       // Hack, asserting this call happened upon props change
       // if yes, update state, if not don't update
-      if (nextProps.defaultValue !== "") {
+      if (nextProps.defaultValue !== null) {
         return { value: nextProps.defaultValue };
       } else {
         return null;
@@ -234,7 +236,7 @@ var BasicField = function (_Component) {
 }(_react.Component);
 
 BasicField.defaultProps = {
-  defaultValue: "",
+  defaultValue: null,
   readOnly: false
 };
 exports.default = BasicField;
@@ -2045,7 +2047,7 @@ var RatingField = function (_Component) {
     if (typeof props.defaultValue === 'string') {
       _this.defaultValue = parseInt(props.defaultValue, 10);
     } else {
-      _this.defaultValue = props.defaultValue;
+      _this.defaultValue = props.defaultValue || 3;
     }
 
     // Asserting default value initialized
@@ -2108,34 +2110,16 @@ var RatingField = function (_Component) {
     }
 
     /*
-    Executed when new properties are given so that when a new component 
-    is created it will receive the new default value
-    */
-
-  }, {
-    key: 'UNSAFE_componentWillReceiveProps',
-    value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      // If default value is string, convert it to int
-      // Otherwise, just save it
-      if (typeof nextProps.defaultValue === 'string') {
-        this.defaultValue = parseInt(nextProps.defaultValue, 10);
-      } else {
-        this.defaultValue = nextProps.defaultValue;
-      }
-
-      // Asserting default value initialized
-      (0, _invariant2.default)(this.defaultValue, "RatingField.constructor: default value not initialized");
-
-      // Updating number of stars highlighted
-      this.setRating(this.defaultValue);
-    }
-
-    /*
-    Rendering component
+    Updating state on props change, not recommended but no time to change model
     */
 
   }, {
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering stars
       var stars = this._renderStars();
@@ -2204,13 +2188,41 @@ var RatingField = function (_Component) {
 
       return stars;
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      // Initializing
+      var defaultValue = void 0;
+
+      // Hack, asserting this call happened upon props change
+      // if yes, update state, if not don't update
+      if (nextProps.defaultValue !== null) {
+        // If default value is string, convert it to int
+        // Otherwise, just save it
+        if (typeof nextProps.defaultValue === 'string') {
+          defaultValue = parseInt(nextProps.defaultValue, 10);
+        } else {
+          defaultValue = nextProps.defaultValue;
+        }
+
+        // Asserting default value initialized
+        (0, _invariant2.default)(defaultValue, "RatingField.getDerivedStateFromProps: default value not initialized");
+
+        return {
+          tmpRating: defaultValue,
+          rating: defaultValue
+        };
+      } else {
+        return null;
+      }
+    }
   }]);
 
   return RatingField;
 }(_react.Component);
 
 RatingField.defaultProps = {
-  defaultValue: 3,
+  defaultValue: null,
   max: 5,
   readOnly: false
 };
@@ -2292,22 +2304,16 @@ var SuggestField = function (_Component) {
     }
 
     /*
-    Executed when new properties are given so that when a new component 
-    is created it will receive the new default value
-    */
-
-  }, {
-    key: 'UNSAFE_componentWillReceiveProps',
-    value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      this.setState({ value: nextProps.defaultValue });
-    }
-
-    /*
-    Rendering component
+    Updating state on props change, not recommended but no time to change model
     */
 
   }, {
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
       // otherwise, render it as input
@@ -2382,12 +2388,24 @@ var SuggestField = function (_Component) {
         )
       );
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      // Hack, asserting this call happened upon props change
+      // if yes, update state, if not don't update
+      if (nextProps.defaultValue !== null) {
+        return { value: nextProps.defaultValue };
+      } else {
+        return null;
+      }
+    }
   }]);
 
   return SuggestField;
 }(_react.Component);
 
 SuggestField.defaultProps = {
+  defaultValue: null,
   readOnly: false
 };
 exports.default = SuggestField;

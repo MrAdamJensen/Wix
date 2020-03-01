@@ -13,7 +13,7 @@ max: number of stars to display
 getForm: returning the inclosing form
 */
 type Props = {
-  defaultValue: number | string,
+  defaultValue: number | string | null,
   readOnly: boolean,
   max: number,
   id: string,
@@ -38,11 +38,11 @@ class RatingField extends Component<Props, State> {
   // Component fields type definitions
   props: Props;
   state: State;
-  defaultValue: number
+  defaultValue: number | null
 
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: 3,
+    defaultValue: null,
     max: 5,
     readOnly: false,
   };
@@ -60,7 +60,7 @@ class RatingField extends Component<Props, State> {
       this.defaultValue = parseInt(props.defaultValue, 10)
     }
     else{
-      this.defaultValue = props.defaultValue
+      this.defaultValue = props.defaultValue || 3
     }
     
     // Asserting default value initialized
@@ -106,24 +106,35 @@ class RatingField extends Component<Props, State> {
   }
 
   /*
-  Executed when new properties are given so that when a new component 
-  is created it will receive the new default value
+  Updating state on props change, not recommended but no time to change model
   */
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    // If default value is string, convert it to int
-    // Otherwise, just save it
-    if (typeof nextProps.defaultValue === 'string') {
-      this.defaultValue = parseInt(nextProps.defaultValue, 10)
+  static getDerivedStateFromProps(nextProps : Props, prevState: State){
+    // Initializing
+    let defaultValue;
+
+    // Hack, asserting this call happened upon props change
+    // if yes, update state, if not don't update
+    if(nextProps.defaultValue !== null){
+      // If default value is string, convert it to int
+      // Otherwise, just save it
+      if (typeof nextProps.defaultValue === 'string') {
+        defaultValue = parseInt(nextProps.defaultValue, 10)
+      }
+      else{
+        defaultValue = nextProps.defaultValue
+      }
+      
+      // Asserting default value initialized
+      invariant(defaultValue, "RatingField.getDerivedStateFromProps: default value not initialized")
+      
+      return {
+        tmpRating: defaultValue,
+        rating: defaultValue,
+      };
     }
     else{
-      this.defaultValue = nextProps.defaultValue
+      return null
     }
-    
-    // Asserting default value initialized
-    invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
-
-    // Updating number of stars highlighted
-    this.setRating(this.defaultValue);
   }
   
   /*

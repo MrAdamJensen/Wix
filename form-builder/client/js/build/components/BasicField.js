@@ -52,8 +52,10 @@ var BasicField = function (_Component) {
     // Calling meta class constructor
 
 
-    if (typeof props.defaultValue !== 'undefined') {
+    if (typeof props.defaultValue !== 'undefined' && props.defaultValue != null) {
       _this.state = { value: props.defaultValue.toString() };
+    } else {
+      _this.state = { value: "" };
     }
     return _this;
   }
@@ -121,7 +123,7 @@ var BasicField = function (_Component) {
     value: function getDerivedStateFromProps(nextProps, prevState) {
       // Hack, asserting this call happened upon props change
       // if yes, update state, if not don't update
-      if (nextProps.defaultValue !== "") {
+      if (nextProps.defaultValue !== null) {
         return { value: nextProps.defaultValue };
       } else {
         return null;
@@ -133,7 +135,7 @@ var BasicField = function (_Component) {
 }(_react.Component);
 
 BasicField.defaultProps = {
-  defaultValue: "",
+  defaultValue: null,
   readOnly: false
 };
 exports.default = BasicField;
