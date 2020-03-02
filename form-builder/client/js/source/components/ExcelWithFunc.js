@@ -91,9 +91,9 @@ class ExcelWithFunc extends Component<Props, State> {
   /*
   Updating state on props change
   */
- componentWillReceiveProps(nextProps : Props){
+ componentWillReceiveProps(nextProps : Props) {
   // If props change, update state required fields based on new props
-  if(nextProps.initialActivatedAction !== this.props.initialActivatedAction){
+  if (nextProps.initialActivatedAction !== this.props.initialActivatedAction) {
     this.setState({actionActivated: nextProps.initialActivatedAction});
   }
 }

@@ -90,7 +90,7 @@ class Form extends Component<Props> {
 
     // If the field is read only globally but this component is requested to
     // override it , override it
-    if(field.readOnlyGlobal && typeof this.props.readOnlyGlobalOverride !== 'undefined'){
+    if (field.readOnlyGlobal && typeof this.props.readOnlyGlobalOverride !== 'undefined') {
       field.readOnlyGlobal = this.props.readOnlyGlobalOverride
 
     }

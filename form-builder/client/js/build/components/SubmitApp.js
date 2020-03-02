@@ -10,14 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _CRUDStore = require('../flux-imm/CRUDStore');
-
-var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
-
-var _CRUDActions = require('../flux-imm/CRUDActions');
-
-var _CRUDActions2 = _interopRequireDefault(_CRUDActions);
-
 var _CreatedForm = require('./CreatedForm');
 
 var _CreatedForm2 = _interopRequireDefault(_CreatedForm);

@@ -2394,14 +2394,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _CRUDStore = require('../flux-imm/CRUDStore');
-
-var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
-
-var _CRUDActions = require('../flux-imm/CRUDActions');
-
-var _CRUDActions2 = _interopRequireDefault(_CRUDActions);
-
 var _CreatedForm = require('./CreatedForm');
 
 var _CreatedForm2 = _interopRequireDefault(_CreatedForm);
@@ -2453,7 +2445,7 @@ var SubmissionsApp = function (_Component) {
 }(_react.Component);
 
 exports.default = SubmissionsApp;
-},{"../flux-imm/CRUDActions":23,"../flux-imm/CRUDStore":24,"./CreatedForm":7,"react":55}],19:[function(require,module,exports){
+},{"./CreatedForm":7,"react":55}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

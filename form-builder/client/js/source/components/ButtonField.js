@@ -26,7 +26,7 @@ class ButtonField extends Component<Props> {
   /*
   Returning the default value given to simulate an actual input field
   */
-  getValue(){
+  getValue() {
     return this.props.defaultValue
   }
   

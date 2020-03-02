@@ -1,8 +1,6 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import CRUDStore from '../flux-imm/CRUDStore';
-import CRUDActions from '../flux-imm/CRUDActions';
 import CreatedForm from './CreatedForm'
 
 /*

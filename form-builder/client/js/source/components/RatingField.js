@@ -108,12 +108,12 @@ class RatingField extends Component<Props, State> {
   /*
   Updating state on props change
   */
- componentWillReceiveProps(nextProps : Props){
+ componentWillReceiveProps(nextProps : Props) {
     // Initializing
     let defaultValue;
     
     // Asserting props changed
-    if(nextProps.defaultValue !== this.props.defaultValue){
+    if (nextProps.defaultValue !== this.props.defaultValue) {
       // If default value is string, convert it to int
       // Otherwise, just save it
       if (typeof nextProps.defaultValue === 'string') {

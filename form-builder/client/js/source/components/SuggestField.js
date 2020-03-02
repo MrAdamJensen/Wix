@@ -60,9 +60,9 @@ class SuggestField extends Component<Props, State> {
   /*
   Updating state on props change
   */
-  componentWillReceiveProps(nextProps : Props){
+  componentWillReceiveProps(nextProps : Props) {
     // If props change, update state required fields based on new props
-    if(nextProps.defaultValue !== this.props.defaultValue){
+    if (nextProps.defaultValue !== this.props.defaultValue) {
       this.setState({value: nextProps.defaultValue});
     }
   }
