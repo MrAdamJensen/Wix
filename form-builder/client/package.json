@@ -10,7 +10,9 @@
   },
   "scripts": {
     "watch": "watch \"sh scripts/build.sh\" js/source/ js/__tests__ css/",
-    "test": "jest"
+    "test": "jest",
+    "build": "sh ./scripts/build.sh",
+    "deploy": "sh ./scripts/deploy.sh"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -112,7 +114,16 @@
     "prettier-eslint": "^9.0.1",
     "react": "16.4.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-dom": "16.4.0"
+    "react-dom": "^16.13.0",
+    "uglify": "^0.1.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "csscolormin": "^0.1.0",
+    "cssshrink": "0.0.5",
+    "grunt": "^1.0.4",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^4.0.1"
+  }
 }
