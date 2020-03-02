@@ -16,7 +16,7 @@ let schema =  [
     show: true,
     sample: '1',
     align: 'left',
-    readOnly: true,
+    readOnlyGlobal: true,
   },
   {
     id: 'form_name',
@@ -32,7 +32,7 @@ let schema =  [
     show: true,
     sample: '0',
     align: 'left',
-    readOnly: true,
+    readOnlyGlobal: true,
   },
   {
     id: 'submit_page',

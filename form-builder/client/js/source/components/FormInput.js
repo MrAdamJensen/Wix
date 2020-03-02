@@ -37,6 +37,7 @@ export type FormInputField = {
   label: string,
   getForm: () => any,
   disabled: boolean,
+  readOnlyGlobal?: boolean,
 };
 
 /*
@@ -73,7 +74,7 @@ class FormInput extends Component<FormInputField> {
       id: this.props.id,
       ref: 'input',
       defaultValue: this.props.defaultValue,
-      readOnly: this.props.readOnly,
+      readOnly: this.props.readOnlyGlobal || this.props.readOnly,
       disabled: this.props.disabled ? true : undefined,
     };
 
