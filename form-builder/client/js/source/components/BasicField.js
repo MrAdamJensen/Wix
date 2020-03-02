@@ -47,7 +47,7 @@ class BasicField extends Component<Props, State> {
     if (typeof props.defaultValue !== 'undefined' && props.defaultValue != null) {
       this.state = {value: props.defaultValue.toString()};
     }
-    else{
+    else {
       this.state = {value: ""};
     }
   }

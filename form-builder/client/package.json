@@ -25,10 +25,6 @@
     },
     "rules": {
       "accessor-pairs": 0,
-      "brace-style": [
-        2,
-        "1tbs"
-      ],
       "comma-dangle": [
         2,
         "always-multiline"
