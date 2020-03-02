@@ -92,8 +92,19 @@ class FormBuilder extends Component<Props, State> {
     this.editorFormCrudStore = new CRUDStore({storeType: 'temp', schema:editorFormSchema})
     this.editorFormCrudActions = new CRUDActions(this.editorFormCrudStore)
 
+    // Creating for each form a name field
+    let nameField = {
+      id: 'name',
+      type: 'text',
+      label: 'Name',
+      show: true,
+      sample: '',
+      align: 'left',
+      readOnlyGlobal: true,
+    }
+
     // Initializing the created form store for this component
-    this.createdFormCrudStore = new CRUDStore({storeType: 'temp', schema:[]})
+    this.createdFormCrudStore = new CRUDStore({storeType: 'temp', schema:[nameField]})
     this.createdFormCrudActions = new CRUDActions(this.createdFormCrudStore)
 
     // Listening for changes in the created form so that it can re-render the changes in the 
@@ -112,9 +123,10 @@ class FormBuilder extends Component<Props, State> {
       id: 'not filled',
       type: 'not filled',
       label: 'not filled',
-      show: true,
+      show: false,
       sample: '',
       align: 'left',
+      readOnlyGlobal: true,
     }
 
     // Retrieving current schema

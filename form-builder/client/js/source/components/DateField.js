@@ -16,6 +16,12 @@ class DateField extends BasicField {
     super(props);
   }
 
+  // Setting the default values for the properties 
+  static defaultProps = {
+    defaultValue: " ",
+    readOnly: false,
+  };
+
   /*
   Rendering component
   */

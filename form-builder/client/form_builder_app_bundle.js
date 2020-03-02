@@ -145,6 +145,8 @@ var BasicField = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function BasicField(props) {
     _classCallCheck(this, BasicField);
 
@@ -161,14 +163,15 @@ var BasicField = function (_Component) {
     return _this;
   }
 
-  // Setting the default values for the properties 
-
-  // Component fields type definitions
+  /*
+  Updating state on props change
+  */
 
 
   _createClass(BasicField, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      // If props change, update state required fields based on new props
       if (nextProps.defaultValue !== this.props.defaultValue) {
         this.setState({ value: nextProps.defaultValue.toString() });
       }
@@ -226,10 +229,6 @@ var BasicField = function (_Component) {
   return BasicField;
 }(_react.Component);
 
-BasicField.defaultProps = {
-  defaultValue: "",
-  readOnly: false
-};
 exports.default = BasicField;
 },{"react":55}],4:[function(require,module,exports){
 'use strict';
@@ -395,13 +394,16 @@ var ColorField = function (_BasicField) {
     return _possibleConstructorReturn(this, (ColorField.__proto__ || Object.getPrototypeOf(ColorField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(ColorField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering
       return _react2.default.createElement('input', _extends({
@@ -415,6 +417,10 @@ var ColorField = function (_BasicField) {
   return ColorField;
 }(_BasicField3.default);
 
+ColorField.defaultProps = {
+  defaultValue: "#FF0000",
+  readOnly: false
+};
 exports.default = ColorField;
 },{"./BasicField":3,"react":55}],7:[function(require,module,exports){
 'use strict';
@@ -459,13 +465,16 @@ var DateField = function (_BasicField) {
     return _possibleConstructorReturn(this, (DateField.__proto__ || Object.getPrototypeOf(DateField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(DateField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -480,6 +489,10 @@ var DateField = function (_BasicField) {
   return DateField;
 }(_BasicField3.default);
 
+DateField.defaultProps = {
+  defaultValue: " ",
+  readOnly: false
+};
 exports.default = DateField;
 },{"./BasicField":3,"react":55}],8:[function(require,module,exports){
 'use strict';
@@ -672,13 +685,16 @@ var EmailField = function (_BasicField) {
     return _possibleConstructorReturn(this, (EmailField.__proto__ || Object.getPrototypeOf(EmailField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(EmailField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -693,6 +709,10 @@ var EmailField = function (_BasicField) {
   return EmailField;
 }(_BasicField3.default);
 
+EmailField.defaultProps = {
+  defaultValue: ' ',
+  readOnly: false
+};
 exports.default = EmailField;
 },{"./BasicField":3,"react":55}],10:[function(require,module,exports){
 'use strict';
@@ -1326,7 +1346,7 @@ var ExcelWithFunc = function (_Component) {
 
     // Initializing component state
     _this.state = {
-      actionActivated: -1,
+      actionActivated: _this.props.initialActivatedAction,
       count: _this.crudStore.getCount()
     };
 
@@ -1355,6 +1375,19 @@ var ExcelWithFunc = function (_Component) {
       // If current activated action did not change and current number of rows in table did not change
       // don't call render
       return newState.actionActivated !== this.state.actionActivated || newState.count !== this.state.count;
+    }
+
+    /*
+    Updating state on props change
+    */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // If props change, update state required fields based on new props
+      if (nextProps.initialActivatedAction !== this.props.initialActivatedAction) {
+        this.setState({ actionActivated: nextProps.initialActivatedAction });
+      }
     }
 
     /*
@@ -1481,7 +1514,8 @@ var ExcelWithFunc = function (_Component) {
 }(_react.Component);
 
 ExcelWithFunc.defaultProps = {
-  actions: []
+  actions: [],
+  initialActivatedAction: -1
 };
 exports.default = ExcelWithFunc;
 },{"../flux-imm/CRUDActions":23,"../flux-imm/CRUDStore":24,"./Button":4,"./Excel":10,"react":55}],12:[function(require,module,exports){
@@ -1527,6 +1561,7 @@ readOnly: true if the form should be editable
 recordId: the id of data to be displayed in the form
 crudStore: the CRUD store from which to retrieve the data
 disabled: set the input to be disabled if true
+readOnlyGlobalOverride: if used, can override the current value of this prop
 */
 var Form = function (_Component) {
   _inherits(Form, _Component);
@@ -1570,6 +1605,8 @@ var Form = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      console.log(JSON.stringify(this.props.crudStore.getSchema(), null, 4));
+
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
@@ -1588,6 +1625,9 @@ var Form = function (_Component) {
       // Initializing
       var initialData = void 0;
 
+      // Copying field so that nothing will change it
+      field = _extends({}, field);
+
       // If a record id for the form is being given, initializing form with the data
       // that belongs to the record id
       if (this.props.recordId !== -1) {
@@ -1596,6 +1636,12 @@ var Form = function (_Component) {
 
       // Retrieving field prefilled data
       var prefilled = initialData && initialData[field.id];
+
+      // If the field is read only globally but this component is requested to
+      // override it , override it
+      if (field.readOnlyGlobal && typeof this.props.readOnlyGlobalOverride !== 'undefined') {
+        field.readOnlyGlobal = this.props.readOnlyGlobalOverride;
+      }
 
       // Rendering form field
       return _react2.default.createElement(
@@ -1756,8 +1802,18 @@ var FormBuilder = function (_Component) {
       this.editorFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: editorFormSchema });
       this.editorFormCrudActions = new _CRUDActions2.default(this.editorFormCrudStore);
 
-      // Initializing the created form store for this component
-      this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: [] });
+      // Creating for each form a name field
+      var nameField = {
+        id: 'name',
+        type: 'text',
+        label: 'Name',
+        show: true,
+        sample: '',
+        align: 'left',
+        readOnlyGlobal: true
+
+        // Initializing the created form store for this component
+      };this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: [nameField] });
       this.createdFormCrudActions = new _CRUDActions2.default(this.createdFormCrudStore);
 
       // Listening for changes in the created form so that it can re-render the changes in the 
@@ -1779,9 +1835,10 @@ var FormBuilder = function (_Component) {
         id: 'not filled',
         type: 'not filled',
         label: 'not filled',
-        show: true,
+        show: false,
         sample: '',
-        align: 'left'
+        align: 'left',
+        readOnlyGlobal: true
 
         // Retrieving current schema
       };var currentSchema = this.createdFormCrudStore.getSchema();
@@ -1937,6 +1994,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Local schema for testing without server
 var schema = [{
   id: 'form_id',
   label: 'Form Id',
@@ -1944,7 +2002,7 @@ var schema = [{
   show: true,
   sample: '1',
   align: 'left',
-  readOnly: true
+  readOnlyGlobal: true
 }, {
   id: 'form_name',
   label: 'Form Name',
@@ -1958,7 +2016,7 @@ var schema = [{
   show: true,
   sample: '0',
   align: 'left',
-  readOnly: true
+  readOnlyGlobal: true
 }, {
   id: 'submit_page',
   label: 'Submit Page',
@@ -2073,14 +2131,25 @@ var FormBuilderApp = function (_Component) {
     key: 'render',
     value: function render() {
       // Rendering
-      return _react2.default.createElement(_ExcelWithFunc2.default, {
-        ref: 'excelWithFunc',
-        crudStore: crudStore,
-        crudActions: crudActions,
-        actions: [this._createCreateFormAction.bind(this)],
+      return _react2.default.createElement(_ExcelWithFunc2.default
+      // Setting ref for easy access
+      , { ref: 'excelWithFunc'
+
+        // Setting the component data store and actions from which it will retrieve required
+        // data
+        , crudStore: crudStore,
+        crudActions: crudActions
+
+        // Setting the created form action in the ExcelWithFunc component
+        , actions: [this._createCreateFormAction.bind(this)],
         actionsDefs: ["Create Form"]
       });
     }
+
+    /*
+    Creating a created form action to give the excel with functionality component
+    */
+
   }, {
     key: '_createCreateFormAction',
     value: function _createCreateFormAction(finishActionExecution) {
@@ -2088,11 +2157,13 @@ var FormBuilderApp = function (_Component) {
         _Dialog2.default,
         {
           modal: true,
-          header: 'Create new form',
-          confirmLabel: 'Create',
-          onAction: this._addForm.bind(this, finishActionExecution) },
-        _react2.default.createElement(_FormBuilder2.default, {
-          ref: 'createdForm'
+          header: 'Create new form' // Setting title 
+          , confirmLabel: 'Create' // Setting confirm button label
+          , onAction: this._addForm.bind(this, finishActionExecution) // Setting the add new form callback to call when confirm button is clicked
+        },
+        _react2.default.createElement(_FormBuilder2.default
+        // Setting ref for easy access
+        , { ref: 'createdForm'
         })
       );
     }
@@ -2221,7 +2292,7 @@ var FormInput = function (_Component) {
         id: this.props.id,
         ref: 'input',
         defaultValue: this.props.defaultValue,
-        readOnly: this.props.readOnly,
+        readOnly: this.props.readOnlyGlobal || this.props.readOnly,
         disabled: this.props.disabled ? true : undefined
       };
 
@@ -2344,13 +2415,16 @@ var NumberField = function (_BasicField) {
     return _possibleConstructorReturn(this, (NumberField.__proto__ || Object.getPrototypeOf(NumberField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(NumberField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -2365,6 +2439,10 @@ var NumberField = function (_BasicField) {
   return NumberField;
 }(_BasicField3.default);
 
+NumberField.defaultProps = {
+  defaultValue: '0',
+  readOnly: false
+};
 exports.default = NumberField;
 },{"./BasicField":3,"react":55}],18:[function(require,module,exports){
 'use strict';
@@ -2440,7 +2518,7 @@ var RatingField = function (_Component) {
     }
 
     // Asserting default value initialized
-    (0, _invariant2.default)(_this.defaultValue, "RatingField.constructor: default value not initialized");
+    (0, _invariant2.default)(_this.defaultValue, 'RatingField.constructor: default value not initialized:  ' + _this.defaultValue);
 
     // Initializing component state
     _this.state = {
@@ -2499,16 +2577,39 @@ var RatingField = function (_Component) {
     }
 
     /*
-    Updating state on props change, not recommended but no time to change model
+    Updating state on props change
     */
 
   }, {
-    key: 'render',
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // Initializing
+      var defaultValue = void 0;
 
+      // Asserting props changed
+      if (nextProps.defaultValue !== this.props.defaultValue) {
+        // If default value is string, convert it to int
+        // Otherwise, just save it
+        if (typeof nextProps.defaultValue === 'string') {
+          defaultValue = parseInt(nextProps.defaultValue, 10);
+        } else {
+          defaultValue = nextProps.defaultValue;
+        }
+
+        // Asserting default value initialized
+        (0, _invariant2.default)(defaultValue, "RatingField.componentWillReceiveProps: default value not initialized");
+
+        // Updating state
+        this.setRating(defaultValue);
+      }
+    }
 
     /*
     Rendering component
     */
+
+  }, {
+    key: 'render',
     value: function render() {
       // Rendering stars
       var stars = this._renderStars();
@@ -2577,41 +2678,13 @@ var RatingField = function (_Component) {
 
       return stars;
     }
-  }], [{
-    key: 'getDerivedStateFromProps',
-    value: function getDerivedStateFromProps(nextProps, prevState) {
-      // Initializing
-      var defaultValue = void 0;
-
-      // Hack, asserting this call happened upon props change
-      // if yes, update state, if not don't update
-      if (nextProps.defaultValue !== null) {
-        // If default value is string, convert it to int
-        // Otherwise, just save it
-        if (typeof nextProps.defaultValue === 'string') {
-          defaultValue = parseInt(nextProps.defaultValue, 10);
-        } else {
-          defaultValue = nextProps.defaultValue;
-        }
-
-        // Asserting default value initialized
-        (0, _invariant2.default)(defaultValue, "RatingField.getDerivedStateFromProps: default value not initialized");
-
-        return {
-          tmpRating: defaultValue,
-          rating: defaultValue
-        };
-      } else {
-        return null;
-      }
-    }
   }]);
 
   return RatingField;
 }(_react.Component);
 
 RatingField.defaultProps = {
-  defaultValue: null,
+  defaultValue: 3,
   max: 5,
   readOnly: false
 };
@@ -2693,16 +2766,24 @@ var SuggestField = function (_Component) {
     }
 
     /*
-    Updating state on props change, not recommended but no time to change model
+    Updating state on props change
     */
 
   }, {
-    key: 'render',
-
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // If props change, update state required fields based on new props
+      if (nextProps.defaultValue !== this.props.defaultValue) {
+        this.setState({ value: nextProps.defaultValue });
+      }
+    }
 
     /*
     Rendering component
     */
+
+  }, {
+    key: 'render',
     value: function render() {
       // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
       // otherwise, render it as input
@@ -2777,24 +2858,13 @@ var SuggestField = function (_Component) {
         )
       );
     }
-  }], [{
-    key: 'getDerivedStateFromProps',
-    value: function getDerivedStateFromProps(nextProps, prevState) {
-      // Hack, asserting this call happened upon props change
-      // if yes, update state, if not don't update
-      if (nextProps.defaultValue !== null) {
-        return { value: nextProps.defaultValue };
-      } else {
-        return null;
-      }
-    }
   }]);
 
   return SuggestField;
 }(_react.Component);
 
 SuggestField.defaultProps = {
-  defaultValue: null,
+  defaultValue: "",
   readOnly: false
 };
 exports.default = SuggestField;
@@ -2841,13 +2911,16 @@ var TelField = function (_BasicField) {
     return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(TelField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -2862,6 +2935,10 @@ var TelField = function (_BasicField) {
   return TelField;
 }(_BasicField3.default);
 
+TelField.defaultProps = {
+  defaultValue: " ",
+  readOnly: false
+};
 exports.default = TelField;
 },{"./BasicField":3,"react":55}],21:[function(require,module,exports){
 'use strict';
@@ -2906,13 +2983,16 @@ var TextField = function (_BasicField) {
     return _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(TextField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -2920,6 +3000,8 @@ var TextField = function (_BasicField) {
         type: 'text' // Setting the required type for this input
       }, this.props, { // Setting all given properties to input
         onChange: this._onChange.bind(this) // Setting callback to update state on each change
+        , placeholder: '123-45-678' // Setting placeholder to inform on the tel patten
+        , pattern: '[0-9]{3}-[0-9]{2}-[0-9]{3}' // Setting a tel pattern
       })));
     }
   }]);
@@ -2927,6 +3009,10 @@ var TextField = function (_BasicField) {
   return TextField;
 }(_BasicField3.default);
 
+TextField.defaultProps = {
+  defaultValue: " ",
+  readOnly: false
+};
 exports.default = TextField;
 },{"./BasicField":3,"react":55}],22:[function(require,module,exports){
 'use strict';

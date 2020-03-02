@@ -30,12 +30,6 @@ class BasicField extends Component<Props, State> {
   props: Props;
   state: State;
 
-  // Setting the default values for the properties 
-  static defaultProps = {
-    defaultValue: "",
-    readOnly: false,
-  };
-
   /*
   Component constructor
   */
@@ -56,6 +50,7 @@ class BasicField extends Component<Props, State> {
   Updating state on props change
   */
   componentWillReceiveProps(nextProps : Props){
+    // If props change, update state required fields based on new props
     if(nextProps.defaultValue !== this.props.defaultValue){
       this.setState({value: nextProps.defaultValue.toString()});
     }

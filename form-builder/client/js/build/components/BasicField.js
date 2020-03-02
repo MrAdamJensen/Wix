@@ -44,6 +44,8 @@ var BasicField = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function BasicField(props) {
     _classCallCheck(this, BasicField);
 
@@ -60,14 +62,15 @@ var BasicField = function (_Component) {
     return _this;
   }
 
-  // Setting the default values for the properties 
-
-  // Component fields type definitions
+  /*
+  Updating state on props change
+  */
 
 
   _createClass(BasicField, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      // If props change, update state required fields based on new props
       if (nextProps.defaultValue !== this.props.defaultValue) {
         this.setState({ value: nextProps.defaultValue.toString() });
       }
@@ -125,8 +128,4 @@ var BasicField = function (_Component) {
   return BasicField;
 }(_react.Component);
 
-BasicField.defaultProps = {
-  defaultValue: "",
-  readOnly: false
-};
 exports.default = BasicField;

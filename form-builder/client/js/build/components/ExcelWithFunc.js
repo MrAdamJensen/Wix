@@ -78,7 +78,7 @@ var ExcelWithFunc = function (_Component) {
 
     // Initializing component state
     _this.state = {
-      actionActivated: -1,
+      actionActivated: _this.props.initialActivatedAction,
       count: _this.crudStore.getCount()
     };
 
@@ -107,6 +107,19 @@ var ExcelWithFunc = function (_Component) {
       // If current activated action did not change and current number of rows in table did not change
       // don't call render
       return newState.actionActivated !== this.state.actionActivated || newState.count !== this.state.count;
+    }
+
+    /*
+    Updating state on props change
+    */
+
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      // If props change, update state required fields based on new props
+      if (nextProps.initialActivatedAction !== this.props.initialActivatedAction) {
+        this.setState({ actionActivated: nextProps.initialActivatedAction });
+      }
     }
 
     /*
@@ -233,6 +246,7 @@ var ExcelWithFunc = function (_Component) {
 }(_react.Component);
 
 ExcelWithFunc.defaultProps = {
-  actions: []
+  actions: [],
+  initialActivatedAction: -1
 };
 exports.default = ExcelWithFunc;

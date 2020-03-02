@@ -1,6 +1,9 @@
 /* @flow */
 
 import React, { Component } from 'react';
+import CRUDStore from '../flux-imm/CRUDStore';
+import CRUDActions from '../flux-imm/CRUDActions';
+import CreatedForm from './CreatedForm'
 
 /*
 Special properties for SubmissionsApp
@@ -26,7 +29,7 @@ class SubmissionsApp extends Component<Props> {
   */
   render() {
     // Rendering
-    return <div> its working</div>
+    return <CreatedForm/>
   }
 }
 

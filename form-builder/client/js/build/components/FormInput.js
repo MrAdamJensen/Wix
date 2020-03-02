@@ -115,7 +115,7 @@ var FormInput = function (_Component) {
         id: this.props.id,
         ref: 'input',
         defaultValue: this.props.defaultValue,
-        readOnly: this.props.readOnly,
+        readOnly: this.props.readOnlyGlobal || this.props.readOnly,
         disabled: this.props.disabled ? true : undefined
       };
 

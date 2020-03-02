@@ -40,13 +40,16 @@ var EmailField = function (_BasicField) {
     return _possibleConstructorReturn(this, (EmailField.__proto__ || Object.getPrototypeOf(EmailField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(EmailField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -61,4 +64,8 @@ var EmailField = function (_BasicField) {
   return EmailField;
 }(_BasicField3.default);
 
+EmailField.defaultProps = {
+  defaultValue: ' ',
+  readOnly: false
+};
 exports.default = EmailField;

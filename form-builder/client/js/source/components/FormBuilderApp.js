@@ -8,6 +8,7 @@ import CRUDActions from '../flux-imm/CRUDActions';
 import type {VoidMethod} from './ExcelWithFunc'
 import FormBuilder from './FormBuilder'
 
+// Local schema for testing without server
 let schema =  [
   {
     id: 'form_id',
@@ -139,21 +140,34 @@ class FormBuilderApp extends Component<Props> {
   render() {
     // Rendering
     return <ExcelWithFunc
-            ref="excelWithFunc"
+            // Setting ref for easy access
+            ref="excelWithFunc"           
+            
+            // Setting the component data store and actions from which it will retrieve required
+            // data
             crudStore={crudStore}
             crudActions={crudActions}
+
+            // Setting the created form action in the ExcelWithFunc component
             actions={[this._createCreateFormAction.bind(this)]}
             actionsDefs={["Create Form"]}
           /> 
   }
   
+  /*
+  Creating a created form action to give the excel with functionality component
+  */
   _createCreateFormAction(finishActionExecution: VoidMethod) {
     return <Dialog 
-              modal={true}
-              header="Create new form"
-              confirmLabel="Create"
-              onAction={this._addForm.bind(this, finishActionExecution)}>
+              modal={true}                                                 
+              header="Create new form"                                     // Setting title 
+              confirmLabel="Create"                                        // Setting confirm button label
+              onAction={this._addForm.bind(this, finishActionExecution)}   // Setting the add new form callback to call when confirm button is clicked
+            >  
+
+              {/*Setting the form builder to provide the ability to create a form */}
               <FormBuilder 
+                // Setting ref for easy access
                 ref="createdForm" 
               />
             </Dialog>

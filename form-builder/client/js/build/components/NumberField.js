@@ -40,13 +40,16 @@ var NumberField = function (_BasicField) {
     return _possibleConstructorReturn(this, (NumberField.__proto__ || Object.getPrototypeOf(NumberField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(NumberField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -61,4 +64,8 @@ var NumberField = function (_BasicField) {
   return NumberField;
 }(_BasicField3.default);
 
+NumberField.defaultProps = {
+  defaultValue: '0',
+  readOnly: false
+};
 exports.default = NumberField;

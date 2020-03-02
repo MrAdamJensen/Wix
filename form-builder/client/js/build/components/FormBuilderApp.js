@@ -38,6 +38,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Local schema for testing without server
 var schema = [{
   id: 'form_id',
   label: 'Form Id',
@@ -45,7 +46,7 @@ var schema = [{
   show: true,
   sample: '1',
   align: 'left',
-  readOnly: true
+  readOnlyGlobal: true
 }, {
   id: 'form_name',
   label: 'Form Name',
@@ -59,7 +60,7 @@ var schema = [{
   show: true,
   sample: '0',
   align: 'left',
-  readOnly: true
+  readOnlyGlobal: true
 }, {
   id: 'submit_page',
   label: 'Submit Page',
@@ -174,14 +175,25 @@ var FormBuilderApp = function (_Component) {
     key: 'render',
     value: function render() {
       // Rendering
-      return _react2.default.createElement(_ExcelWithFunc2.default, {
-        ref: 'excelWithFunc',
-        crudStore: crudStore,
-        crudActions: crudActions,
-        actions: [this._createCreateFormAction.bind(this)],
+      return _react2.default.createElement(_ExcelWithFunc2.default
+      // Setting ref for easy access
+      , { ref: 'excelWithFunc'
+
+        // Setting the component data store and actions from which it will retrieve required
+        // data
+        , crudStore: crudStore,
+        crudActions: crudActions
+
+        // Setting the created form action in the ExcelWithFunc component
+        , actions: [this._createCreateFormAction.bind(this)],
         actionsDefs: ["Create Form"]
       });
     }
+
+    /*
+    Creating a created form action to give the excel with functionality component
+    */
+
   }, {
     key: '_createCreateFormAction',
     value: function _createCreateFormAction(finishActionExecution) {
@@ -189,11 +201,13 @@ var FormBuilderApp = function (_Component) {
         _Dialog2.default,
         {
           modal: true,
-          header: 'Create new form',
-          confirmLabel: 'Create',
-          onAction: this._addForm.bind(this, finishActionExecution) },
-        _react2.default.createElement(_FormBuilder2.default, {
-          ref: 'createdForm'
+          header: 'Create new form' // Setting title 
+          , confirmLabel: 'Create' // Setting confirm button label
+          , onAction: this._addForm.bind(this, finishActionExecution) // Setting the add new form callback to call when confirm button is clicked
+        },
+        _react2.default.createElement(_FormBuilder2.default
+        // Setting ref for easy access
+        , { ref: 'createdForm'
         })
       );
     }

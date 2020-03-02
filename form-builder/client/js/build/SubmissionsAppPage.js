@@ -29,7 +29,7 @@ _reactDom2.default.render(_react2.default.createElement(
     'div',
     { className: 'app-header' },
     _react2.default.createElement(_Logo2.default, null),
-    ' Submissions App'
+    ' Form Submissions Page'
   ),
   _react2.default.createElement(_SubmissionsApp2.default, null)
 ), _Utils2.default.retrieveElementByID('app'));

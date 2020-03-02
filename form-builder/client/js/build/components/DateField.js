@@ -40,13 +40,16 @@ var DateField = function (_BasicField) {
     return _possibleConstructorReturn(this, (DateField.__proto__ || Object.getPrototypeOf(DateField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(DateField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -61,4 +64,8 @@ var DateField = function (_BasicField) {
   return DateField;
 }(_BasicField3.default);
 
+DateField.defaultProps = {
+  defaultValue: " ",
+  readOnly: false
+};
 exports.default = DateField;

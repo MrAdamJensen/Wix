@@ -40,6 +40,7 @@ readOnly: true if the form should be editable
 recordId: the id of data to be displayed in the form
 crudStore: the CRUD store from which to retrieve the data
 disabled: set the input to be disabled if true
+readOnlyGlobalOverride: if used, can override the current value of this prop
 */
 var Form = function (_Component) {
   _inherits(Form, _Component);
@@ -83,6 +84,8 @@ var Form = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      console.log(JSON.stringify(this.props.crudStore.getSchema(), null, 4));
+
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
@@ -101,6 +104,9 @@ var Form = function (_Component) {
       // Initializing
       var initialData = void 0;
 
+      // Copying field so that nothing will change it
+      field = _extends({}, field);
+
       // If a record id for the form is being given, initializing form with the data
       // that belongs to the record id
       if (this.props.recordId !== -1) {
@@ -109,6 +115,12 @@ var Form = function (_Component) {
 
       // Retrieving field prefilled data
       var prefilled = initialData && initialData[field.id];
+
+      // If the field is read only globally but this component is requested to
+      // override it , override it
+      if (field.readOnlyGlobal && typeof this.props.readOnlyGlobalOverride !== 'undefined') {
+        field.readOnlyGlobal = this.props.readOnlyGlobalOverride;
+      }
 
       // Rendering form field
       return _react2.default.createElement(

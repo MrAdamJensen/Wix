@@ -40,13 +40,16 @@ var TextField = function (_BasicField) {
     return _possibleConstructorReturn(this, (TextField.__proto__ || Object.getPrototypeOf(TextField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(TextField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -54,6 +57,8 @@ var TextField = function (_BasicField) {
         type: 'text' // Setting the required type for this input
       }, this.props, { // Setting all given properties to input
         onChange: this._onChange.bind(this) // Setting callback to update state on each change
+        , placeholder: '123-45-678' // Setting placeholder to inform on the tel patten
+        , pattern: '[0-9]{3}-[0-9]{2}-[0-9]{3}' // Setting a tel pattern
       })));
     }
   }]);
@@ -61,4 +66,8 @@ var TextField = function (_BasicField) {
   return TextField;
 }(_BasicField3.default);
 
+TextField.defaultProps = {
+  defaultValue: " ",
+  readOnly: false
+};
 exports.default = TextField;

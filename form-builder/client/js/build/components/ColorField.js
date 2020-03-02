@@ -40,13 +40,16 @@ var ColorField = function (_BasicField) {
     return _possibleConstructorReturn(this, (ColorField.__proto__ || Object.getPrototypeOf(ColorField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(ColorField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering
       return _react2.default.createElement('input', _extends({
@@ -60,4 +63,8 @@ var ColorField = function (_BasicField) {
   return ColorField;
 }(_BasicField3.default);
 
+ColorField.defaultProps = {
+  defaultValue: "#FF0000",
+  readOnly: false
+};
 exports.default = ColorField;

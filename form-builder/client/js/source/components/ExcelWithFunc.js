@@ -23,7 +23,8 @@ type Props = {
   crudStore: CRUDStore,
   crudActions: CRUDActions,
   actions: Array<ActionMethods>,
-  actionsDefs: Array<string>
+  actionsDefs: Array<string>,
+  initialActivatedAction: number,
 };
 
 /*
@@ -50,6 +51,7 @@ class ExcelWithFunc extends Component<Props, State> {
   // Setting the default values for the properties 
   static defaultProps = {
     actions: [],
+    initialActivatedAction: -1,
   };
 
   /*
@@ -65,7 +67,7 @@ class ExcelWithFunc extends Component<Props, State> {
 
     // Initializing component state
     this.state = {
-      actionActivated: -1,
+      actionActivated: this.props.initialActivatedAction,
       count: this.crudStore.getCount(),
     };
 
@@ -86,6 +88,16 @@ class ExcelWithFunc extends Component<Props, State> {
     return newState.actionActivated !== this.state.actionActivated || newState.count !== this.state.count;
   }
   
+  /*
+  Updating state on props change
+  */
+ componentWillReceiveProps(nextProps : Props){
+  // If props change, update state required fields based on new props
+  if(nextProps.initialActivatedAction !== this.props.initialActivatedAction){
+    this.setState({actionActivated: nextProps.initialActivatedAction});
+  }
+}
+
   /*
   Setting action to be activated
   */

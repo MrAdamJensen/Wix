@@ -16,6 +16,12 @@ class ColorField extends BasicField {
     super(props);
   }
   
+  // Setting the default values for the properties 
+  static defaultProps = {
+    defaultValue: "#FF0000",
+    readOnly: false,
+  };
+
   /*
   Rendering component
   */

@@ -40,13 +40,16 @@ var TelField = function (_BasicField) {
     return _possibleConstructorReturn(this, (TelField.__proto__ || Object.getPrototypeOf(TelField)).call(this, props));
   }
 
-  /*
-  Rendering component
-  */
+  // Setting the default values for the properties 
 
 
   _createClass(TelField, [{
     key: 'render',
+
+
+    /*
+    Rendering component
+    */
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
@@ -61,4 +64,8 @@ var TelField = function (_BasicField) {
   return TelField;
 }(_BasicField3.default);
 
+TelField.defaultProps = {
+  defaultValue: " ",
+  readOnly: false
+};
 exports.default = TelField;

@@ -42,7 +42,7 @@ class RatingField extends Component<Props, State> {
 
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: "",
+    defaultValue: 3,
     max: 5,
     readOnly: false,
   };
@@ -62,9 +62,9 @@ class RatingField extends Component<Props, State> {
     else {
       this.defaultValue = props.defaultValue || 3
     }
-    
+
     // Asserting default value initialized
-    invariant(this.defaultValue, "RatingField.constructor: default value not initialized")
+    invariant(this.defaultValue, `RatingField.constructor: default value not initialized:  ${this.defaultValue}`)
 
     // Initializing component state
     this.state = {

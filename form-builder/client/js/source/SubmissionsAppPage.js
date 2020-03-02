@@ -10,7 +10,7 @@ import SubmissionsApp from './components/SubmissionsApp'
 ReactDOM.render(
   <div>
     <div className="app-header">
-      <Logo /> Submissions App
+      <Logo /> Form Submissions Page
     </div>
     <SubmissionsApp/>
   </div>,

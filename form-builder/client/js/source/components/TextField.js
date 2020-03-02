@@ -16,6 +16,12 @@ class TextField extends BasicField {
     super(props);
   }
   
+  // Setting the default values for the properties 
+  static defaultProps = {
+    defaultValue: " ",
+    readOnly: false,
+  };
+
   /*
   Rendering component
   */
@@ -26,6 +32,8 @@ class TextField extends BasicField {
                                             type="text"                          // Setting the required type for this input
                                             {...(this.props: any)}               // Setting all given properties to input
                                             onChange={this._onChange.bind(this)} // Setting callback to update state on each change
+                                            placeholder="123-45-678"             // Setting placeholder to inform on the tel patten
+                                            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" // Setting a tel pattern
                                           />)   
     }
 }

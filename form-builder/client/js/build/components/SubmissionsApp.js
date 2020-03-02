@@ -10,6 +10,18 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _CRUDStore = require('../flux-imm/CRUDStore');
+
+var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
+
+var _CRUDActions = require('../flux-imm/CRUDActions');
+
+var _CRUDActions2 = _interopRequireDefault(_CRUDActions);
+
+var _CreatedForm = require('./CreatedForm');
+
+var _CreatedForm2 = _interopRequireDefault(_CreatedForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -49,11 +61,7 @@ var SubmissionsApp = function (_Component) {
     key: 'render',
     value: function render() {
       // Rendering
-      return _react2.default.createElement(
-        'div',
-        null,
-        ' its working'
-      );
+      return _react2.default.createElement(_CreatedForm2.default, null);
     }
   }]);
 
