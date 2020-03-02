@@ -10,9 +10,9 @@ import FormBuilderApp from './components/FormBuilderApp'
 ReactDOM.render(
   <div>
     <div className="app-header">
-      <Logo /> Welcome to Form Builder App!
+      <Logo /> Welcome to Form Builder App
     </div>
     <FormBuilderApp/>
   </div>,
-  Utils.retrieveElementByID('pad')
+  Utils.retrieveElementByID('app')
 );

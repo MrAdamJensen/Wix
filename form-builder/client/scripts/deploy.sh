@@ -6,9 +6,13 @@ mkdir __deployme
 sh scripts/build.sh
 
 # minify js
-uglify -s bundle.js -o __deployme/bundle.js
+uglify -s form_builder_app_bundle.js -o __deployme/form_builder_app_bundle.js
+uglify -s submissions_app_bundle.js -o __deployme/submissions_app_bundle.js
+uglify -s submit_app_bundle.js -o __deployme/submit_app_bundle.js
+
 # minify css
 cssshrink bundle.css > __deployme/bundle.css
+
 # copy html and images
 cp index.html __deployme/index.html
 cp -r images/ __deployme/images/
