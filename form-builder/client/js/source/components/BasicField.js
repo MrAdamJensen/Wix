@@ -9,7 +9,7 @@ defaultValue: the default value
 readOnly: does the value can be edited
 */
 export type Props = {
-  defaultValue: number | string | null,
+  defaultValue: (number | string),
   readOnly: boolean
 };
 
@@ -32,7 +32,7 @@ class BasicField extends Component<Props, State> {
 
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: null,
+    defaultValue: "",
     readOnly: false,
   };
 
@@ -53,16 +53,11 @@ class BasicField extends Component<Props, State> {
   }
 
   /*
-  Updating state on props change, not recommended but no time to change model
+  Updating state on props change
   */
-  static getDerivedStateFromProps(nextProps : Props, prevState: State) {
-    // Hack, asserting this call happened upon props change
-    // if yes, update state, if not don't update
-    if (nextProps.defaultValue !== null) {
-      return {value: nextProps.defaultValue}
-    }
-    else {
-      return null
+  componentWillReceiveProps(nextProps : Props){
+    if(nextProps.defaultValue !== this.props.defaultValue){
+      this.setState({value: nextProps.defaultValue.toString()});
     }
   }
 

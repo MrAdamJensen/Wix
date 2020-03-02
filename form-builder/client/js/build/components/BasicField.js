@@ -60,23 +60,25 @@ var BasicField = function (_Component) {
     return _this;
   }
 
-  /*
-  Updating state on props change, not recommended but no time to change model
-  */
-
-
   // Setting the default values for the properties 
 
   // Component fields type definitions
 
 
   _createClass(BasicField, [{
-    key: '_onChange',
-
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.defaultValue !== this.props.defaultValue) {
+        this.setState({ value: nextProps.defaultValue.toString() });
+      }
+    }
 
     /*
     Callback for change in input to update state
     */
+
+  }, {
+    key: '_onChange',
     value: function _onChange(e) {
       this.setState({ value: e.target.value });
     }
@@ -118,24 +120,13 @@ var BasicField = function (_Component) {
         return notReadOnlyComp;
       }
     }
-  }], [{
-    key: 'getDerivedStateFromProps',
-    value: function getDerivedStateFromProps(nextProps, prevState) {
-      // Hack, asserting this call happened upon props change
-      // if yes, update state, if not don't update
-      if (nextProps.defaultValue !== null) {
-        return { value: nextProps.defaultValue };
-      } else {
-        return null;
-      }
-    }
   }]);
 
   return BasicField;
 }(_react.Component);
 
 BasicField.defaultProps = {
-  defaultValue: null,
+  defaultValue: "",
   readOnly: false
 };
 exports.default = BasicField;

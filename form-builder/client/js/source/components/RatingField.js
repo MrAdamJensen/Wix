@@ -13,7 +13,7 @@ max: number of stars to display
 getForm: returning the inclosing form
 */
 type Props = {
-  defaultValue: number | string | null,
+  defaultValue: number | string,
   readOnly: boolean,
   max: number,
   id: string,
@@ -42,7 +42,7 @@ class RatingField extends Component<Props, State> {
 
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: null,
+    defaultValue: "",
     max: 5,
     readOnly: false,
   };
@@ -106,15 +106,14 @@ class RatingField extends Component<Props, State> {
   }
 
   /*
-  Updating state on props change, not recommended but no time to change model
+  Updating state on props change
   */
-  static getDerivedStateFromProps(nextProps : Props, prevState: State) {
+ componentWillReceiveProps(nextProps : Props){
     // Initializing
     let defaultValue;
-
-    // Hack, asserting this call happened upon props change
-    // if yes, update state, if not don't update
-    if (nextProps.defaultValue !== null) {
+    
+    // Asserting props changed
+    if(nextProps.defaultValue !== this.props.defaultValue){
       // If default value is string, convert it to int
       // Otherwise, just save it
       if (typeof nextProps.defaultValue === 'string') {
@@ -125,18 +124,13 @@ class RatingField extends Component<Props, State> {
       }
       
       // Asserting default value initialized
-      invariant(defaultValue, "RatingField.getDerivedStateFromProps: default value not initialized")
+      invariant(defaultValue, "RatingField.componentWillReceiveProps: default value not initialized")
       
-      return {
-        tmpRating: defaultValue,
-        rating: defaultValue,
-      };
-    }
-    else {
-      return null
+      // Updating state
+      this.setRating(defaultValue)
     }
   }
-  
+
   /*
   Rendering component
   */

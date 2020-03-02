@@ -42,12 +42,24 @@ var ButtonField = function (_Component) {
   }
 
   _createClass(ButtonField, [{
-    key: 'render',
+    key: 'getValue',
 
+
+    /*
+    Returning the default value given to simulate an actual input field
+    */
+    value: function getValue() {
+      return this.props.defaultValue;
+    }
 
     /*
     Rendering component
     */
+
+    // Setting the default values for the properties 
+
+  }, {
+    key: 'render',
     value: function render() {
       // Rendering
       return _react2.default.createElement(
@@ -59,8 +71,6 @@ var ButtonField = function (_Component) {
         '       '
       );
     }
-    // Setting the default values for the properties 
-
   }]);
 
   return ButtonField;

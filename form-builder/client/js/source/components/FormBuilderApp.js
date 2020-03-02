@@ -16,11 +16,12 @@ let schema =  [
     show: true,
     sample: '1',
     align: 'left',
+    readOnly: true,
   },
   {
     id: 'form_name',
     label: 'Form Name',
-    type: 'number',
+    type: 'text',
     show: true,
     sample: 'Movie Review',
   },
@@ -31,6 +32,7 @@ let schema =  [
     show: true,
     sample: '0',
     align: 'left',
+    readOnly: true,
   },
   {
     id: 'submit_page',

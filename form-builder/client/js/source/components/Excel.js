@@ -144,14 +144,14 @@ class Excel extends Component<Props, State> {
 
     // Asserting edit mode was enabled, if not this is probably our fault
     invariant(this.state.edit, 'Messed up edit state');
-
+    
     // Updating table data with cell data that was edited
     this.crudActions.updateField(
       this.state.edit.row,
       this.state.edit.key,
       this.refs.input.getValue()
     );
-
+      
     // Declaring cell edit mode is disabled
     this.setState({
       edit: null,
@@ -190,7 +190,7 @@ class Excel extends Component<Props, State> {
   _saveDataDialog(action: string) {
     // Closing dialog
     this.setState({dialog: null});
-
+    
     // Checking if user cancel edit request, if yes, don't do anything
     if (action === 'dismiss') {
       return;
@@ -198,6 +198,8 @@ class Excel extends Component<Props, State> {
 
     // Retrieving dialog row(the row that was the dialog click origin) index
     let index = this._retrieve_dialog_row_origin_index()
+
+    
 
     // Executing edit
     this.crudActions.updateRecord(index, this.refs.form.getData());
