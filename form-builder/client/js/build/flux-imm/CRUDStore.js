@@ -111,7 +111,7 @@ var CRUDStore = function () {
       var storage = 'localStorage' in window ? localStorage.getItem('data') : null;
 
       // If storage not available, initializing it
-      if (!storage) {
+      if (!storage || initObj.reset) {
         // Initializing data from schema
         this._initializeDataFromSchema();
       } else {

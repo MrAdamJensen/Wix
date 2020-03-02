@@ -16,6 +16,14 @@ let editorPossibleFormFields =  ['Color', 'Date', 'Email', 'Number', 'Rating', '
 // Setting schema for editor form
 let editorFormSchema =  [
   {
+    id: 'form_name',
+    label: 'Form Name',
+    type: 'text',
+    show: true,
+    sample: '',
+    align: 'left',
+  },
+  {
     id: 'field_type',
     label: 'Field Type',
     type: 'suggest',
@@ -120,8 +128,8 @@ class FormBuilder extends Component<Props, State> {
 
     // Creating new field for created form
     newField['id'] = String(currentSchema.size)
-    newField['type'] = editorFormData[editorFormSchema[0].id].toLowerCase()
-    newField['label'] = editorFormData[editorFormSchema[1].id]  
+    newField['type'] = editorFormData[editorFormSchema[1].id].toLowerCase()
+    newField['label'] = editorFormData[editorFormSchema[2].id]  
     
     // Asserting given type is legal
     if (editorPossibleFormFields.map(type => type.toLowerCase()).indexOf(newField['type']) < 0){
@@ -138,14 +146,18 @@ class FormBuilder extends Component<Props, State> {
   /*
   Returning created form
   */
-  getCreatedForm(){
-    return this.state.createdFormSchema;
+  getCreatedForm() : {formName: string, formSchema: List<Object>}{
+    // Retrieving created form name
+    let formName: string = this.refs.editorForm.getData()['form_name']
+
+    // Returning created form with schema
+    return {formName: formName, formSchema: this.state.createdFormSchema};
   }
 
   /*
   Resetting component, after finish use of component this method must be called
   */
-  reset(){
+  reset() {
     this._initializeComponent()
   }
 
@@ -155,45 +167,51 @@ class FormBuilder extends Component<Props, State> {
   render() {
     // Rendering
     return <div className="FormBuilder">
-              <div className="EditorForm">
-
-                {/*Creating the editor form that will manage the form creation*/}
-                <Form                                                 
-                  ref="editorForm"                      // ref attribute for easy access to the element
-                  crudStore={this.editorFormCrudStore}  // editor store that will manage the form data and schema
-                />
-
-                <div>
-                
-                  {/*
-                    Creating the button that will control a new field submission,
-                    when the button is clicked, it will trigger the update of the 
-                    created form schema
-                  */}
-                  <Button className="Button" onClick={this._updateCreatedForm.bind(this)}>Created Field</Button>
-
-                </div>
-
-              </div>
-
-              <div className="CreatedForm">
-                
-                {/*Created form header */}  
-                <div className="CreatedFormHeader">New Form:</div>
-                
-                {/*Creating the created form*/}
-                <Form                                   
-                  ref="createdForm"                     // ref attribute for easy access to the element
-
-                  // created form store that will manage the form data and schema that will update when a new field is added to the 
-                  // created form
-                  crudStore={this.createdFormCrudStore} 
-                  disabled={true}
-                />
-
-              </div>
+              {this._renderEditorForm()}
+              {this._renderCreatedForm()}
           </div>
   }
+
+  _renderCreatedForm(){
+    return <div className="CreatedForm">
+              {/*Created form header */}  
+              <div className="CreatedFormHeader">New Form:</div>
+              
+              {/*Creating the created form*/}
+              <Form                                   
+                ref="createdForm"                     // ref attribute for easy access to the element
+
+                // created form store that will manage the form data and schema that will update when a new field is added to the 
+                // created form
+                crudStore={this.createdFormCrudStore} 
+                disabled={true}
+              />
+
+            </div>
+  }
+
+  _renderEditorForm(){
+    return <div className="EditorForm">
+              {/*Creating the editor form that will manage the form creation*/}
+              <Form                                                 
+                ref="editorForm"                      // ref attribute for easy access to the element
+                crudStore={this.editorFormCrudStore}  // editor store that will manage the form data and schema
+              />
+
+              <div>
+              
+                {/*
+                  Creating the button that will control a new field submission,
+                  when the button is clicked, it will trigger the update of the 
+                  created form schema
+                */}
+                <Button className="Button" onClick={this._updateCreatedForm.bind(this)}>Created Field</Button>
+
+              </div>
+
+            </div>
+  }
+
 }
 
 export default FormBuilder

@@ -9,85 +9,48 @@ import CRUDActions from '../flux-imm/CRUDActions';
 import type {VoidMethod} from './ExcelWithFunc'
 import FormBuilder from './FormBuilder'
 
-let classification =  {
-  grapes: [
-    'Baco Noir',
-    'Barbera',
-    'Cabernet Franc',
-    'Cabernet Sauvignon',
-    'Catawba',
-    'Cayuga White',
-    'Chambourcin',
-    'Chancellor',
-    'Chardonel',
-    'Chardonnay',
-    'Chelois',
-    'Chenin Blanc',
-    'Concord',
-    'Delaware',
-    'Frontenac',
-    'Gewürztraminer',
-    'Malbec',
-    'Maréchal Fochr',
-    'Merlot',
-    'Norton',
-    'Pinot Blanc',
-    'Pinot Gris',
-    'Pinot Noir',
-    'Riesling',
-    'Sangiovese',
-    'Sauvignon Blanc',
-    'Seyval Blanc',
-    'Syrah',
-    'Sémillon',
-    'Traminette',
-    'Vidal Blanc',
-    'Vignoles',
-    'Zinfandel',
-  ], 
-}
-
 let schema =  [
   {
-    id: 'name',
-    label: 'Name',
+    id: 'form_id',
+    label: 'Form Id',
     type: 'text',
     show: true,
-    sample: '$2 chuck',
+    sample: '1',
     align: 'left',
   },
   {
-    id: 'year',
-    label: 'Year',
+    id: 'form_name',
+    label: 'Form Name',
     type: 'number',
     show: true,
-    sample: 2015,
+    sample: 'Movie Review',
   },
   {
-    id: 'grape',
-    label: 'Grape',
-    type: 'suggest',
-    options: classification.grapes, 
+    id: 'num_submissions',
+    label: '# Submissions',
+    type: 'number',
     show: true,
-    sample: 'Merlot',
+    sample: '0',
     align: 'left',
   },
   {
-    id: 'rating',
-    label: 'Rating',
-    type: 'rating',
+    id: 'submit_page',
+    label: 'Submit Page',
+    type: 'button',
     show: true,
-    sample: 3,
+    sample: "www.google.com",
   },
   {
-    id: 'comments',
-    label: 'Comments',
-    type: 'text',
-    sample: 'Nice for the price',
+    id: 'submissions_page',
+    label: 'Submissions Page',
+    type: 'button',
+    show: true,
+    sample: 'www.mako.co.il',
   },
 ]
 
-let crudStore = new CRUDStore({storeType: 'local', schema:schema})
+// Initializing the store that will hold all the created forms info
+let crudStore = new CRUDStore({storeType: 'local', schema:schema, reset: true})
 let crudActions = new CRUDActions(crudStore)
 
 /*
@@ -115,11 +78,54 @@ class FormBuilderApp extends Component<Props> {
   }
   
   /*
+  Creating a fresh form ID
+  */
+  _createFormID(){
+    // Initializing
+    let formID = 1;
+
+    // Retrieving all forms from store
+    let forms_ids = crudStore.getData().map((row) => parseInt(row['form_id'], 10))
+
+    console.log(JSON.stringify(forms_ids))
+
+    // Searching for an unused id
+    while (forms_ids.indexOf(formID) >= 0){
+      formID++
+    }
+
+    return formID
+  }
+
+  /*
   Adding form
   */
  _addForm(finishActionExecution: VoidMethod, action: string) {
+    // Initializing
+    let newFormInfo = {}
+
+    // Asserting action was to create the form
     if (action === 'confirm') {
-      console.log(this.refs.excelWithFunc.refs.form.getCreatedForm())
+      // Retrieving created form
+      let createdForm = this.refs.excelWithFunc.refs.createdForm.getCreatedForm()
+      
+      // Creating new created form id
+      let createdFormID = this._createFormID()
+
+      // Creating new form info
+      newFormInfo['form_id'] = String(createdFormID)
+      newFormInfo['form_name'] = createdForm.formName
+      newFormInfo['num_submissions'] = String(0)
+      newFormInfo['submit_page'] = `submit_page_${createdFormID}`
+      newFormInfo['submissions_page'] = `submissions_page${createdFormID}`
+
+      // Creating new form info
+      crudActions.create(newFormInfo)
+
+      // TODO: send created form schema to server
+
+      // Resetting form builder component
+      this.refs.excelWithFunc.refs.createdForm.reset()
     }
 
     // Finishing action
@@ -147,7 +153,7 @@ class FormBuilderApp extends Component<Props> {
               confirmLabel="Create"
               onAction={this._addForm.bind(this, finishActionExecution)}>
               <FormBuilder 
-                ref="form" 
+                ref="createdForm" 
               />
             </Dialog>
   }

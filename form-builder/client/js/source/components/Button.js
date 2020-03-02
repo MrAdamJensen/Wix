@@ -17,7 +17,7 @@ type Props = {
 /* 
 Button component which displays a button than can be clicked
 If using href then it will be as a link
-otherwise using a handler for interactrions
+otherwise using a handler for interactions
 */
 const Button = (props: Props) => 
   props.href

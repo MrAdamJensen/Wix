@@ -47,7 +47,7 @@ class Form extends Component<Props> {
   getData(): Object {
     // Initializing data to be returned
     let data: Object = {};
-
+    
     // Retrieving each form field data and setting it in data to be returned
     this.props.crudStore.getSchema().forEach((field: FormInputField) => 
       data[field.id] = this.refs[field.id].getValue()

@@ -8,10 +8,11 @@ import DateField from './DateField';
 import EmailField from './EmailField';
 import TelField from './TelField';
 import TextField from './TextField';
+import ButtonField from './ButtonField'
 import React, {Component} from 'react';
 
 // Declaring form input field type, i.e, all the different kinds of forms
-type FormInputFieldType = 'rating' | 'number' | 'suggest' | 'color' | 'date' | 'email' | 'tel' |  'text' | 'input';
+type FormInputFieldType = 'rating' | 'number' | 'suggest' | 'color' | 'date' | 'email' | 'tel' |  'text' | 'button' | 'input';
 
 // Declaring form input field values, i.e, all the different kinds of values a form can receive
 export type FormInputFieldValue = string | number;
@@ -99,32 +100,39 @@ class FormInput extends Component<FormInputField> {
               />;  
       case 'color':
         return (         
-          <ColorField                              // Creating a color field type, which is a filed that accept only colors
+          <ColorField                              // Creating a color field type, which is a field that accept only colors
             {...commonProps}                       // Inserting common properties
             />
         );
       case 'date':
         return (
-          <DateField                               // Creating a date field type, which is a filed that accept only dates
+          <DateField                               // Creating a date field type, which is a field that accept only dates
             {...commonProps}                       // Inserting common properties
             />
         );
       case 'email':
         return (
-          <EmailField                               // Creating a email field type, which is a filed that accept only emails
+          <EmailField                               // Creating a email field type, which is a field that accept only emails
             {...commonProps}                        // Inserting common properties
             />
         );
       case 'tel':
         return (
-          <TelField                                 // Creating a telephone type, which is a filed that accept only telephones
+          <TelField                                 // Creating a telephone type, which is a field that accept only telephones
             {...commonProps}                        // Inserting common properties*/}
             />
         );
       case 'text':
         return (
-          <TextField                                // Creating a text type, which is a filed that accept only text
+          <TextField                                // Creating a text type, which is a field that accept only text
             {...commonProps}                        // Inserting common properties
+          />
+        );
+      case 'button':
+        return (
+          <ButtonField                              // Creating a button type, which is a field that accept only text
+            {...commonProps}                        // Inserting common properties
+            label={this.props.label}                // Setting the button field label
           />
         );
       default:

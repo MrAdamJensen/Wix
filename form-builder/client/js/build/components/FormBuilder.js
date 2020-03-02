@@ -49,6 +49,13 @@ var editorPossibleFormFields = ['Color', 'Date', 'Email', 'Number', 'Rating', 'T
 
 // Setting schema for editor form
 var editorFormSchema = [{
+  id: 'form_name',
+  label: 'Form Name',
+  type: 'text',
+  show: true,
+  sample: '',
+  align: 'left'
+}, {
   id: 'field_type',
   label: 'Field Type',
   type: 'suggest',
@@ -156,8 +163,8 @@ var FormBuilder = function (_Component) {
 
       // Creating new field for created form
       newField['id'] = String(currentSchema.size);
-      newField['type'] = editorFormData[editorFormSchema[0].id].toLowerCase();
-      newField['label'] = editorFormData[editorFormSchema[1].id];
+      newField['type'] = editorFormData[editorFormSchema[1].id].toLowerCase();
+      newField['label'] = editorFormData[editorFormSchema[2].id];
 
       // Asserting given type is legal
       if (editorPossibleFormFields.map(function (type) {
@@ -180,7 +187,11 @@ var FormBuilder = function (_Component) {
   }, {
     key: 'getCreatedForm',
     value: function getCreatedForm() {
-      return this.state.createdFormSchema;
+      // Retrieving created form name
+      var formName = this.refs.editorForm.getData()['form_name'];
+
+      // Returning created form with schema
+      return { formName: formName, formSchema: this.state.createdFormSchema };
     }
 
     /*
@@ -204,39 +215,49 @@ var FormBuilder = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'FormBuilder' },
+        this._renderEditorForm(),
+        this._renderCreatedForm()
+      );
+    }
+  }, {
+    key: '_renderCreatedForm',
+    value: function _renderCreatedForm() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'CreatedForm' },
         _react2.default.createElement(
           'div',
-          { className: 'EditorForm' },
-          _react2.default.createElement(_Form2.default, {
-            ref: 'editorForm' // ref attribute for easy access to the element
-            , crudStore: this.editorFormCrudStore // editor store that will manage the form data and schema
-          }),
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              _Button2.default,
-              { className: 'Button', onClick: this._updateCreatedForm.bind(this) },
-              'Created Field'
-            )
-          )
+          { className: 'CreatedFormHeader' },
+          'New Form:'
         ),
+        _react2.default.createElement(_Form2.default, {
+          ref: 'createdForm' // ref attribute for easy access to the element
+
+          // created form store that will manage the form data and schema that will update when a new field is added to the 
+          // created form
+          , crudStore: this.createdFormCrudStore,
+          disabled: true
+        })
+      );
+    }
+  }, {
+    key: '_renderEditorForm',
+    value: function _renderEditorForm() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'EditorForm' },
+        _react2.default.createElement(_Form2.default, {
+          ref: 'editorForm' // ref attribute for easy access to the element
+          , crudStore: this.editorFormCrudStore // editor store that will manage the form data and schema
+        }),
         _react2.default.createElement(
           'div',
-          { className: 'CreatedForm' },
+          null,
           _react2.default.createElement(
-            'div',
-            { className: 'CreatedFormHeader' },
-            'New Form:'
-          ),
-          _react2.default.createElement(_Form2.default, {
-            ref: 'createdForm' // ref attribute for easy access to the element
-
-            // created form store that will manage the form data and schema that will update when a new field is added to the 
-            // created form
-            , crudStore: this.createdFormCrudStore,
-            disabled: true
-          })
+            _Button2.default,
+            { className: 'Button', onClick: this._updateCreatedForm.bind(this) },
+            'Created Field'
+          )
         )
       );
     }

@@ -393,7 +393,7 @@ class Excel extends Component<Props, State> {
   _renderTableBodyCell(row: Object, rowidx: number, cell:string, idx:number) {
     // Retrieving table schema
     const column_schema = this.schema.get(idx);
-
+    
     // If schema failed to be retrieved or current column is not to be displayed then 
     // don't render column
     if (!column_schema || !column_schema.show) {

@@ -40,6 +40,10 @@ var _TextField = require('./TextField');
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
+var _ButtonField = require('./ButtonField');
+
+var _ButtonField2 = _interopRequireDefault(_ButtonField);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -134,20 +138,25 @@ var FormInput = function (_Component) {
             options: this.props.options // Setting options to select from
           }));
         case 'color':
-          return _react2.default.createElement(_ColorField2.default // Creating a color field type, which is a filed that accept only colors
+          return _react2.default.createElement(_ColorField2.default // Creating a color field type, which is a field that accept only colors
           , commonProps);
         case 'date':
-          return _react2.default.createElement(_DateField2.default // Creating a date field type, which is a filed that accept only dates
+          return _react2.default.createElement(_DateField2.default // Creating a date field type, which is a field that accept only dates
           , commonProps);
         case 'email':
-          return _react2.default.createElement(_EmailField2.default // Creating a email field type, which is a filed that accept only emails
+          return _react2.default.createElement(_EmailField2.default // Creating a email field type, which is a field that accept only emails
           , commonProps);
         case 'tel':
-          return _react2.default.createElement(_TelField2.default // Creating a telephone type, which is a filed that accept only telephones
+          return _react2.default.createElement(_TelField2.default // Creating a telephone type, which is a field that accept only telephones
           , commonProps);
         case 'text':
-          return _react2.default.createElement(_TextField2.default // Creating a text type, which is a filed that accept only text
+          return _react2.default.createElement(_TextField2.default // Creating a text type, which is a field that accept only text
           , commonProps);
+        case 'button':
+          return _react2.default.createElement(_ButtonField2.default // Creating a button type, which is a field that accept only text
+          , _extends({}, commonProps, { // Inserting common properties
+            label: this.props.label // Setting the button field label
+          }));
         default:
           // Declaring unrecognized input type
           throw 'FormInput.render: bad input type ' + this.props.type;

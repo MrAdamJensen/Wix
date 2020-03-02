@@ -17,6 +17,7 @@ schema: in a local store, a schema must be provided
 type storeInitLocal = {
   storeType: 'local';
   schema: Array<Object>;
+  reset: boolean;
 }
 
 /*
@@ -109,7 +110,7 @@ class CRUDStore {
       : null;
     
     // If storage not available, initializing it
-    if (!storage) {
+    if (!storage || initObj.reset) {
       // Initializing data from schema
       this._initializeDataFromSchema()
     } else {
