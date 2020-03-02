@@ -3,7 +3,6 @@
 import React, {Component} from 'react';
 import ExcelWithFunc from './ExcelWithFunc'
 import Dialog from './Dialog'
-import Form from './Form'
 import CRUDStore from '../flux-imm/CRUDStore';
 import CRUDActions from '../flux-imm/CRUDActions';
 import type {VoidMethod} from './ExcelWithFunc'
@@ -80,17 +79,17 @@ class FormBuilderApp extends Component<Props> {
   /*
   Creating a fresh form ID
   */
-  _createFormID(){
+  _createFormID() {
     // Initializing
     let formID = 1;
 
     // Retrieving all forms from store
-    let forms_ids = crudStore.getData().map((row) => parseInt(row['form_id'], 10))
+    let forms_ids = crudStore.getData().map((row) => parseInt(row.form_id, 10))
 
     console.log(JSON.stringify(forms_ids))
 
     // Searching for an unused id
-    while (forms_ids.indexOf(formID) >= 0){
+    while (forms_ids.indexOf(formID) >= 0) {
       formID++
     }
 
@@ -113,11 +112,11 @@ class FormBuilderApp extends Component<Props> {
       let createdFormID = this._createFormID()
 
       // Creating new form info
-      newFormInfo['form_id'] = String(createdFormID)
-      newFormInfo['form_name'] = createdForm.formName
-      newFormInfo['num_submissions'] = String(0)
-      newFormInfo['submit_page'] = `submit_page_${createdFormID}`
-      newFormInfo['submissions_page'] = `submissions_page${createdFormID}`
+      newFormInfo.form_id = String(createdFormID)
+      newFormInfo.form_name = createdForm.formName
+      newFormInfo.num_submissions = String(0)
+      newFormInfo.submit_page = `submit_page_${createdFormID}`
+      newFormInfo.submissions_page = `submissions_page${createdFormID}`
 
       // Creating new form info
       crudActions.create(newFormInfo)

@@ -59,7 +59,7 @@ class RatingField extends Component<Props, State> {
     if (typeof props.defaultValue === 'string') {
       this.defaultValue = parseInt(props.defaultValue, 10)
     }
-    else{
+    else {
       this.defaultValue = props.defaultValue || 3
     }
     
@@ -108,19 +108,19 @@ class RatingField extends Component<Props, State> {
   /*
   Updating state on props change, not recommended but no time to change model
   */
-  static getDerivedStateFromProps(nextProps : Props, prevState: State){
+  static getDerivedStateFromProps(nextProps : Props, prevState: State) {
     // Initializing
     let defaultValue;
 
     // Hack, asserting this call happened upon props change
     // if yes, update state, if not don't update
-    if(nextProps.defaultValue !== null){
+    if (nextProps.defaultValue !== null) {
       // If default value is string, convert it to int
       // Otherwise, just save it
       if (typeof nextProps.defaultValue === 'string') {
         defaultValue = parseInt(nextProps.defaultValue, 10)
       }
-      else{
+      else {
         defaultValue = nextProps.defaultValue
       }
       
@@ -132,7 +132,7 @@ class RatingField extends Component<Props, State> {
         rating: defaultValue,
       };
     }
-    else{
+    else {
       return null
     }
   }
@@ -193,7 +193,7 @@ class RatingField extends Component<Props, State> {
           onMouseOver={this.props.readOnly ? undefined : this.setRating.bind(this, i)} 
 
           // If double click, then trigger the inclosing form submit event
-          onDoubleClick={() => {this.props.getForm() ? this.props.getForm().dispatchEvent(new Event('submit')) : null}}
+          onDoubleClick={() => this.props.getForm() ? this.props.getForm().dispatchEvent(new Event('submit')) : null}
         >
           &#9734;                                                          {/*Creating star symbol*/}
         </span>);

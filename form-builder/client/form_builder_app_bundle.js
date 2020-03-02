@@ -1506,8 +1506,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _immutable = require('immutable');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1634,7 +1632,7 @@ Form.defaultProps = {
   disabled: false
 };
 exports.default = Form;
-},{"../flux-imm/CRUDStore":24,"./FormInput":15,"immutable":33,"react":43}],13:[function(require,module,exports){
+},{"../flux-imm/CRUDStore":24,"./FormInput":15,"react":43}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1646,14 +1644,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _ExcelWithFunc = require('./ExcelWithFunc');
-
-var _ExcelWithFunc2 = _interopRequireDefault(_ExcelWithFunc);
-
-var _Dialog = require('./Dialog');
-
-var _Dialog2 = _interopRequireDefault(_Dialog);
 
 var _Form = require('./Form');
 
@@ -1799,14 +1789,14 @@ var FormBuilder = function (_Component) {
       var editorFormData = this.refs.editorForm.getData();
 
       // Creating new field for created form
-      newField['id'] = String(currentSchema.size);
-      newField['type'] = editorFormData[editorFormSchema[1].id].toLowerCase();
-      newField['label'] = editorFormData[editorFormSchema[2].id];
+      newField.id = String(currentSchema.size);
+      newField.type = editorFormData[editorFormSchema[1].id].toLowerCase();
+      newField.label = editorFormData[editorFormSchema[2].id];
 
       // Asserting given type is legal
       if (editorPossibleFormFields.map(function (type) {
         return type.toLowerCase();
-      }).indexOf(newField['type']) < 0) {
+      }).indexOf(newField.type) < 0) {
         window.alert("Bad input type, please choose a type from the options");
         return;
       }
@@ -1825,7 +1815,7 @@ var FormBuilder = function (_Component) {
     key: 'getCreatedForm',
     value: function getCreatedForm() {
       // Retrieving created form name
-      var formName = this.refs.editorForm.getData()['form_name'];
+      var formName = this.refs.editorForm.getData().form_name;
 
       // Returning created form with schema
       return { formName: formName, formSchema: this.state.createdFormSchema };
@@ -1905,7 +1895,7 @@ var FormBuilder = function (_Component) {
 
 FormBuilder.defaultProps = {};
 exports.default = FormBuilder;
-},{"../flux-imm/CRUDActions":23,"../flux-imm/CRUDStore":24,"./Button":4,"./Dialog":8,"./ExcelWithFunc":11,"./Form":12,"immutable":33,"react":43}],14:[function(require,module,exports){
+},{"../flux-imm/CRUDActions":23,"../flux-imm/CRUDStore":24,"./Button":4,"./Form":12,"immutable":33,"react":43}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1925,10 +1915,6 @@ var _ExcelWithFunc2 = _interopRequireDefault(_ExcelWithFunc);
 var _Dialog = require('./Dialog');
 
 var _Dialog2 = _interopRequireDefault(_Dialog);
-
-var _Form = require('./Form');
-
-var _Form2 = _interopRequireDefault(_Form);
 
 var _CRUDStore = require('../flux-imm/CRUDStore');
 
@@ -2025,7 +2011,7 @@ var FormBuilderApp = function (_Component) {
 
       // Retrieving all forms from store
       var forms_ids = crudStore.getData().map(function (row) {
-        return parseInt(row['form_id'], 10);
+        return parseInt(row.form_id, 10);
       });
 
       console.log(JSON.stringify(forms_ids));
@@ -2057,11 +2043,11 @@ var FormBuilderApp = function (_Component) {
         var createdFormID = this._createFormID();
 
         // Creating new form info
-        newFormInfo['form_id'] = String(createdFormID);
-        newFormInfo['form_name'] = createdForm.formName;
-        newFormInfo['num_submissions'] = String(0);
-        newFormInfo['submit_page'] = 'submit_page_' + createdFormID;
-        newFormInfo['submissions_page'] = 'submissions_page' + createdFormID;
+        newFormInfo.form_id = String(createdFormID);
+        newFormInfo.form_name = createdForm.formName;
+        newFormInfo.num_submissions = String(0);
+        newFormInfo.submit_page = 'submit_page_' + createdFormID;
+        newFormInfo.submissions_page = 'submissions_page' + createdFormID;
 
         // Creating new form info
         crudActions.create(newFormInfo);
@@ -2114,7 +2100,7 @@ var FormBuilderApp = function (_Component) {
 
 FormBuilderApp.defaultProps = {};
 exports.default = FormBuilderApp;
-},{"../flux-imm/CRUDActions":23,"../flux-imm/CRUDStore":24,"./Dialog":8,"./ExcelWithFunc":11,"./Form":12,"./FormBuilder":13,"react":43}],15:[function(require,module,exports){
+},{"../flux-imm/CRUDActions":23,"../flux-imm/CRUDStore":24,"./Dialog":8,"./ExcelWithFunc":11,"./FormBuilder":13,"react":43}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2166,8 +2152,6 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2229,15 +2213,14 @@ var FormInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _commonProps;
-
       // Setting the common properties each component need to have 
-      var commonProps = (_commonProps = {
+      var commonProps = {
         id: this.props.id,
         ref: 'input',
         defaultValue: this.props.defaultValue,
-        readOnly: this.props.readOnly
-      }, _defineProperty(_commonProps, 'defaultValue', this.props.defaultValue), _defineProperty(_commonProps, 'disabled', this.props.disabled ? true : undefined), _commonProps);
+        readOnly: this.props.readOnly,
+        disabled: this.props.disabled ? true : undefined
+      };
 
       // Creating field based on the form field type
       switch (this.props.type) {
@@ -2582,7 +2565,7 @@ var RatingField = function (_Component) {
 
             // If double click, then trigger the inclosing form submit event
             , onDoubleClick: function onDoubleClick() {
-              _this2.props.getForm() ? _this2.props.getForm().dispatchEvent(new Event('submit')) : null;
+              return _this2.props.getForm() ? _this2.props.getForm().dispatchEvent(new Event('submit')) : null;
             }
           },
           '\u2606                                                          '

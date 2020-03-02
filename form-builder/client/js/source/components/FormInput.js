@@ -53,7 +53,7 @@ class FormInput extends Component<FormInputField> {
     readOnly: false,
     label: "",
     getForm: () => {},
-    disabled: false
+    disabled: false,
   };
   
   /*
@@ -74,8 +74,7 @@ class FormInput extends Component<FormInputField> {
       ref: 'input',
       defaultValue: this.props.defaultValue,
       readOnly: this.props.readOnly,
-      defaultValue: this.props.defaultValue,
-      disabled: this.props.disabled ? true : undefined 
+      disabled: this.props.disabled ? true : undefined,
     };
 
     // Creating field based on the form field type

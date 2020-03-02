@@ -3,9 +3,8 @@
 import CRUDStore from '../flux-imm/CRUDStore';
 import FormInput from './FormInput';
 import React, {Component} from 'react';
-import {List} from 'immutable';
 
-import type {FormInputField, FormInputFieldValue} from './FormInput';
+import type {FormInputField} from './FormInput';
 
 /*
 Special properties for Form

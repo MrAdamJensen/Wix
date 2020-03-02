@@ -1,12 +1,9 @@
 /* @flow */
 
 import React, {Component} from 'react';
-import ExcelWithFunc from './ExcelWithFunc'
-import Dialog from './Dialog'
 import Form from './Form'
 import CRUDStore from '../flux-imm/CRUDStore';
 import CRUDActions from '../flux-imm/CRUDActions';
-import type {VoidMethod} from './ExcelWithFunc'
 import {List} from 'immutable';
 import Button from './Button'
 
@@ -30,7 +27,7 @@ let editorFormSchema =  [
     show: true,
     sample: '',
     align: 'left',
-    options: editorPossibleFormFields
+    options: editorPossibleFormFields,
   },
   {
     id: 'field_label',
@@ -109,7 +106,7 @@ class FormBuilder extends Component<Props, State> {
   /*
   Updating the created form
   */
-  _updateCreatedForm(){
+  _updateCreatedForm() {
     // Initializing
     let newField = {
       id: 'not filled',
@@ -127,12 +124,12 @@ class FormBuilder extends Component<Props, State> {
     let editorFormData = this.refs.editorForm.getData()
 
     // Creating new field for created form
-    newField['id'] = String(currentSchema.size)
-    newField['type'] = editorFormData[editorFormSchema[1].id].toLowerCase()
-    newField['label'] = editorFormData[editorFormSchema[2].id]  
+    newField.id = String(currentSchema.size)
+    newField.type = editorFormData[editorFormSchema[1].id].toLowerCase()
+    newField.label = editorFormData[editorFormSchema[2].id]  
     
     // Asserting given type is legal
-    if (editorPossibleFormFields.map(type => type.toLowerCase()).indexOf(newField['type']) < 0){
+    if (editorPossibleFormFields.map(type => type.toLowerCase()).indexOf(newField.type) < 0) {
       window.alert("Bad input type, please choose a type from the options");
       return
     }
@@ -146,9 +143,9 @@ class FormBuilder extends Component<Props, State> {
   /*
   Returning created form
   */
-  getCreatedForm() : {formName: string, formSchema: List<Object>}{
+  getCreatedForm() : {formName: string, formSchema: List<Object>} {
     // Retrieving created form name
-    let formName: string = this.refs.editorForm.getData()['form_name']
+    let formName: string = this.refs.editorForm.getData().form_name
 
     // Returning created form with schema
     return {formName: formName, formSchema: this.state.createdFormSchema};
@@ -172,7 +169,7 @@ class FormBuilder extends Component<Props, State> {
           </div>
   }
 
-  _renderCreatedForm(){
+  _renderCreatedForm() {
     return <div className="CreatedForm">
               {/*Created form header */}  
               <div className="CreatedFormHeader">New Form:</div>
@@ -190,7 +187,7 @@ class FormBuilder extends Component<Props, State> {
             </div>
   }
 
-  _renderEditorForm(){
+  _renderEditorForm() {
     return <div className="EditorForm">
               {/*Creating the editor form that will manage the form creation*/}
               <Form                                                 

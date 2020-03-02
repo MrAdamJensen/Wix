@@ -199,7 +199,7 @@ var RatingField = function (_Component) {
 
             // If double click, then trigger the inclosing form submit event
             , onDoubleClick: function onDoubleClick() {
-              _this2.props.getForm() ? _this2.props.getForm().dispatchEvent(new Event('submit')) : null;
+              return _this2.props.getForm() ? _this2.props.getForm().dispatchEvent(new Event('submit')) : null;
             }
           },
           '\u2606                                                          '

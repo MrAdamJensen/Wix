@@ -87,7 +87,7 @@ class CRUDStore {
       this._initServerStore(initObj)
     }
     // Asserting temp store
-    else if (initObj.storeType === 'temp'){
+    else if (initObj.storeType === 'temp') {
       // Initializing temp 
       this._initTempStore(initObj)
     }
@@ -179,7 +179,7 @@ class CRUDStore {
     else if (commit && this.type === 'server') {
       throw 'CRUDStore.setData: not implemented'
     }
-    else if(!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
+    else if (!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
       // Declaring unrecognized store type
       throw `CRUDStore.setData: unknown store type ${this.type}`
     }
@@ -191,10 +191,10 @@ class CRUDStore {
   /*
   Setting schema with a new schema
   */
-  setSchema(newSchema: (Array<Object> | List<Object>)){
+  setSchema(newSchema: (Array<Object> | List<Object>)) {
     // Asserting this is a temp store since schema update is only possible for 
     // this type of store 
-    if (this.type === 'temp'){
+    if (this.type === 'temp') {
       // Changing schema
       this.schema = List(newSchema)
 
@@ -202,7 +202,7 @@ class CRUDStore {
       // also, this line is responsible for alerting any listeners for change in store
       this.setData(this.data.clear())
     }
-    else{
+    else {
       throw `CRUDStore.setSchema: Schema update only possible for 
              temp store type where the current type is ${this.type}`
     }

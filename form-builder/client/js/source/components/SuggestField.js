@@ -60,13 +60,13 @@ class SuggestField extends Component<Props, State> {
   /*
   Updating state on props change, not recommended but no time to change model
   */
- static getDerivedStateFromProps(nextProps : Props, prevState: State){
+ static getDerivedStateFromProps(nextProps : Props, prevState: State) {
     // Hack, asserting this call happened upon props change
     // if yes, update state, if not don't update
-    if(nextProps.defaultValue !== null){
+    if (nextProps.defaultValue !== null) {
       return {value: nextProps.defaultValue}
     }
-    else{
+    else {
       return null
     }
   }
@@ -88,7 +88,7 @@ class SuggestField extends Component<Props, State> {
   /*
   Rendering component as readonly
   */
-  _renderReadOnly(){
+  _renderReadOnly() {
     // Render as a simple span with a hidden input for the label because readonly
     return (
       <div>
@@ -106,7 +106,7 @@ class SuggestField extends Component<Props, State> {
   /*
   Rendering component as input
   */
-  _renderInput(){
+  _renderInput() {
     // Generating id for the suggest part
     const randomID: string = Math.random().toString(16).substring(2);
 

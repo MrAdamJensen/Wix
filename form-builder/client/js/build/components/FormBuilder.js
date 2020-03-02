@@ -10,14 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ExcelWithFunc = require('./ExcelWithFunc');
-
-var _ExcelWithFunc2 = _interopRequireDefault(_ExcelWithFunc);
-
-var _Dialog = require('./Dialog');
-
-var _Dialog2 = _interopRequireDefault(_Dialog);
-
 var _Form = require('./Form');
 
 var _Form2 = _interopRequireDefault(_Form);
@@ -162,14 +154,14 @@ var FormBuilder = function (_Component) {
       var editorFormData = this.refs.editorForm.getData();
 
       // Creating new field for created form
-      newField['id'] = String(currentSchema.size);
-      newField['type'] = editorFormData[editorFormSchema[1].id].toLowerCase();
-      newField['label'] = editorFormData[editorFormSchema[2].id];
+      newField.id = String(currentSchema.size);
+      newField.type = editorFormData[editorFormSchema[1].id].toLowerCase();
+      newField.label = editorFormData[editorFormSchema[2].id];
 
       // Asserting given type is legal
       if (editorPossibleFormFields.map(function (type) {
         return type.toLowerCase();
-      }).indexOf(newField['type']) < 0) {
+      }).indexOf(newField.type) < 0) {
         window.alert("Bad input type, please choose a type from the options");
         return;
       }
@@ -188,7 +180,7 @@ var FormBuilder = function (_Component) {
     key: 'getCreatedForm',
     value: function getCreatedForm() {
       // Retrieving created form name
-      var formName = this.refs.editorForm.getData()['form_name'];
+      var formName = this.refs.editorForm.getData().form_name;
 
       // Returning created form with schema
       return { formName: formName, formSchema: this.state.createdFormSchema };

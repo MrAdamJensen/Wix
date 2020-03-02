@@ -50,8 +50,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -112,15 +110,14 @@ var FormInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _commonProps;
-
       // Setting the common properties each component need to have 
-      var commonProps = (_commonProps = {
+      var commonProps = {
         id: this.props.id,
         ref: 'input',
         defaultValue: this.props.defaultValue,
-        readOnly: this.props.readOnly
-      }, _defineProperty(_commonProps, 'defaultValue', this.props.defaultValue), _defineProperty(_commonProps, 'disabled', this.props.disabled ? true : undefined), _commonProps);
+        readOnly: this.props.readOnly,
+        disabled: this.props.disabled ? true : undefined
+      };
 
       // Creating field based on the form field type
       switch (this.props.type) {

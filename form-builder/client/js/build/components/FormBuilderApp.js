@@ -18,10 +18,6 @@ var _Dialog = require('./Dialog');
 
 var _Dialog2 = _interopRequireDefault(_Dialog);
 
-var _Form = require('./Form');
-
-var _Form2 = _interopRequireDefault(_Form);
-
 var _CRUDStore = require('../flux-imm/CRUDStore');
 
 var _CRUDStore2 = _interopRequireDefault(_CRUDStore);
@@ -117,7 +113,7 @@ var FormBuilderApp = function (_Component) {
 
       // Retrieving all forms from store
       var forms_ids = crudStore.getData().map(function (row) {
-        return parseInt(row['form_id'], 10);
+        return parseInt(row.form_id, 10);
       });
 
       console.log(JSON.stringify(forms_ids));
@@ -149,11 +145,11 @@ var FormBuilderApp = function (_Component) {
         var createdFormID = this._createFormID();
 
         // Creating new form info
-        newFormInfo['form_id'] = String(createdFormID);
-        newFormInfo['form_name'] = createdForm.formName;
-        newFormInfo['num_submissions'] = String(0);
-        newFormInfo['submit_page'] = 'submit_page_' + createdFormID;
-        newFormInfo['submissions_page'] = 'submissions_page' + createdFormID;
+        newFormInfo.form_id = String(createdFormID);
+        newFormInfo.form_name = createdForm.formName;
+        newFormInfo.num_submissions = String(0);
+        newFormInfo.submit_page = 'submit_page_' + createdFormID;
+        newFormInfo.submissions_page = 'submissions_page' + createdFormID;
 
         // Creating new form info
         crudActions.create(newFormInfo);

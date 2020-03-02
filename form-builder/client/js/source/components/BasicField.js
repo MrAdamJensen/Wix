@@ -55,13 +55,13 @@ class BasicField extends Component<Props, State> {
   /*
   Updating state on props change, not recommended but no time to change model
   */
-  static getDerivedStateFromProps(nextProps : Props, prevState: State){
+  static getDerivedStateFromProps(nextProps : Props, prevState: State) {
     // Hack, asserting this call happened upon props change
     // if yes, update state, if not don't update
-    if(nextProps.defaultValue !== null){
+    if (nextProps.defaultValue !== null) {
       return {value: nextProps.defaultValue}
     }
-    else{
+    else {
       return null
     }
   }
@@ -69,7 +69,7 @@ class BasicField extends Component<Props, State> {
   /*
   Callback for change in input to update state
   */
-  _onChange(e: {target: {value: any}}){
+  _onChange(e: {target: {value: any}}) {
     this.setState({value: e.target.value})
   }
 
@@ -84,7 +84,7 @@ class BasicField extends Component<Props, State> {
   If field is in read only mode, render it as a simple span and a hidden input for the label,
   otherwise, render the given element
   */
-  _renderWithReadOnlyCheck(notReadOnlyComp: any){
+  _renderWithReadOnlyCheck(notReadOnlyComp: any) {
     // Asserting field is read only, if yes render it as a simple span with a hidden input for the label,
     // otherwise, render it as input
     if (this.props.readOnly) {
