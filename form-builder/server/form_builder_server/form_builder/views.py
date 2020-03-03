@@ -33,3 +33,36 @@ def form_submissions(request):
     elif request.method == 'POST':
         # As of this time, no get response in this view
         return HttpResponseServerError("No action for POST in this view")
+
+@csrf_exempt
+# Form builder database view
+def form_builder_database(request):
+    # Retrieving request method and acting accordingly
+    if request.method == 'GET':
+        return HttpResponse("GET GET")
+    elif request.method == 'POST':
+        # As of this time, no get response in this view
+        return HttpResponse("POST POST")
+
+@csrf_exempt
+# Form submit database view
+def form_submit_database(request):
+    # Retrieving request method and acting accordingly
+    if request.method == 'GET':
+        return HttpResponse("GET GET")
+    elif request.method == 'POST':
+        # As of this time, no get response in this view
+        return HttpResponse("POST POST")
+
+@csrf_exempt
+# Form submissions database view
+def form_submissions_database(request):
+    # Retrieving request method and acting accordingly
+    if request.method == 'GET':
+        return HttpResponse("GET GET")
+    elif request.method == 'POST':
+        # As of this time, no get response in this view
+        return HttpResponse("POST POST")
+
+
+

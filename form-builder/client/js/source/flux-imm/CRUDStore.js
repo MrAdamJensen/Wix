@@ -123,7 +123,16 @@ class CRUDStore {
   Initializing server store
   */
   _initServerStore(initObj: storeInitServer) {
-    throw 'CRUDStore._initServerStore: Not implemented'
+    // Initializing a xml http request object to prepare for server
+    // interaction to receive the store data
+    let oReq = new XMLHttpRequest();
+
+    // Adding an event listener to receive server response
+    oReq.addEventListener("load", function (){ console.log(this.responseText)});
+    
+    // Sending a request to the server for the data
+    oReq.open("GET", initObj.serverURL);
+    oReq.send();
   }
 
   /*

@@ -21,5 +21,6 @@ from form_builder import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$',views.form_builder),
+    url(r'^database$',views.form_builder_database),
     url(r'^form_builder/', include('form_builder.urls')),
 ]

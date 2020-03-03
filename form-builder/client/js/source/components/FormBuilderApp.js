@@ -52,7 +52,7 @@ let schema =  [
 ]
 
 // Initializing the store that will hold all the created forms info
-let crudStore = new CRUDStore({storeType: 'local', schema:schema, reset: true})
+let crudStore = new CRUDStore({storeType: 'server', serverURL: window.location.href.concat("form_builder/database")})
 let crudActions = new CRUDActions(crudStore)
 
 /*
