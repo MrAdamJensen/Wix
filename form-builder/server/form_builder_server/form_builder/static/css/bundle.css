@@ -217,7 +217,7 @@
   
 }
 .Logo {
-  background-image: url('{% static images/logo.png %}');
+  background-image: url("images/logo.png");
   background-repeat: no-repeat;
   display: inline-block;
   height: 80px;

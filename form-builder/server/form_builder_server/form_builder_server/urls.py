@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
+from form_builder import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^$',views.form_builder),
+    url(r'^form_builder/', include('form_builder.urls')),
 ]
