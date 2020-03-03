@@ -46,23 +46,23 @@ def form_builder_database(request):
 
 @csrf_exempt
 # Form submit database view
-def form_submit_database(request):
+def form_submit_database(request, form):
     # Retrieving request method and acting accordingly
     if request.method == 'GET':
-        return HttpResponse("GET GET")
+        return HttpResponse("GET GET" + str(form))
     elif request.method == 'POST':
         # As of this time, no get response in this view
-        return HttpResponse("POST POST")
+        return HttpResponse("POST POST" + str(form))
 
 @csrf_exempt
 # Form submissions database view
-def form_submissions_database(request):
+def form_submissions_database(request, form):
     # Retrieving request method and acting accordingly
     if request.method == 'GET':
-        return HttpResponse("GET GET")
+        return HttpResponse("GET GET" + str(form))
     elif request.method == 'POST':
         # As of this time, no get response in this view
-        return HttpResponse("POST POST")
+        return HttpResponse("POST POST" + str(form))
 
 
 

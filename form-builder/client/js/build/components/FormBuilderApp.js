@@ -83,7 +83,7 @@ var schema = [{
 }];
 
 // Initializing the store that will hold all the created forms info
-var crudStore = new _CRUDStore2.default({ storeType: 'server', serverURL: window.location.href.concat("database") });
+var crudStore = new _CRUDStore2.default({ storeType: 'server', serverURL: window.location.href.concat("database/") });
 var crudActions = new _CRUDActions2.default(crudStore);
 
 /*

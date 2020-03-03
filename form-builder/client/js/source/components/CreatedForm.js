@@ -48,7 +48,7 @@ let schema =  [
 ]
 
 // Initializing the store that will hold the schema of the to be submitted form
-let crudStore = new CRUDStore({storeType: 'server', serverURL: window.location.href.concat("database")})
+let crudStore = new CRUDStore({storeType: 'server', serverURL: window.location.href.concat("database/")})
 let crudActions = new CRUDActions(crudStore)
 
 /*
