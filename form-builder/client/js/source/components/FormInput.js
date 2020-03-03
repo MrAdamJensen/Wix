@@ -8,11 +8,12 @@ import DateField from './DateField';
 import EmailField from './EmailField';
 import TelField from './TelField';
 import TextField from './TextField';
-import ButtonField from './ButtonField'
+import ButtonField from './ButtonField';
+import DataField from './DataField';
 import React, {Component} from 'react';
 
 // Declaring form input field type, i.e, all the different kinds of forms
-type FormInputFieldType = 'rating' | 'number' | 'suggest' | 'color' | 'date' | 'email' | 'tel' |  'text' | 'button' | 'input';
+type FormInputFieldType = 'rating' | 'number' | 'suggest' | 'color' | 'date' | 'email' | 'tel' |  'text' | 'button' | 'data' | 'input';
 
 // Declaring form input field values, i.e, all the different kinds of values a form can receive
 export type FormInputFieldValue = string | number;
@@ -38,6 +39,7 @@ export type FormInputField = {
   getForm: () => any,
   disabled: boolean,
   readOnlyGlobal?: boolean,
+  invisible?: boolean,
 };
 
 /*
@@ -133,6 +135,12 @@ class FormInput extends Component<FormInputField> {
           <ButtonField                              // Creating a button type, which is a field that accept only text
             {...commonProps}                        // Inserting common properties
             label={this.props.label}                // Setting the button field label
+          />
+        );
+      case 'data':
+        return (
+          <DataField                                 // Creating a data type, which is a field that holds data
+            {...commonProps}                         // Inserting common properties
           />
         );
       default:

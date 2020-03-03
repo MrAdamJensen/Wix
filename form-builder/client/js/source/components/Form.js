@@ -76,6 +76,11 @@ class Form extends Component<Props> {
     // Initializing
     let initialData;
 
+    // Asserting field is not invisible, if yes not rendering it
+    if (field.invisible){
+      return null
+    }
+    
     // Copying field so that nothing will change it
     field = { ...field };
     

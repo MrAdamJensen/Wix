@@ -73,6 +73,13 @@ var schema = [{
   type: 'button',
   show: true,
   sample: 'www.mako.co.il'
+}, {
+  id: 'schema',
+  label: 'schema Page',
+  type: 'data',
+  show: false,
+  sample: 'sample data',
+  'invisible': true
 }];
 
 // Initializing the store that will hold all the created forms info
@@ -153,11 +160,10 @@ var FormBuilderApp = function (_Component) {
         newFormInfo.num_submissions = String(0);
         newFormInfo.submit_page = 'submit_page_' + createdFormID;
         newFormInfo.submissions_page = 'submissions_page' + createdFormID;
+        newFormInfo.schema = JSON.stringify(createdForm);
 
         // Creating new form info
         crudActions.create(newFormInfo);
-
-        // TODO: send created form schema to server
 
         // Resetting form builder component
         this.refs.excelWithFunc.refs.createdForm.reset();

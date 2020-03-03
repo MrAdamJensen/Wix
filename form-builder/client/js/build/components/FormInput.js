@@ -44,6 +44,10 @@ var _ButtonField = require('./ButtonField');
 
 var _ButtonField2 = _interopRequireDefault(_ButtonField);
 
+var _DataField = require('./DataField');
+
+var _DataField2 = _interopRequireDefault(_DataField);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -154,6 +158,9 @@ var FormInput = function (_Component) {
           , _extends({}, commonProps, { // Inserting common properties
             label: this.props.label // Setting the button field label
           }));
+        case 'data':
+          return _react2.default.createElement(_DataField2.default // Creating a data type, which is a field that holds data
+          , commonProps);
         default:
           // Declaring unrecognized input type
           throw 'FormInput.render: bad input type ' + this.props.type;
