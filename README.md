@@ -51,7 +51,7 @@ cd into the repo top directory and execute the following commands(we assume you 
 
 ```
 cd client
-npm run install
+npm install
 cd ../server/form_builder_server
 pip install -r requirements.txt
 
