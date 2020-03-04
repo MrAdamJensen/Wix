@@ -89,7 +89,6 @@ class BasicField extends Component<Props, State> {
               </span>
               <input 
               id={this.props.id}                             // Setting id for label
-              ref={this.props.ref}                           // Setting ref for easy access 
               disabled={this.props.disabled}                 // Setting disabled to disable input field if requested
               defaultValue={this.props.defaultValue}          // Setting input default value
                 type="hidden" 

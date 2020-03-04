@@ -29,9 +29,11 @@ class NumberField extends BasicField {
     // Rendering with check if the field is in read only mode so that it can render
     // not an input if possible
     return this._renderWithReadOnlyCheck(<input 
-                                            type="number"                          // Setting the required type for this input
-                                            {...(this.props: any)}               // Setting all given properties to input
-                                            onChange={this._onChange.bind(this)} // Setting callback to update state on each change
+                                            type="number"                                   // Setting the required type for this input
+                                            id={this.props.id}                              // Setting id for label
+                                            disabled={this.props.disabled}                  // Setting disabled to disable input field if requested
+                                            defaultValue={this.props.defaultValue}          // Setting input default value
+                                            onChange={this._onChange.bind(this)}            // Setting callback to update state on each change
                                           />)  
   }
 }

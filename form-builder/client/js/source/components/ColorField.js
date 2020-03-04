@@ -28,13 +28,14 @@ class ColorField extends BasicField {
   render() {
     // Rendering
     return <input 
-              type="color"                                    // Setting the required type for this input
-              defaultValue={this.props.defaultValue}          // Setting input default value
-              {...(this.props.readOnly ? "disabled" : null)}  // If readOnly, disable input
-              onChange={this._onChange.bind(this)}            // Setting callback to update state on each change
+              type="color"                                                              // Setting the required type for this input
+              defaultValue={this.props.defaultValue}                                    // Setting input default value
+              id={this.props.id}  
+              disabled={this.props.readOnly || this.props.disabled ? true : undefined}  // If readOnly, disable input
+              onChange={this._onChange.bind(this)}                                      // Setting callback to update state on each change
           />  
   }
 }
-
+              
 export default ColorField
 

@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -53,13 +51,13 @@ var TextField = function (_BasicField) {
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
-      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', {
         type: 'text' // Setting the required type for this input
-      }, this.props, { // Setting all given properties to input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-        , placeholder: '123-45-678' // Setting placeholder to inform on the tel patten
-        , pattern: '[0-9]{3}-[0-9]{2}-[0-9]{3}' // Setting a tel pattern
-      })));
+        , id: this.props.id // Setting id for label
+        , disabled: this.props.disabled // Setting disabled to disable input field if requested
+        , defaultValue: this.props.defaultValue // Setting input default value
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      }));
     }
   }]);
 
@@ -67,7 +65,7 @@ var TextField = function (_BasicField) {
 }(_BasicField3.default);
 
 TextField.defaultProps = {
-  defaultValue: " ",
+  defaultValue: "",
   readOnly: false
 };
 exports.default = TextField;

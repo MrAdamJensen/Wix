@@ -77,6 +77,10 @@ def create_form_submission_record(form_id, form_submission):
     # Saving record
     form_submission_record.save()
 
+    # Counting submission for form
+    form_info_record.num_submissions += 1
+    form_info_record.save()
+
 # Updating a form submission record in the forms submissions table
 def update_form_submission_record(form_id, form_submission):
     # Parsing form submission so that its id can be fetched to
@@ -94,6 +98,9 @@ def update_form_submission_record(form_id, form_submission):
 
 # Deleting a form submission record from the forms submissions table
 def delete_form_submission_record(form_id, form_submission):
+     # Retrieving the form submission form info record
+    form_info_record = FormInfo.objects.get(id=form_id)
+
     # Parsing form submission so that its id can be fetched to
     # be used in recognizing the form submission record in the form submission table
     form_submission_dict = json.loads(form_submission)
@@ -103,6 +110,10 @@ def delete_form_submission_record(form_id, form_submission):
 
     # Saving record
     form_submission_record.delete()
+
+    # Discounting submission for form
+    form_info_record.num_submissions -= 1
+    form_info_record.save()
 
 # Retrieving all forms info records from the forms info table
 def retrieve_all_forms_info_records():

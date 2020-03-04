@@ -18,7 +18,7 @@ class EmailField extends BasicField {
   
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: ' ',
+    defaultValue: '',
     readOnly: false,
   };
 
@@ -30,7 +30,9 @@ class EmailField extends BasicField {
     // not an input if possible
     return this._renderWithReadOnlyCheck(<input 
                                             type="email"                          // Setting the required type for this input
-                                            {...(this.props: any)}               // Setting all given properties to input
+                                            id={this.props.id}                             // Setting id for label
+                                            disabled={this.props.disabled}                 // Setting disabled to disable input field if requested
+                                            defaultValue={this.props.defaultValue}          // Setting input default value
                                             onChange={this._onChange.bind(this)} // Setting callback to update state on each change
                                           />)  
   }

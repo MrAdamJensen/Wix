@@ -105,8 +105,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -214,11 +212,15 @@ var BasicField = function (_Component) {
           _react2.default.createElement(
             'span',
             null,
-            this.state.value
+            this.state.value,
+            '                            '
           ),
-          _react2.default.createElement('input', _extends({}, this.props, {
-            type: 'hidden'
-          }))
+          _react2.default.createElement('input', {
+            id: this.props.id // Setting id for label
+            , disabled: this.props.disabled // Setting disabled to disable input field if requested
+            , defaultValue: this.props.defaultValue // Setting input default value
+            , type: 'hidden'
+          })
         );
       } else {
         return notReadOnlyComp;
@@ -358,8 +360,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -406,11 +406,13 @@ var ColorField = function (_BasicField) {
     */
     value: function render() {
       // Rendering
-      return _react2.default.createElement('input', _extends({
+      return _react2.default.createElement('input', {
         type: 'color' // Setting the required type for this input
-      }, this.props, this.props.readOnly ? "disabled" : null, { // If readOnly, disable input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-      }));
+        , defaultValue: this.props.defaultValue // Setting input default value
+        , id: this.props.id,
+        disabled: this.props.readOnly || this.props.disabled ? true : undefined // If readOnly, disable input
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      });
     }
   }]);
 
@@ -497,8 +499,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -546,11 +546,13 @@ var DateField = function (_BasicField) {
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
-      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', {
         type: 'date' // Setting the required type for this input
-      }, this.props, { // Setting all given properties to input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-      })));
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+        , id: this.props.id // Setting id for label
+        , disabled: this.props.disabled // Setting disabled to disable input field if requested
+        , defaultValue: this.props.defaultValue // Setting input default value
+      }));
     }
   }]);
 
@@ -558,7 +560,7 @@ var DateField = function (_BasicField) {
 }(_BasicField3.default);
 
 DateField.defaultProps = {
-  defaultValue: " ",
+  defaultValue: "",
   readOnly: false
 };
 exports.default = DateField;
@@ -717,8 +719,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -766,11 +766,13 @@ var EmailField = function (_BasicField) {
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
-      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', {
         type: 'email' // Setting the required type for this input
-      }, this.props, { // Setting all given properties to input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-      })));
+        , id: this.props.id // Setting id for label
+        , disabled: this.props.disabled // Setting disabled to disable input field if requested
+        , defaultValue: this.props.defaultValue // Setting input default value
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      }));
     }
   }]);
 
@@ -778,7 +780,7 @@ var EmailField = function (_BasicField) {
 }(_BasicField3.default);
 
 EmailField.defaultProps = {
-  defaultValue: ' ',
+  defaultValue: '',
   readOnly: false
 };
 exports.default = EmailField;
@@ -2481,8 +2483,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -2530,11 +2530,13 @@ var NumberField = function (_BasicField) {
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
-      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', {
         type: 'number' // Setting the required type for this input
-      }, this.props, { // Setting all given properties to input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-      })));
+        , id: this.props.id // Setting id for label
+        , disabled: this.props.disabled // Setting disabled to disable input field if requested
+        , defaultValue: this.props.defaultValue // Setting input default value
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      }));
     }
   }]);
 
@@ -2966,7 +2968,7 @@ var SuggestField = function (_Component) {
 }(_react.Component);
 
 SuggestField.defaultProps = {
-  defaultValue: " ",
+  defaultValue: "",
   readOnly: false
 };
 exports.default = SuggestField;
@@ -2976,8 +2978,6 @@ exports.default = SuggestField;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3026,12 +3026,15 @@ var TelField = function (_BasicField) {
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
-      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', {
         type: 'tel' // Setting the required type for this input
-      }, this.props, { // Setting all given properties to input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-        , placeholder: '123-45-678'
-      })));
+        , id: this.props.id // Setting id for label
+        , disabled: this.props.disabled // Setting disabled to disable input field if requested
+        , defaultValue: this.props.defaultValue // Setting input default value
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+        , placeholder: '123-45-678' // Setting placeholder to inform on the tel patten
+        , pattern: '[0-9]{3}-[0-9]{2}-[0-9]{3}' // Setting a tel pattern
+      }));
     }
   }]);
 
@@ -3039,7 +3042,7 @@ var TelField = function (_BasicField) {
 }(_BasicField3.default);
 
 TelField.defaultProps = {
-  defaultValue: " ",
+  defaultValue: "",
   readOnly: false
 };
 exports.default = TelField;
@@ -3049,8 +3052,6 @@ exports.default = TelField;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3099,13 +3100,13 @@ var TextField = function (_BasicField) {
     value: function render() {
       // Rendering with check if the field is in read only mode so that it can render
       // not an input if possible
-      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', _extends({
+      return this._renderWithReadOnlyCheck(_react2.default.createElement('input', {
         type: 'text' // Setting the required type for this input
-      }, this.props, { // Setting all given properties to input
-        onChange: this._onChange.bind(this) // Setting callback to update state on each change
-        , placeholder: '123-45-678' // Setting placeholder to inform on the tel patten
-        , pattern: '[0-9]{3}-[0-9]{2}-[0-9]{3}' // Setting a tel pattern
-      })));
+        , id: this.props.id // Setting id for label
+        , disabled: this.props.disabled // Setting disabled to disable input field if requested
+        , defaultValue: this.props.defaultValue // Setting input default value
+        , onChange: this._onChange.bind(this) // Setting callback to update state on each change
+      }));
     }
   }]);
 
@@ -3113,7 +3114,7 @@ var TextField = function (_BasicField) {
 }(_BasicField3.default);
 
 TextField.defaultProps = {
-  defaultValue: " ",
+  defaultValue: "",
   readOnly: false
 };
 exports.default = TextField;
