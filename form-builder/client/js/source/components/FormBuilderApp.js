@@ -72,19 +72,28 @@ class FormBuilderApp extends Component<Props> {
   */
   render() {
     // Rendering
-    return <ExcelWithFunc
-            // Setting ref for easy access
-            ref="excelWithFunc"           
-            
-            // Setting the component data store and actions from which it will retrieve required
-            // data
-            crudStore={crudStore}
-            crudActions={crudActions}
+    try {
+      // Rendering
+      return <ExcelWithFunc
+              // Setting ref for easy access
+              ref="excelWithFunc"           
+              
+              // Setting the component data store and actions from which it will retrieve required
+              // data
+              crudStore={crudStore}
+              crudActions={crudActions}
 
-            // Setting the created form action in the ExcelWithFunc component
-            actions={[this._createCreateFormAction.bind(this)]}
-            actionsDefs={["Create Form"]}
-          /> 
+              // Setting the created form action in the ExcelWithFunc component
+              actions={[this._createCreateFormAction.bind(this)]}
+              actionsDefs={["Create Form"]}
+            /> 
+    }
+    catch (error) {
+      // Declaring error occurred and refreshing page
+      console.log(`An error occurred in FormBuilderApp:${error}`)
+      location.reload();
+      return null
+    }
   }
   
   /*

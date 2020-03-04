@@ -27,7 +27,15 @@ class SubmissionsApp extends Component<Props> {
   */
   render() {
     // Rendering
-    return <CreatedForm/>
+    try {
+      return <CreatedForm/>
+    }
+    catch (error) {
+      // Declaring error occurred and refreshing page
+      console.log(`An error occurred in SubmissionsApp:${error}`)
+      location.reload();
+      return null
+    }
   }
 }
 

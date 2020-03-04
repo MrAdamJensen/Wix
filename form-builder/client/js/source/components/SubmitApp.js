@@ -27,10 +27,18 @@ class SubmitApp extends Component<Props> {
   */
   render() {
     // Rendering
-    return <CreatedForm
+    try {
+      return <CreatedForm
               // Setting the form submitting action initially activated
               submitActionActive={true}
-            />
+             />
+    }
+    catch (error) {
+      // Declaring error occurred and refreshing page
+      console.log(`An error occurred in SubmitApp:${error}`)
+      location.reload();
+      return null
+    }
   }
 }
 

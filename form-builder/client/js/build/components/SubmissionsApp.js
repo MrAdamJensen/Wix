@@ -53,7 +53,14 @@ var SubmissionsApp = function (_Component) {
     key: 'render',
     value: function render() {
       // Rendering
-      return _react2.default.createElement(_CreatedForm2.default, null);
+      try {
+        return _react2.default.createElement(_CreatedForm2.default, null);
+      } catch (error) {
+        // Declaring error occurred and refreshing page
+        console.log('An error occurred in SubmissionsApp:' + error);
+        location.reload();
+        return null;
+      }
     }
   }]);
 

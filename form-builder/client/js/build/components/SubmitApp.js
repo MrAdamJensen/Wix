@@ -53,10 +53,17 @@ var SubmitApp = function (_Component) {
     key: 'render',
     value: function render() {
       // Rendering
-      return _react2.default.createElement(_CreatedForm2.default
-      // Setting the form submitting action initially activated
-      , { submitActionActive: true
-      });
+      try {
+        return _react2.default.createElement(_CreatedForm2.default
+        // Setting the form submitting action initially activated
+        , { submitActionActive: true
+        });
+      } catch (error) {
+        // Declaring error occurred and refreshing page
+        console.log('An error occurred in SubmitApp:' + error);
+        location.reload();
+        return null;
+      }
     }
   }]);
 

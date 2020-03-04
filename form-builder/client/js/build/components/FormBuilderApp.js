@@ -109,19 +109,27 @@ var FormBuilderApp = function (_Component) {
     key: 'render',
     value: function render() {
       // Rendering
-      return _react2.default.createElement(_ExcelWithFunc2.default
-      // Setting ref for easy access
-      , { ref: 'excelWithFunc'
+      try {
+        // Rendering
+        return _react2.default.createElement(_ExcelWithFunc2.default
+        // Setting ref for easy access
+        , { ref: 'excelWithFunc'
 
-        // Setting the component data store and actions from which it will retrieve required
-        // data
-        , crudStore: crudStore,
-        crudActions: crudActions
+          // Setting the component data store and actions from which it will retrieve required
+          // data
+          , crudStore: crudStore,
+          crudActions: crudActions
 
-        // Setting the created form action in the ExcelWithFunc component
-        , actions: [this._createCreateFormAction.bind(this)],
-        actionsDefs: ["Create Form"]
-      });
+          // Setting the created form action in the ExcelWithFunc component
+          , actions: [this._createCreateFormAction.bind(this)],
+          actionsDefs: ["Create Form"]
+        });
+      } catch (error) {
+        // Declaring error occurred and refreshing page
+        console.log('An error occurred in FormBuilderApp:' + error);
+        location.reload();
+        return null;
+      }
     }
 
     /*

@@ -22,9 +22,35 @@ class CRUDActions {
   }
 
   /*
+  Asserting all values in record are valid
+  */
+  _assertRecordValid(record: Object) {
+    // Iterating over all record properties and searching
+    // for nan and undefined since this values probably indicate 
+    // data corruption
+    for (let prop in record) {
+      // Asserting current value is valid(valid is not undefined and not NaN)
+      if (record[prop] === undefined || record[prop] !== record[prop]) {
+        // Declaring not valid
+        console.log(`CRUDActions._assertRecordValid: found not valid record for field 
+                    ${prop} and object: ${JSON.stringify(record, null, 4)}`)
+        return false
+      }
+    }
+    
+    // Declaring valid
+    return true
+  }
+
+  /*
   Adding a record to the store data
   */
   create(newRecord: Object) {
+    // Asserting all values in record are valid
+    if (!this._assertRecordValid(newRecord)) {
+      return
+    }
+
     // Asserting store is a server store
     if (this.crudStore.type === 'server') {
       // Executing record create action to server
@@ -40,6 +66,11 @@ class CRUDActions {
   Updating record in the store data
   */
   updateRecord(recordId: number, newRecord: Object) {
+    // Asserting all values in record are valid
+    if (!this._assertRecordValid(newRecord)) {
+      return
+    }
+
     // Retrieving old record
     let oldRecord: Object = this.crudStore.getData().get(recordId)
 

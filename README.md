@@ -4,7 +4,7 @@ From Builder App. This app lets you build a form and let other fill it. You can 
 
 ## Getting Started
 
-
+![](/images/home_screen.png)
 
 ### Prerequisites
 
