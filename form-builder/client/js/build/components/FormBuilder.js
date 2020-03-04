@@ -284,7 +284,7 @@ var FormBuilder = function (_Component) {
           _react2.default.createElement(
             _Button2.default,
             { className: 'Button', onClick: this._updateCreatedForm.bind(this) },
-            'Created Field'
+            'Create Field'
           )
         )
       );

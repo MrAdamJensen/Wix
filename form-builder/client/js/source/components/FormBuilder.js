@@ -239,7 +239,7 @@ class FormBuilder extends Component<Props, State> {
                   when the button is clicked, it will trigger the update of the 
                   created form schema
                 */}
-                <Button className="Button" onClick={this._updateCreatedForm.bind(this)}>Created Field</Button>
+                <Button className="Button" onClick={this._updateCreatedForm.bind(this)}>Create Field</Button>
 
               </div>
 
