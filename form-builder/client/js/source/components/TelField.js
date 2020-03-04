@@ -32,6 +32,7 @@ class TelField extends BasicField {
                                             type="tel"                          // Setting the required type for this input
                                             {...(this.props: any)}               // Setting all given properties to input
                                             onChange={this._onChange.bind(this)} // Setting callback to update state on each change
+                                            placeholder="123-45-678"
                                           />)   
     }
 }

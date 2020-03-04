@@ -2079,6 +2079,10 @@ var FormBuilder = function (_Component) {
           // created form
           , crudStore: this.createdFormCrudStore,
           disabled: true
+
+          // Override the read only globally attribute of all fields since the form
+          // should be temporary editable for this action
+          , readOnlyGlobalOverride: false
         })
       );
     }
@@ -2962,7 +2966,7 @@ var SuggestField = function (_Component) {
 }(_react.Component);
 
 SuggestField.defaultProps = {
-  defaultValue: "",
+  defaultValue: " ",
   readOnly: false
 };
 exports.default = SuggestField;
@@ -3026,6 +3030,7 @@ var TelField = function (_BasicField) {
         type: 'tel' // Setting the required type for this input
       }, this.props, { // Setting all given properties to input
         onChange: this._onChange.bind(this) // Setting callback to update state on each change
+        , placeholder: '123-45-678'
       })));
     }
   }]);

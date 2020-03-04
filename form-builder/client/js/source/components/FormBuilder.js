@@ -215,6 +215,10 @@ class FormBuilder extends Component<Props, State> {
                 // created form
                 crudStore={this.createdFormCrudStore} 
                 disabled={true}
+                
+                // Override the read only globally attribute of all fields since the form
+                // should be temporary editable for this action
+                readOnlyGlobalOverride={false}
               />
 
             </div>

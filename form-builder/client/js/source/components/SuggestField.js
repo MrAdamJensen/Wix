@@ -35,7 +35,7 @@ class SuggestField extends Component<Props, State> {
   
   // Setting the default values for the properties 
   static defaultProps = {
-    defaultValue: "",
+    defaultValue: " ",
     readOnly: false,
   };
 

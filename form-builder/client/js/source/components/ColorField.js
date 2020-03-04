@@ -29,7 +29,7 @@ class ColorField extends BasicField {
     // Rendering
     return <input 
               type="color"                                    // Setting the required type for this input
-              {...(this.props: any)}                          // Setting all given properties to input
+              defaultValue={this.props.defaultValue}          // Setting input default value
               {...(this.props.readOnly ? "disabled" : null)}  // If readOnly, disable input
               onChange={this._onChange.bind(this)}            // Setting callback to update state on each change
           />  

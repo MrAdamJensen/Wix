@@ -10,7 +10,12 @@ readOnly: does the value can be edited
 */
 export type Props = {
   defaultValue: (number | string),
-  readOnly: boolean
+  readOnly: boolean,
+  id: string,
+  ref: string,
+  defaultValue: string,
+  readOnly: boolean,
+  disabled?: boolean
 };
 
 /*
@@ -80,10 +85,13 @@ class BasicField extends Component<Props, State> {
     if (this.props.readOnly) {
       return <div>
               <span>
-                {this.state.value}
+                {this.state.value}                            {/*Setting seen value*/}
               </span>
               <input 
-                {...(this.props: any)}
+              id={this.props.id}                             // Setting id for label
+              ref={this.props.ref}                           // Setting ref for easy access 
+              disabled={this.props.disabled}                 // Setting disabled to disable input field if requested
+              defaultValue={this.props.defaultValue}          // Setting input default value
                 type="hidden" 
               />
             </div>

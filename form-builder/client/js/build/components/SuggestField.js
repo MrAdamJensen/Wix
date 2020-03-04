@@ -172,7 +172,7 @@ var SuggestField = function (_Component) {
 }(_react.Component);
 
 SuggestField.defaultProps = {
-  defaultValue: "",
+  defaultValue: " ",
   readOnly: false
 };
 exports.default = SuggestField;
