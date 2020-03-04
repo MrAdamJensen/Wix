@@ -1,11 +1,13 @@
-from form_builder.models import FormInfo
-from form_builder.models import FormSubmission
+from form_builder.models import FormInfo, FormSubmission, FormsTableClientSchema
 import json 
 
 # Creating a form info record in the forms info table
 def create_form_info_record(form_info):
     # Parsing form info to a dictonery
     form_info_dict = json.loads(form_info)
+
+    # Stratifying schema so that it can be sotred in database
+    form_info_dict['schema'] = json.dumps(form_info_dict['schema'])
 
     # Creating form info record
     form_info_record = FormInfo(**form_info_dict)
@@ -26,7 +28,7 @@ def update_form_info_record(form_info):
     form_info_record.num_submissions = form_info_dict.num_submissions
     form_info_record.submit_page = form_info_dict.submit_page
     form_info_record.submissions_page = form_info_dict.submissions_page
-    form_info_record.schema = form_info_dict.schema
+    form_info_record.schema = json.dumps(form_info_dict.schema)
 
     # Saving update
     form_info_record.save()
@@ -77,4 +79,51 @@ def delete_form_submission_record(form_id, form_submission):
 
     # Saving record
     form_submission_record.delete()
+
+# Retrieving all forms info records from the forms info table
+def retrieve_all_forms_info_records():
+    # Initializing
+    forms_info_records = []
+
+    # Retreving all forms info records
+    for record in FormInfo.objects.all():
+        forms_info_records.append(str(record))
+
+    return json.dumps(forms_info_records)
+
+# Retrieving all form submissions for a given form
+def retrieve_all_form_submissions(form_id):
+    # Initializing
+    form_submissions = []
+
+    # Retrieving the form submissions form info record
+    form_info_record = FormInfo.objects.get(form_id=form_id)
+
+    # Retrieving all form submissions for a given form
+    for record in FormSubmission.objects.filter(submission_form=form_info_record):
+        form_submissions.append(str(record))
+
+    return json.dumps(form_submissions)
+
+# Retrieving form info schema
+def retrieve_form_info_schema():
+    return json.dumps(FormsTableClientSchema)
+
+# Retrieving form schema
+def retrieve_form_schema(form_id):
+    # Retrieving the form info record
+    form_info_record = FormInfo.objects.get(form_id=form_id)
+
+    return form_info_record.schema
+
+
+# Dispatcher for actions on the form info table
+action_on_form_info_table = {'create': create_form_info_record, 
+                             'update': update_form_info_record,
+                             'delete': delete_form_info_record}
+
+# Dispatcher for actions on the form submission table
+action_on_form_submission_table = {'create': create_form_submission_record, 
+                                   'update': update_form_submission_record,
+                                   'delete': delete_form_submission_record}
 

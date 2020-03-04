@@ -27,7 +27,7 @@ class FormInfo(models.Model):
     def __str__(self):
         return json.dumps({"form_id": self.form_id, "form_name": self.form_name, 
                 "num_submissions": self.num_submissions, "submit_page": self.submit_page,
-                "submissions_page": self.submissions_page, "schema": self.schema})
+                "submissions_page": self.submissions_page, "schema": json.loads(self.schema)})
 
 # Holds all the created forms submissions
 class FormSubmission(models.Model):
