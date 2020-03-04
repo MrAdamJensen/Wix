@@ -5,43 +5,43 @@ From Builder App. This app lets you build a form and let other fill it. You can 
 ## Getting Started
 
 
-# This is the app home. at any time, you can click the green logo at the top left hand side and redirect to this home:
+#### This is the app home. at any time, you can click the green logo at the top left hand side and redirect to this home:
 <img src="/images/home_screen.png" width=800>
 
-# To create a form click the create form button, this will open the form creation wizard:
+#### To create a form click the create form button, this will open the form creation wizard:
 <img src="/images/create_form.png" width=500>
 
-# First, enter a form name:
+#### First, enter a form name:
 <img src="/images/form_builder_wizard_form_name.png" width=300 height=450>
 
-# Then, create a field. First choose the field type using the drop down suggest list(note that this is a suggest field, i.e, it will filter the options based on the input text). Then, choose a field label:
+#### Then, create a field. First choose the field type using the drop down suggest list(note that this is a suggest field, i.e, it will filter the options based on the input text). Then, choose a field label:
 <img src="/images/form_builder_wizard_create_field.png" width=300 height=450>
 
-# After you created all the fields you want, create the form by clicking on the create button:
+#### After you created all the fields you want, create the form by clicking on the create button:
 <img src="/images/form_builder_wizard_create.png" width=300 height=450>
 
-# Some fields can be edited in the table, such as a form name by clicking on the edges of the cell, finish the edit with pressing Enter:
+#### Some fields can be edited in the table, such as a form name by clicking on the edges of the cell, finish the edit with pressing Enter:
 <img src="/images/edit_field_inplace.png">
 
-# You can sort the table by a specific column by clicking on the header text:
+#### You can sort the table by a specific column by clicking on the header text:
 <img src="/images/table_sort.png">
 
-# Info, edit and delete actions are available via the actions on the actions column:
+#### Info, edit and delete actions are available via the actions on the actions column:
 <img src="/images/info_edit_delete.png">
 
-# You can search for a specific form by using the search:
+#### You can search for a specific form by using the search:
 <img src="/images/search.png" width=500>
 
-# To submit a form click the relevant form submit page button, a submit form wizard will appear next:
+#### To submit a form click the relevant form submit page button, a submit form wizard will appear next:
 <img src="/images/submit_form_wizard.png" width=300 height=450>
 
-# After you click submit, the submission will be added to the form submission page where you will be redirected to:
+#### After you click submit, the submission will be added to the form submission page where you will be redirected to:
 <img src="/images/form_submissions_page.png" >
 
-# You can see each submissions details by either clicking on the info action:
+#### You can see each submissions details by either clicking on the info action:
 <img src="/images/form_submission_info.png" width=300 height=450>
 
-# or clicking on verbose to toggle verbose display:
+#### or clicking on verbose to toggle verbose display:
 <img src="/images/form_submission_verbose.png">
 
 ### Prerequisites
