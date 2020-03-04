@@ -47,7 +47,7 @@ From Builder App. This app lets you build a form and let other fill it. You can 
 ### Prerequisites
 
 In order to run the app locally you will need to setup the server and the client.
-cd into the repo top directory and execute the following commands(we assume you already setup npm and pip):
+cd into the repo form-builder directory and execute the following commands(we assume you already setup npm and pip):
 
 ```
 cd client
@@ -59,7 +59,7 @@ pip install -r requirements.txt
 
 ### Installing
 
-Before running the app, we want to make sure all the build files are up to date. cd into the repo top directory and execute the following commands:
+Before running the app, we want to make sure all the build files are up to date. cd into the form-builder directory and execute the following commands:
 
 Build the client and deploy it to the server:
 
@@ -70,7 +70,7 @@ npm run deploy
 
 ## Running the app
 
-To run the app, we need to start the server and then open a browser and connect to it. cd into the repo top directory and execute the following commands:
+To run the app, we need to start the server and then open a browser and connect to it. cd into the repo form-builder directory and execute the following commands:
 
 ```
 cd server/form_builder_server
