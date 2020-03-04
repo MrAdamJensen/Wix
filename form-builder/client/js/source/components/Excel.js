@@ -71,6 +71,7 @@ class Excel extends Component<Props, State> {
   state: State;
   crudStore: CRUDStore;
   crudActions: CRUDActions;
+  crudStoreListenToken: any
 
   /*
   Component constructor
@@ -94,12 +95,20 @@ class Excel extends Component<Props, State> {
     };
     
     // Listening for table data change, when notified on a change, update component copy
-    this.crudStore.addListener('change', () => {
+    this.crudStoreListenToken =  this.crudStore.addListener('change', () => {
       this.setState({
         data: this.crudStore.getData(),
         schema: this.crudStore.getSchema(),
       })
     });
+  }
+
+  /*
+  Executed when the component is disconnecting from the DOM
+  */
+  componentWillUnmount(){
+    // Since component is un mounting, remove listeners for data change
+    this.crudStoreListenToken.remove()
   }
 
   /*

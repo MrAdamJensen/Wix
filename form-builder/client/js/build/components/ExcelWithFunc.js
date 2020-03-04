@@ -65,8 +65,6 @@ var ExcelWithFunc = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function ExcelWithFunc(props) {
     _classCallCheck(this, ExcelWithFunc);
 
@@ -85,7 +83,7 @@ var ExcelWithFunc = function (_Component) {
     };
 
     // Listening for table data change, when notified on a change, update component copy
-    _this.crudStore.addListener('change', function () {
+    _this.crudStoreListenToken = _this.crudStore.addListener('change', function () {
       _this.setState({
         count: _this.crudStore.getCount()
       });
@@ -94,14 +92,27 @@ var ExcelWithFunc = function (_Component) {
   }
 
   /*
-  Asserting a call to render is needed
+  Executed when the component is disconnecting from the DOM
   */
 
 
   // Setting the default values for the properties 
 
+  // Component fields type definitions
+
 
   _createClass(ExcelWithFunc, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
+    }
+
+    /*
+    Asserting a call to render is needed
+    */
+
+  }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(newProps, newState) {
       // If current activated action did not change and current number of rows in table did not change

@@ -46,7 +46,8 @@ class ExcelWithFunc extends Component<Props, State> {
   state: State;
   crudStore: CRUDStore;
   crudActions: CRUDActions;
-  
+  crudStoreListenToken: any
+
   // Setting the default values for the properties 
   static defaultProps = {
     actions: [],
@@ -71,13 +72,21 @@ class ExcelWithFunc extends Component<Props, State> {
     };
 
     // Listening for table data change, when notified on a change, update component copy
-    this.crudStore.addListener('change', () => {
+    this.crudStoreListenToken =  this.crudStore.addListener('change', () => {
       this.setState({
         count: this.crudStore.getCount(),
       })
     });
   }
   
+  /*
+  Executed when the component is disconnecting from the DOM
+  */
+  componentWillUnmount(){
+    // Since component is un mounting, remove listeners for data change
+    this.crudStoreListenToken.remove()
+  }
+
   /*
   Asserting a call to render is needed
   */

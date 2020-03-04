@@ -104,6 +104,8 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -126,7 +128,7 @@ var Excel = function (_Component) {
     };
 
     // Listening for table data change, when notified on a change, update component copy
-    _this.crudStore.addListener('change', function () {
+    _this.crudStoreListenToken = _this.crudStore.addListener('change', function () {
       _this.setState({
         data: _this.crudStore.getData(),
         schema: _this.crudStore.getSchema()
@@ -136,13 +138,22 @@ var Excel = function (_Component) {
   }
 
   /*
-  Sorting table
+  Executed when the component is disconnecting from the DOM
   */
-
-  // Component fields type definitions
 
 
   _createClass(Excel, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
+    }
+
+    /*
+    Sorting table
+    */
+
+  }, {
     key: '_sort',
     value: function _sort(key) {
       // Asserting sorting in descending order
@@ -508,7 +519,6 @@ var Excel = function (_Component) {
       var edit = this.state.edit;
       var content = row[cell];
 
-      console.log(JSON.stringify(row) + ' ' + cell);
       // Asserting current cell is editable
       // if yes then creating cell content as an editable cell
       if (edit && edit.row === rowidx && edit.key === column_schema.id) {

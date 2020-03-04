@@ -36,6 +36,9 @@ type State = {
 Form component which displays a form
 */
 class Form extends Component<Props, State> {
+  // Component fields type definitions
+  crudStoreListenToken: any
+
   // Setting the default values for the properties 
   static defaultProps = {
     readOnly: false,
@@ -56,11 +59,19 @@ class Form extends Component<Props, State> {
     }
 
     // Listening for table data change, when notified on a change, update component copy
-    this.props.crudStore.addListener('change', () => {
+    this.crudStoreListenToken = this.props.crudStore.addListener('change', () => {
       this.setState({
         schema: this.props.crudStore.getSchema(),
       })
     });
+  }
+  
+  /*
+  Executed when the component is disconnecting from the DOM
+  */
+  componentWillUnmount(){
+    // Since component is un mounting, remove listeners for data change
+    this.crudStoreListenToken.remove()
   }
   
   /*

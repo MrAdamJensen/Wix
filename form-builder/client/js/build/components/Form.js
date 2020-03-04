@@ -57,6 +57,8 @@ var Form = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function Form(props) {
     _classCallCheck(this, Form);
 
@@ -69,7 +71,7 @@ var Form = function (_Component) {
       schema: _this.props.crudStore.getSchema()
 
       // Listening for table data change, when notified on a change, update component copy
-    };_this.props.crudStore.addListener('change', function () {
+    };_this.crudStoreListenToken = _this.props.crudStore.addListener('change', function () {
       _this.setState({
         schema: _this.props.crudStore.getSchema()
       });
@@ -78,13 +80,25 @@ var Form = function (_Component) {
   }
 
   /*
-  Returning form data
+  Executed when the component is disconnecting from the DOM
   */
+
 
   // Setting the default values for the properties 
 
 
   _createClass(Form, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
+    }
+
+    /*
+    Returning form data
+    */
+
+  }, {
     key: 'getData',
     value: function getData() {
       var _this2 = this;

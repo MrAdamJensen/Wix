@@ -889,6 +889,8 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -911,7 +913,7 @@ var Excel = function (_Component) {
     };
 
     // Listening for table data change, when notified on a change, update component copy
-    _this.crudStore.addListener('change', function () {
+    _this.crudStoreListenToken = _this.crudStore.addListener('change', function () {
       _this.setState({
         data: _this.crudStore.getData(),
         schema: _this.crudStore.getSchema()
@@ -921,13 +923,22 @@ var Excel = function (_Component) {
   }
 
   /*
-  Sorting table
+  Executed when the component is disconnecting from the DOM
   */
-
-  // Component fields type definitions
 
 
   _createClass(Excel, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
+    }
+
+    /*
+    Sorting table
+    */
+
+  }, {
     key: '_sort',
     value: function _sort(key) {
       // Asserting sorting in descending order
@@ -1293,7 +1304,6 @@ var Excel = function (_Component) {
       var edit = this.state.edit;
       var content = row[cell];
 
-      console.log(JSON.stringify(row) + ' ' + cell);
       // Asserting current cell is editable
       // if yes then creating cell content as an editable cell
       if (edit && edit.row === rowidx && edit.key === column_schema.id) {
@@ -1403,8 +1413,6 @@ var ExcelWithFunc = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function ExcelWithFunc(props) {
     _classCallCheck(this, ExcelWithFunc);
 
@@ -1423,7 +1431,7 @@ var ExcelWithFunc = function (_Component) {
     };
 
     // Listening for table data change, when notified on a change, update component copy
-    _this.crudStore.addListener('change', function () {
+    _this.crudStoreListenToken = _this.crudStore.addListener('change', function () {
       _this.setState({
         count: _this.crudStore.getCount()
       });
@@ -1432,14 +1440,27 @@ var ExcelWithFunc = function (_Component) {
   }
 
   /*
-  Asserting a call to render is needed
+  Executed when the component is disconnecting from the DOM
   */
 
 
   // Setting the default values for the properties 
 
+  // Component fields type definitions
+
 
   _createClass(ExcelWithFunc, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
+    }
+
+    /*
+    Asserting a call to render is needed
+    */
+
+  }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(newProps, newState) {
       // If current activated action did not change and current number of rows in table did not change
@@ -1648,6 +1669,8 @@ var Form = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function Form(props) {
     _classCallCheck(this, Form);
 
@@ -1660,7 +1683,7 @@ var Form = function (_Component) {
       schema: _this.props.crudStore.getSchema()
 
       // Listening for table data change, when notified on a change, update component copy
-    };_this.props.crudStore.addListener('change', function () {
+    };_this.crudStoreListenToken = _this.props.crudStore.addListener('change', function () {
       _this.setState({
         schema: _this.props.crudStore.getSchema()
       });
@@ -1669,13 +1692,25 @@ var Form = function (_Component) {
   }
 
   /*
-  Returning form data
+  Executed when the component is disconnecting from the DOM
   */
+
 
   // Setting the default values for the properties 
 
 
   _createClass(Form, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
+    }
+
+    /*
+    Returning form data
+    */
+
+  }, {
     key: 'getData',
     value: function getData() {
       var _this2 = this;
@@ -1867,6 +1902,8 @@ var FormBuilder = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function FormBuilder(props) {
     _classCallCheck(this, FormBuilder);
 
@@ -1890,8 +1927,6 @@ var FormBuilder = function (_Component) {
 
 
   // Setting the default values for the properties 
-
-  // Component fields type definitions
 
 
   _createClass(FormBuilder, [{
@@ -1929,9 +1964,20 @@ var FormBuilder = function (_Component) {
 
       // Listening for changes in the created form so that it can re-render the changes in the 
       // created form
-      this.createdFormCrudStore.addListener('change', function () {
+      this.crudStoreListenToken = this.createdFormCrudStore.addListener('change', function () {
         _this2.setState({ createdFormSchema: _this2.createdFormCrudStore.getSchema() });
       });
+    }
+
+    /*
+    Executed when the component is disconnecting from the DOM
+    */
+
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
     }
 
     /*
@@ -3574,7 +3620,7 @@ var CRUDStore = function () {
   }, {
     key: 'addListener',
     value: function addListener(eventType, fn) {
-      this.emitter.addListener(eventType, fn);
+      return this.emitter.addListener(eventType, fn);
     }
 
     /*

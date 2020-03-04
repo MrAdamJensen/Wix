@@ -84,6 +84,8 @@ var FormBuilder = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function FormBuilder(props) {
     _classCallCheck(this, FormBuilder);
 
@@ -107,8 +109,6 @@ var FormBuilder = function (_Component) {
 
 
   // Setting the default values for the properties 
-
-  // Component fields type definitions
 
 
   _createClass(FormBuilder, [{
@@ -146,9 +146,20 @@ var FormBuilder = function (_Component) {
 
       // Listening for changes in the created form so that it can re-render the changes in the 
       // created form
-      this.createdFormCrudStore.addListener('change', function () {
+      this.crudStoreListenToken = this.createdFormCrudStore.addListener('change', function () {
         _this2.setState({ createdFormSchema: _this2.createdFormCrudStore.getSchema() });
       });
+    }
+
+    /*
+    Executed when the component is disconnecting from the DOM
+    */
+
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Since component is un mounting, remove listeners for data change
+      this.crudStoreListenToken.remove();
     }
 
     /*

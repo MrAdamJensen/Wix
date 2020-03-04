@@ -46,7 +46,7 @@ class CRUDStore {
   emitter: EventEmitter;
   type: storeType;
   serverURL: string
-
+  
   /*
   Component constructor
   */
@@ -202,9 +202,9 @@ class CRUDStore {
   Adding listener for data change
   */
   addListener(eventType: string, fn: Function) {
-   this. emitter.addListener(eventType, fn);
+   return this.emitter.addListener(eventType, fn);
   }
-  
+
   /*
   Returning number of rows in data
   */

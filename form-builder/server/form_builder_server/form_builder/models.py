@@ -38,7 +38,6 @@ class FormSubmission(models.Model):
     def dictRepr(self):
         return json.loads(self.submission)
 
-
 # Initializing the forms table schema used by the client
 FormsTableClientSchema =  [
   {

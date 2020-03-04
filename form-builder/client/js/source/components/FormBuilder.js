@@ -63,7 +63,8 @@ class FormBuilder extends Component<Props, State> {
   editorFormCrudActions: CRUDActions;
   createdFormCrudStore: CRUDStore;
   createdFormCrudActions: CRUDActions;
-  
+  crudStoreListenToken: any
+
   // Setting the default values for the properties 
   static defaultProps = {
   };
@@ -121,11 +122,19 @@ class FormBuilder extends Component<Props, State> {
 
     // Listening for changes in the created form so that it can re-render the changes in the 
     // created form
-    this.createdFormCrudStore.addListener('change', () => {
+    this.crudStoreListenToken = this.createdFormCrudStore.addListener('change', () => {
       this.setState({ createdFormSchema: this.createdFormCrudStore.getSchema()});
     });
   }
 
+  /*
+  Executed when the component is disconnecting from the DOM
+  */
+  componentWillUnmount(){
+    // Since component is un mounting, remove listeners for data change
+    this.crudStoreListenToken.remove()
+  }
+  
   /*
   Updating the created form
   */

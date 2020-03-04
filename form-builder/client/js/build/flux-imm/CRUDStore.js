@@ -233,7 +233,7 @@ var CRUDStore = function () {
   }, {
     key: 'addListener',
     value: function addListener(eventType, fn) {
-      this.emitter.addListener(eventType, fn);
+      return this.emitter.addListener(eventType, fn);
     }
 
     /*

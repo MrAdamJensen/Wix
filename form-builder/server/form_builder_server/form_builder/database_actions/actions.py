@@ -31,14 +31,14 @@ def update_form_info_record(form_info):
     form_info_dict = json.loads(form_info)
 
     # Retrieving the to update record
-    form_info_record = FormInfo.objects.get(form_id=form_info_dict['id'])
+    form_info_record = FormInfo.objects.get(id=form_info_dict['id'])
 
     # Updating record
     form_info_record.form_name = form_info_dict['form_name']
     form_info_record.num_submissions = form_info_dict['num_submissions']
     form_info_record.submit_page = form_info_dict['submit_page']
     form_info_record.submissions_page = form_info_dict['submissions_page']
-    form_info_record.schema = json.dumps(form_info_dict.schema)
+    form_info_record.schema = json.dumps(form_info_dict['schema'])
 
     # Saving update
     form_info_record.save()
@@ -84,7 +84,7 @@ def update_form_submission_record(form_id, form_submission):
     form_submission_dict = json.loads(form_submission)
 
     # Retrieving the to update record
-    form_submission_record = FormSubmission.objects.get(id=form_submission_dict.id)
+    form_submission_record = FormSubmission.objects.get(id=form_submission_dict['id'])
 
     # Updating record
     form_submission_record.submission = form_submission
