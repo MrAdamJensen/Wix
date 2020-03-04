@@ -10,7 +10,6 @@ import FormInput from './FormInput';
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
-import {List} from 'immutable';
 
 /*
 Edit state fields: the state of a cell being edited
@@ -77,7 +76,7 @@ class Excel extends Component<Props, State> {
 
   // Setting the default values for the properties 
   static defaultProps = {
-    verbose: false
+    verbose: false,
   };
 
   /*
@@ -113,7 +112,7 @@ class Excel extends Component<Props, State> {
   /*
   Executed when the component is disconnecting from the DOM
   */
-  componentWillUnmount(){
+  componentWillUnmount() {
     // Since component is un mounting, remove listeners for data change
     this.crudStoreListenToken.remove()
   }
@@ -270,9 +269,6 @@ class Excel extends Component<Props, State> {
     // Asserting row retrieved successfully
     invariant(row, 'Excel._renderDeleteDialog: failed retrieving dialog row')
 
-    // Retrieving dialog row name
-    const nameGuess = row[Object.keys(row)[0]];
-
     // Rendering dialog
     return (
       <Dialog 
@@ -281,7 +277,7 @@ class Excel extends Component<Props, State> {
         confirmLabel="Delete"                                 // Setting confirm button label
         onAction={this._deleteConfirmationClick.bind(this)}   // Setting the callback to call when confirm button is clicked
       >
-        {`Are you sure you want to delete "${nameGuess}"?`}   {/*Setting the text to show in dialog*/}
+        {`Are you sure you want to delete?`}   {/*Setting the text to show in dialog*/}
       </Dialog>
     );
   }

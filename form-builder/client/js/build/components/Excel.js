@@ -326,9 +326,6 @@ var Excel = function (_Component) {
       // Asserting row retrieved successfully
       (0, _invariant2.default)(row, 'Excel._renderDeleteDialog: failed retrieving dialog row');
 
-      // Retrieving dialog row name
-      var nameGuess = row[Object.keys(row)[0]];
-
       // Rendering dialog
       return _react2.default.createElement(
         _Dialog2.default,
@@ -338,7 +335,7 @@ var Excel = function (_Component) {
           , confirmLabel: 'Delete' // Setting confirm button label
           , onAction: this._deleteConfirmationClick.bind(this) // Setting the callback to call when confirm button is clicked
         },
-        'Are you sure you want to delete "' + nameGuess + '"?',
+        'Are you sure you want to delete?',
         '   '
       );
     }

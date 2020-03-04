@@ -130,7 +130,7 @@ class FormBuilder extends Component<Props, State> {
   /*
   Executed when the component is disconnecting from the DOM
   */
-  componentWillUnmount(){
+  componentWillUnmount() {
     // Since component is un mounting, remove listeners for data change
     this.crudStoreListenToken.remove()
   }

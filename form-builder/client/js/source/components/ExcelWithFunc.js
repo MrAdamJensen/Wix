@@ -54,7 +54,7 @@ class ExcelWithFunc extends Component<Props, State> {
   static defaultProps = {
     actions: [],
     initialActivatedAction: -1,
-    verbose: false
+    verbose: false,
   };
 
   /*
@@ -85,7 +85,7 @@ class ExcelWithFunc extends Component<Props, State> {
   /*
   Executed when the component is disconnecting from the DOM
   */
-  componentWillUnmount(){
+  componentWillUnmount() {
     // Since component is un mounting, remove listeners for data change
     this.crudStoreListenToken.remove()
   }

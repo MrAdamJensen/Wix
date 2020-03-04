@@ -55,7 +55,7 @@ class Form extends Component<Props, State> {
 
     // Initializing state
     this.state = {
-      schema: this.props.crudStore.getSchema()
+      schema: this.props.crudStore.getSchema(),
     }
 
     // Listening for table data change, when notified on a change, update component copy
@@ -69,7 +69,7 @@ class Form extends Component<Props, State> {
   /*
   Executed when the component is disconnecting from the DOM
   */
-  componentWillUnmount(){
+  componentWillUnmount() {
     // Since component is un mounting, remove listeners for data change
     this.crudStoreListenToken.remove()
   }
@@ -85,10 +85,10 @@ class Form extends Component<Props, State> {
     this.state.schema.forEach((field: FormInputField) => {
       // Asserting field is not invisible, if yes set its value to null since
       // the user can't see it and edit it
-      if (field.invisible){
+      if (field.invisible) {
         data[field.id] = null
       }
-      else{
+      else {
         data[field.id] = this.refs[field.id].getValue()}
       }
     );

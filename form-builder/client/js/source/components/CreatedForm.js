@@ -122,7 +122,7 @@ class CreatedForm extends Component<Props, State> {
   /*
   Creating a verbose action so the user can toggle verbose display
   */
-  _createVerboseAction(finishActionExecution: VoidMethod){
+  _createVerboseAction(finishActionExecution: VoidMethod) {
     // Toggling verbose display
     this.setState({verbose: !this.state.verbose})
 
