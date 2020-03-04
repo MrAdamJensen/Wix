@@ -50,6 +50,7 @@ Special properties for ExcelWithFunc
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
 actions: the actions that are available by this component
+verbose: dictating if to show all fields even if they are set to not show
 */
 
 
@@ -179,7 +180,8 @@ var ExcelWithFunc = function (_Component) {
           ' ',
           _react2.default.createElement(_Excel2.default, {
             crudStore: this.crudStore,
-            crudActions: this.crudActions
+            crudActions: this.crudActions,
+            verbose: this.props.verbose
           })
         ),
         this._renderAction(),
@@ -258,6 +260,7 @@ var ExcelWithFunc = function (_Component) {
 
 ExcelWithFunc.defaultProps = {
   actions: [],
-  initialActivatedAction: -1
+  initialActivatedAction: -1,
+  verbose: false
 };
 exports.default = ExcelWithFunc;

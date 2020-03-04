@@ -26,6 +26,7 @@ cat __deployme/submit_app.html | sed 's/<!-- load here static -->/{% load static
 cp __deployme/form_builder_app_bundle.js ../server/form_builder_server/form_builder/static/js/form_builder_app_bundle.js
 cp __deployme/submissions_app_bundle.js ../server/form_builder_server/form_builder/static/js/submissions_app_bundle.js
 cp __deployme/submit_app_bundle.js ../server/form_builder_server/form_builder/static/js/submit_app_bundle.js
+cp __deployme/bundle.css ../server/form_builder_server/form_builder/static/css/bundle.css
 cp -r __deployme/images/ ../server/form_builder_server/form_builder/static/css/images
 
 # done

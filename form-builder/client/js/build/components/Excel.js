@@ -86,6 +86,7 @@ Special properties for Form
 -------------------------------
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
+verbose: dictating if to show all fields even if they are set to not show
 */
 
 
@@ -104,8 +105,6 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -140,6 +139,11 @@ var Excel = function (_Component) {
   /*
   Executed when the component is disconnecting from the DOM
   */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
 
 
   _createClass(Excel, [{
@@ -421,7 +425,7 @@ var Excel = function (_Component) {
           this.state.schema.map(function (item) {
             // Asserting current column is set to be displayed, if not don't create a 
             // column title for it
-            if (!item.show) {
+            if (!item.show && !_this2.props.verbose) {
               return null;
             }
 
@@ -511,7 +515,7 @@ var Excel = function (_Component) {
 
       // If schema failed to be retrieved or current column is not to be displayed then 
       // don't render column
-      if (!column_schema || !column_schema.show) {
+      if (!column_schema || !column_schema.show && !this.props.verbose) {
         return null;
       }
 
@@ -559,4 +563,7 @@ var Excel = function (_Component) {
   return Excel;
 }(_react.Component);
 
+Excel.defaultProps = {
+  verbose: false
+};
 exports.default = Excel;

@@ -873,6 +873,7 @@ Special properties for Form
 -------------------------------
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
+verbose: dictating if to show all fields even if they are set to not show
 */
 
 
@@ -891,8 +892,6 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -927,6 +926,11 @@ var Excel = function (_Component) {
   /*
   Executed when the component is disconnecting from the DOM
   */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
 
 
   _createClass(Excel, [{
@@ -1208,7 +1212,7 @@ var Excel = function (_Component) {
           this.state.schema.map(function (item) {
             // Asserting current column is set to be displayed, if not don't create a 
             // column title for it
-            if (!item.show) {
+            if (!item.show && !_this2.props.verbose) {
               return null;
             }
 
@@ -1298,7 +1302,7 @@ var Excel = function (_Component) {
 
       // If schema failed to be retrieved or current column is not to be displayed then 
       // don't render column
-      if (!column_schema || !column_schema.show) {
+      if (!column_schema || !column_schema.show && !this.props.verbose) {
         return null;
       }
 
@@ -1346,6 +1350,9 @@ var Excel = function (_Component) {
   return Excel;
 }(_react.Component);
 
+Excel.defaultProps = {
+  verbose: false
+};
 exports.default = Excel;
 },{"../flux-imm/CRUDActions":24,"../flux-imm/CRUDStore":25,"./Actions":2,"./Dialog":9,"./Form":13,"./FormInput":16,"classnames":26,"immutable":36,"invariant":37,"react":46}],12:[function(require,module,exports){
 'use strict';
@@ -1400,6 +1407,7 @@ Special properties for ExcelWithFunc
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
 actions: the actions that are available by this component
+verbose: dictating if to show all fields even if they are set to not show
 */
 
 
@@ -1529,7 +1537,8 @@ var ExcelWithFunc = function (_Component) {
           ' ',
           _react2.default.createElement(_Excel2.default, {
             crudStore: this.crudStore,
-            crudActions: this.crudActions
+            crudActions: this.crudActions,
+            verbose: this.props.verbose
           })
         ),
         this._renderAction(),
@@ -1608,7 +1617,8 @@ var ExcelWithFunc = function (_Component) {
 
 ExcelWithFunc.defaultProps = {
   actions: [],
-  initialActivatedAction: -1
+  initialActivatedAction: -1,
+  verbose: false
 };
 exports.default = ExcelWithFunc;
 },{"../flux-imm/CRUDActions":24,"../flux-imm/CRUDStore":25,"./Button":4,"./Excel":11,"react":46}],13:[function(require,module,exports){

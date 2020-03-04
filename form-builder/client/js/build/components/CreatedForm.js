@@ -48,6 +48,13 @@ Special properties for CreatedForm
 submitActionActive: true if required that the submit action will be activated initially
 */
 
+
+/*
+Excel state fields
+-------------------
+verbose: toggle on and off verbose table display where all fields are shown 
+*/
+
 /*
 CreatedForm component displaying a page where you can submit a form
 */
@@ -60,8 +67,15 @@ var CreatedForm = function (_Component) {
   function CreatedForm(props) {
     _classCallCheck(this, CreatedForm);
 
+    // Initializing state
+    var _this = _possibleConstructorReturn(this, (CreatedForm.__proto__ || Object.getPrototypeOf(CreatedForm)).call(this, props));
     // Calling meta class constructor
-    return _possibleConstructorReturn(this, (CreatedForm.__proto__ || Object.getPrototypeOf(CreatedForm)).call(this, props));
+
+
+    _this.state = {
+      verbose: false
+    };
+    return _this;
   }
 
   /*
@@ -103,13 +117,14 @@ var CreatedForm = function (_Component) {
         , initialActivatedAction: this.props.submitActionActive ? 0 : undefined
 
         // Setting the component data store and actions from which it will retrieve required
-        // data
+        // data and the verbose flag to toggle verbose display
         , crudStore: crudStore,
-        crudActions: crudActions
+        crudActions: crudActions,
+        verbose: this.state.verbose
 
         // Setting the submit form action in ExcelWithFunc
-        , actions: [this._createSubmitFormAction.bind(this)],
-        actionsDefs: ["Submit Form"]
+        , actions: [this._createSubmitFormAction.bind(this), this._createVerboseAction.bind(this)],
+        actionsDefs: ["Submit Form", 'Verbose']
       });
     }
 
@@ -140,6 +155,23 @@ var CreatedForm = function (_Component) {
           , crudStore: crudStore
         })
       );
+    }
+
+    /*
+    Creating a verbose action so the user can toggle verbose display
+    */
+
+  }, {
+    key: '_createVerboseAction',
+    value: function _createVerboseAction(finishActionExecution) {
+      // Toggling verbose display
+      this.setState({ verbose: !this.state.verbose });
+
+      // Finishing action
+      finishActionExecution();
+
+      // This action doesn't render anything, just toggle this component verbose switch in the state
+      return null;
     }
   }]);
 

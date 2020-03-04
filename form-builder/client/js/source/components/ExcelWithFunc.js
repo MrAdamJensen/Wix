@@ -18,6 +18,7 @@ Special properties for ExcelWithFunc
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
 actions: the actions that are available by this component
+verbose: dictating if to show all fields even if they are set to not show
 */
 type Props = {
   crudStore: CRUDStore,
@@ -25,6 +26,7 @@ type Props = {
   actions: Array<ActionMethods>,
   actionsDefs: Array<string>,
   initialActivatedAction: number,
+  verbose: boolean,
 };
 
 /*
@@ -52,6 +54,7 @@ class ExcelWithFunc extends Component<Props, State> {
   static defaultProps = {
     actions: [],
     initialActivatedAction: -1,
+    verbose: false
   };
 
   /*
@@ -134,6 +137,7 @@ class ExcelWithFunc extends Component<Props, State> {
           <Excel 
             crudStore={this.crudStore}
             crudActions={this.crudActions}  
+            verbose={this.props.verbose}
           />
         </div>
         {this._renderAction()}                   {/*If an action is activated, render it*/}

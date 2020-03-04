@@ -12,6 +12,7 @@
 
 .ExcelWithFunc .ExcelWithFuncToolbarButton {
   font-size: 32px;
+  margin: 10px;
 }
 
 .ExcelWithFunc .ExcelWithFuncDatagrid {

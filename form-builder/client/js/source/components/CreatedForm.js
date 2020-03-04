@@ -22,9 +22,18 @@ type Props = {
 };
 
 /*
+Excel state fields
+-------------------
+verbose: toggle on and off verbose table display where all fields are shown 
+*/
+type State = {
+  verbose: boolean 
+}
+
+/*
 CreatedForm component displaying a page where you can submit a form
 */
-class CreatedForm extends Component<Props> {
+class CreatedForm extends Component<Props, State> {
   // Setting the default values for the properties 
   static defaultProps = {
     submitActionActive: false,
@@ -36,6 +45,11 @@ class CreatedForm extends Component<Props> {
   constructor(props: Props) {
     // Calling meta class constructor
     super(props);
+
+    // Initializing state
+    this.state = {
+      verbose: false,
+    }
   }
   
   /*
@@ -68,13 +82,14 @@ class CreatedForm extends Component<Props> {
             initialActivatedAction={this.props.submitActionActive? 0 : undefined}
 
             // Setting the component data store and actions from which it will retrieve required
-            // data
+            // data and the verbose flag to toggle verbose display
             crudStore={crudStore}
             crudActions={crudActions}
+            verbose={this.state.verbose}
 
             // Setting the submit form action in ExcelWithFunc
-            actions={[this._createSubmitFormAction.bind(this)]}
-            actionsDefs={["Submit Form"]}
+            actions={[this._createSubmitFormAction.bind(this), this._createVerboseAction.bind(this)]}
+            actionsDefs={["Submit Form", 'Verbose']}
           /> 
   }
 
@@ -103,6 +118,21 @@ class CreatedForm extends Component<Props> {
               />
             </Dialog>
   }
+
+  /*
+  Creating a verbose action so the user can toggle verbose display
+  */
+  _createVerboseAction(finishActionExecution: VoidMethod){
+    // Toggling verbose display
+    this.setState({verbose: !this.state.verbose})
+
+    // Finishing action
+    finishActionExecution()
+
+    // This action doesn't render anything, just toggle this component verbose switch in the state
+    return null
+  }
+
 }
 
 

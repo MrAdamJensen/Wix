@@ -475,6 +475,13 @@ Special properties for CreatedForm
 submitActionActive: true if required that the submit action will be activated initially
 */
 
+
+/*
+Excel state fields
+-------------------
+verbose: toggle on and off verbose table display where all fields are shown 
+*/
+
 /*
 CreatedForm component displaying a page where you can submit a form
 */
@@ -487,8 +494,15 @@ var CreatedForm = function (_Component) {
   function CreatedForm(props) {
     _classCallCheck(this, CreatedForm);
 
+    // Initializing state
+    var _this = _possibleConstructorReturn(this, (CreatedForm.__proto__ || Object.getPrototypeOf(CreatedForm)).call(this, props));
     // Calling meta class constructor
-    return _possibleConstructorReturn(this, (CreatedForm.__proto__ || Object.getPrototypeOf(CreatedForm)).call(this, props));
+
+
+    _this.state = {
+      verbose: false
+    };
+    return _this;
   }
 
   /*
@@ -530,13 +544,14 @@ var CreatedForm = function (_Component) {
         , initialActivatedAction: this.props.submitActionActive ? 0 : undefined
 
         // Setting the component data store and actions from which it will retrieve required
-        // data
+        // data and the verbose flag to toggle verbose display
         , crudStore: crudStore,
-        crudActions: crudActions
+        crudActions: crudActions,
+        verbose: this.state.verbose
 
         // Setting the submit form action in ExcelWithFunc
-        , actions: [this._createSubmitFormAction.bind(this)],
-        actionsDefs: ["Submit Form"]
+        , actions: [this._createSubmitFormAction.bind(this), this._createVerboseAction.bind(this)],
+        actionsDefs: ["Submit Form", 'Verbose']
       });
     }
 
@@ -567,6 +582,23 @@ var CreatedForm = function (_Component) {
           , crudStore: crudStore
         })
       );
+    }
+
+    /*
+    Creating a verbose action so the user can toggle verbose display
+    */
+
+  }, {
+    key: '_createVerboseAction',
+    value: function _createVerboseAction(finishActionExecution) {
+      // Toggling verbose display
+      this.setState({ verbose: !this.state.verbose });
+
+      // Finishing action
+      finishActionExecution();
+
+      // This action doesn't render anything, just toggle this component verbose switch in the state
+      return null;
     }
   }]);
 
@@ -1026,6 +1058,7 @@ Special properties for Form
 -------------------------------
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
+verbose: dictating if to show all fields even if they are set to not show
 */
 
 
@@ -1044,8 +1077,6 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -1080,6 +1111,11 @@ var Excel = function (_Component) {
   /*
   Executed when the component is disconnecting from the DOM
   */
+
+
+  // Setting the default values for the properties 
+
+  // Component fields type definitions
 
 
   _createClass(Excel, [{
@@ -1361,7 +1397,7 @@ var Excel = function (_Component) {
           this.state.schema.map(function (item) {
             // Asserting current column is set to be displayed, if not don't create a 
             // column title for it
-            if (!item.show) {
+            if (!item.show && !_this2.props.verbose) {
               return null;
             }
 
@@ -1451,7 +1487,7 @@ var Excel = function (_Component) {
 
       // If schema failed to be retrieved or current column is not to be displayed then 
       // don't render column
-      if (!column_schema || !column_schema.show) {
+      if (!column_schema || !column_schema.show && !this.props.verbose) {
         return null;
       }
 
@@ -1499,6 +1535,9 @@ var Excel = function (_Component) {
   return Excel;
 }(_react.Component);
 
+Excel.defaultProps = {
+  verbose: false
+};
 exports.default = Excel;
 },{"../flux-imm/CRUDActions":24,"../flux-imm/CRUDStore":25,"./Actions":2,"./Dialog":10,"./Form":14,"./FormInput":15,"classnames":26,"immutable":36,"invariant":37,"react":46}],13:[function(require,module,exports){
 'use strict';
@@ -1553,6 +1592,7 @@ Special properties for ExcelWithFunc
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
 actions: the actions that are available by this component
+verbose: dictating if to show all fields even if they are set to not show
 */
 
 
@@ -1682,7 +1722,8 @@ var ExcelWithFunc = function (_Component) {
           ' ',
           _react2.default.createElement(_Excel2.default, {
             crudStore: this.crudStore,
-            crudActions: this.crudActions
+            crudActions: this.crudActions,
+            verbose: this.props.verbose
           })
         ),
         this._renderAction(),
@@ -1761,7 +1802,8 @@ var ExcelWithFunc = function (_Component) {
 
 ExcelWithFunc.defaultProps = {
   actions: [],
-  initialActivatedAction: -1
+  initialActivatedAction: -1,
+  verbose: false
 };
 exports.default = ExcelWithFunc;
 },{"../flux-imm/CRUDActions":24,"../flux-imm/CRUDStore":25,"./Button":4,"./Excel":12,"react":46}],14:[function(require,module,exports){

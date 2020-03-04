@@ -39,10 +39,12 @@ Special properties for Form
 -------------------------------
 crudStore: the CRUD store from which to retrieve the data
 crudActions: the CRUD actions with which to perform actions on the CRUD store
+verbose: dictating if to show all fields even if they are set to not show
 */
 type Props = {
   crudStore: CRUDStore,
   crudActions: CRUDActions,
+  verbose: boolean,
 };
 
 /*
@@ -72,6 +74,11 @@ class Excel extends Component<Props, State> {
   crudStore: CRUDStore;
   crudActions: CRUDActions;
   crudStoreListenToken: any
+
+  // Setting the default values for the properties 
+  static defaultProps = {
+    verbose: false
+  };
 
   /*
   Component constructor
@@ -339,7 +346,7 @@ class Excel extends Component<Props, State> {
               this.state.schema.map(item => {
                 // Asserting current column is set to be displayed, if not don't create a 
                 // column title for it
-                if (!item.show) {
+                if (!item.show && !this.props.verbose) {
                   return null;
                 }
 
@@ -406,7 +413,7 @@ class Excel extends Component<Props, State> {
     
     // If schema failed to be retrieved or current column is not to be displayed then 
     // don't render column
-    if (!column_schema || !column_schema.show) {
+    if (!column_schema || (!column_schema.show && !this.props.verbose)) {
       return null;
     }
 
