@@ -2992,7 +2992,42 @@ var CRUDActions = function () {
   }, {
     key: 'updateRecord',
     value: function updateRecord(recordId, newRecord) {
-      // Asserting store is a server store
+      // Retrieving old record
+      var oldRecord = this.crudStore.getData().get(recordId);
+
+      // Iterating over the new record to update and setting the invisible fields
+      // value's so that they cannot change since invisible fields are not editable
+      // in any circumstance
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.crudStore.getSchema()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var field = _step.value;
+
+          // Asserting current field invisible, if yes saving the old value
+          if (field.invisible) {
+            newRecord[field.id] = oldRecord[field.id];
+          }
+        }
+
+        // Asserting store is a server store
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       if (this.crudStore.type === 'server') {
         // Executing record update action to server
         this.crudStore.executeServerDatabaseAction('update', newRecord);

@@ -40,6 +40,19 @@ class CRUDActions {
   Updating record in the store data
   */
   updateRecord(recordId: number, newRecord: Object) {
+    // Retrieving old record
+    let oldRecord: Object = this.crudStore.getData().get(recordId)
+
+    // Iterating over the new record to update and setting the invisible fields
+    // value's so that they cannot change since invisible fields are not editable
+    // in any circumstance
+    for (let field: any of (this.crudStore.getSchema(): List<Object>)){
+      // Asserting current field invisible, if yes saving the old value
+      if (field.invisible){
+        newRecord[field.id] = oldRecord[field.id]
+      }
+    }
+    
     // Asserting store is a server store
     if (this.crudStore.type === 'server') {
       // Executing record update action to server
