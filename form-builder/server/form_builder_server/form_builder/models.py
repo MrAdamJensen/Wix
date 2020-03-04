@@ -5,9 +5,6 @@ import json
 
 # Holds all the created forms info
 class FormInfo(models.Model):
-    # Holds the form id
-    form_id = models.IntegerField(primary_key=True)
-
     # Holds the form name
     form_name = models.CharField(max_length=100)
 
@@ -25,7 +22,7 @@ class FormInfo(models.Model):
 
     # Returning a record representation
     def __str__(self):
-        return json.dumps({"form_id": self.form_id, "form_name": self.form_name, 
+        return json.dumps({"id": self.id, "form_name": self.form_name, 
                 "num_submissions": self.num_submissions, "submit_page": self.submit_page,
                 "submissions_page": self.submissions_page, "schema": json.loads(self.schema)})
 
@@ -45,7 +42,7 @@ class FormSubmission(models.Model):
 # Initializing the forms table schema used by the client
 FormsTableClientSchema =  [
   {
-    "id": 'form_id',
+    "id": 'id',
     "label": 'Form Id',
     "type": 'text',
     "show": True,

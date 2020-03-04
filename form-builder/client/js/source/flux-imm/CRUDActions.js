@@ -25,26 +25,52 @@ class CRUDActions {
   Adding a record to the store data
   */
   create(newRecord: Object) {
-    this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
-  }
-
-  /*
-  Deleting a record from the store data
-  */
-  delete(recordId: number) {
-    // Retrieving store data
-    let data: List<Object> = this.crudStore.getData();
-
-    // Deleting a record from the store data and updating store data
-    this.crudStore.setData(data.remove(recordId));
+    // Asserting store is a server store
+    if (this.crudStore.type === 'server') {
+      // Executing record create action to server
+      this.crudStore.executeServerDatabaseAction('create', newRecord)
+    }
+    else{
+      // Creating new record in local or temporary store
+      this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
+    }
   }
 
   /*
   Updating record in the store data
   */
   updateRecord(recordId: number, newRecord: Object) {
+    // Asserting store is a server store
+    if (this.crudStore.type === 'server') {
+      // Executing record update action to server
+      this.crudStore.executeServerDatabaseAction('update', newRecord)
+    }
+    else{
+      // UPdating record in local or temporary store
+      this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
+    }
+  }
+
+    /*
+  Deleting a record from the store data
+  */
+ delete(recordId: number) {
+   // Asserting store is a server store
+   if (this.crudStore.type === 'server') {
+    // Executing record update action to server
+    this.crudStore.executeServerDatabaseAction('delete', newRecord)
+  }
+  else{
+    // UPdating record in local or temporary store
     this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
   }
+
+  // Retrieving store data
+  let data: List<Object> = this.crudStore.getData();
+
+  // Deleting a record from the store data and updating store data
+  this.crudStore.setData(data.remove(recordId));
+}
 
   /*
   Updating a field on a record in the store data

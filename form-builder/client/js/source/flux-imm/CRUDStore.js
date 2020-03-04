@@ -123,6 +123,9 @@ class CRUDStore {
   Initializing server store
   */
   _initServerStore(initObj: storeInitServer) {
+    // Saving given server url
+    this.serverURL = initObj.serverURL
+
     // Initializing a xml http request object to prepare for server
     // interaction to receive the store data
     let oReq = new XMLHttpRequest();
@@ -131,7 +134,7 @@ class CRUDStore {
     oReq.addEventListener("load", function (){ console.log(this.responseText)});
     
     // Sending a request to the server for the data
-    oReq.open("GET", initObj.serverURL);
+    oReq.open("GET", this.serverURL);
     oReq.send();
   }
 
@@ -175,19 +178,15 @@ class CRUDStore {
   /*
   Setting the data with a new data
   */
-  setData(newData: List<Object>, commit: boolean = true) {
+  setData(newData: List<Object>) {
     // Updating data
     this.data = newData;
 
-    // If a commit is requested, commit the change
     // Assert this is a local store, if so update local storage
-    if (commit && this.type === 'local' && 'localStorage' in window) {
+    if (this.type === 'local' && 'localStorage' in window) {
       localStorage.setItem('data', JSON.stringify(newData));      
     }
-    // Assert this is a server store, if so update server storage
-    else if (commit && this.type === 'server') {
-      throw 'CRUDStore.setData: not implemented'
-    }
+    // Asserting store type is recognized
     else if (!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
       // Declaring unrecognized store type
       throw `CRUDStore.setData: unknown store type ${this.type}`
@@ -195,6 +194,36 @@ class CRUDStore {
 
     // Informing all listeners to the change in data
     this.emitter.emit('change');
+  }
+
+  /*
+  Executing a server database action
+  */
+  executeServerDatabaseAction(actionType: ('create' | 'update' | 'delete' | 'refresh'), databaseRecord: Object){
+    // Initializing form data object to store the post request data
+    let formData = new FormData();
+
+    // Initializing a xml http request object to prepare for server
+    // interaction to send the new record to the server
+    let oReq = new XMLHttpRequest();
+
+    // Insert the database record and action type to the post data
+    formData.append("form_info_record", JSON.stringify(databaseRecord));
+    formData.append("action", actionType); 
+
+    // Adding an event listeners to receive server response for success and failure
+    oReq.addEventListener("load", function (evt: any){ 
+      // Updating local store data
+      this.setData(JSON.parse(evt.responseText))
+    }.bind(this));
+    oReq.addEventListener("error", function (evt: any){ 
+      // Declaring error occurred
+      console.log(`CRUDStore.executeServerDatabaseAction: Error has occurred !!!!`)
+    }.bind(this));
+    
+    // Sending a request to the server to execute the database action
+    oReq.open("POST", this.serverURL);
+    oReq.send();
   }
   
   /*

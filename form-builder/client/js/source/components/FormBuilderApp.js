@@ -55,7 +55,7 @@ let schema =  [
     type: 'data',
     show: false,
     sample: 'sample data',
-    'invisible': true,
+    invisible: true,
   },
 ]
 

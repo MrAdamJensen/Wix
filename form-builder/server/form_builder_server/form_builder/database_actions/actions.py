@@ -52,6 +52,19 @@ def create_form_submission_record(form_id, form_submission):
     # Creating form submission record
     form_submission_record = FormSubmission(submission_form=form_info_record, submission=form_submission)
 
+    # Retrieving the created form submission record to update its id so that it 
+    # can be recognized if it is resent to the server
+    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record)
+
+    # Parsing form submission so that its id field can be changed
+    form_submission_dict = json.loads(form_submission)
+    
+    # Setting id to the form submission so it can be recognized
+    form_submission_dict.id = form_submission_record.id
+
+    # Updating created form sumbission submission field with its id
+    form_submission_record.submission = json.dumps(form_submission_dict)
+
     # Saving record
     form_submission_record.save()
 
@@ -60,8 +73,12 @@ def update_form_submission_record(form_id, form_submission):
     # Retrieving the form submission form info record
     form_info_record = FormInfo.objects.get(form_id=form_id)
 
+    # Parsing form submission so that its id can be fetched to
+    # be used in recognizing the form submission record in the form submission table
+    form_submission_dict = json.loads(form_submission)
+
     # Retrieving the to update record
-    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record)
+    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record, id=form_submission_dict.id)
 
     # Updating record
     form_submission_record.submission = form_submission
@@ -74,8 +91,12 @@ def delete_form_submission_record(form_id, form_submission):
     # Retrieving the form submission form info record
     form_info_record = FormInfo.objects.get(form_id=form_id)
 
+    # Parsing form submission so that its id can be fetched to
+    # be used in recognizing the form submission record in the form submission table
+    form_submission_dict = json.loads(form_submission)
+
     # Retrieving the to delete record
-    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record)
+    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record, id=form_submission_dict.id)
 
     # Saving record
     form_submission_record.delete()
