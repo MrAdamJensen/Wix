@@ -4,21 +4,9 @@ import {EventEmitter} from 'fbemitter';
 import {List} from 'immutable';
 
 /*
-Defining the type of the store type, either a local storage store or a server store
+Defining the type of the store type, either a server store or a temp store
 */
-type storeType = 'local' | 'server' | 'temp'
-
-/*
-Defining the type of a local store
------------------------------------
-storeType: the type of the store, in this case it is local
-schema: in a local store, a schema must be provided
-*/
-type storeInitLocal = {
-  storeType: 'local';
-  schema: Array<Object>;
-  reset: boolean;
-}
+type storeType = 'server' | 'temp'
 
 /*
 Defining the type of a server store
@@ -46,7 +34,7 @@ type storeInitTemp = {
 Defining type of a store init object, it must have the required data
 to initialize the store
 */
-type storeInit = storeInitLocal | storeInitServer | storeInitTemp
+type storeInit = storeInitServer | storeInitTemp
 
 /*
 A store of data where one can listen for changes
@@ -77,12 +65,8 @@ class CRUDStore {
   Initializing store
   */
   _init(initObj: storeInit) {
-    // Asserting init object is for a local store
-    if (initObj.storeType === 'local') {
-      // Initializing local store
-      this._initLocalStore(initObj)
-    } // Asserting init object is for a server store
-    else if (initObj.storeType === 'server') {
+    // Asserting init object is for a server store
+    if (initObj.storeType === 'server') {
       // Initializing server store 
       this._initServerStore(initObj)
     }
@@ -98,44 +82,11 @@ class CRUDStore {
   }
 
   /*
-  Initializing local store
-  */
-  _initLocalStore(initObj: storeInitLocal) {
-    // Retrieving schema
-    this.schema = List(initObj.schema);
-
-    // Retrieving data if it is available in local storage
-    const storage = 'localStorage' in window
-      ? localStorage.getItem('data')
-      : null;
-    
-    // If storage not available, initializing it
-    if (!storage || initObj.reset) {
-      // Initializing data from schema
-      this._initializeDataFromSchema()
-    } else {
-      // If storage available, retrieve it
-      this.data = List(JSON.parse(storage));
-    }
-  }
-
-  /*
   Initializing server store
   */
   _initServerStore(initObj: storeInitServer) {
-    // Saving given server url
-    this.serverURL = initObj.serverURL
-
-    // Initializing a xml http request object to prepare for server
-    // interaction to receive the store data
-    let oReq = new XMLHttpRequest();
-
-    // Adding an event listener to receive server response
-    oReq.addEventListener("load", function (){ console.log(this.responseText)});
-    
-    // Sending a request to the server for the data
-    oReq.open("GET", this.serverURL);
-    oReq.send();
+    // Fetching data from server
+    this.executeServerDatabaseAction('refresh', null)
   }
 
   /*
@@ -181,16 +132,6 @@ class CRUDStore {
   setData(newData: List<Object>) {
     // Updating data
     this.data = newData;
-
-    // Assert this is a local store, if so update local storage
-    if (this.type === 'local' && 'localStorage' in window) {
-      localStorage.setItem('data', JSON.stringify(newData));      
-    }
-    // Asserting store type is recognized
-    else if (!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
-      // Declaring unrecognized store type
-      throw `CRUDStore.setData: unknown store type ${this.type}`
-    }
 
     // Informing all listeners to the change in data
     this.emitter.emit('change');

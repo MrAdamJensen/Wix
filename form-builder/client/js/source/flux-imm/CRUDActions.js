@@ -31,7 +31,7 @@ class CRUDActions {
       this.crudStore.executeServerDatabaseAction('create', newRecord)
     }
     else{
-      // Creating new record in local or temporary store
+      // Creating new record in temporary store
       this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
     }
   }
@@ -46,7 +46,7 @@ class CRUDActions {
       this.crudStore.executeServerDatabaseAction('update', newRecord)
     }
     else{
-      // UPdating record in local or temporary store
+      // Updating record in temporary store
       this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
     }
   }
@@ -55,22 +55,19 @@ class CRUDActions {
   Deleting a record from the store data
   */
  delete(recordId: number) {
-   // Asserting store is a server store
-   if (this.crudStore.type === 'server') {
-    // Executing record update action to server
-    this.crudStore.executeServerDatabaseAction('delete', newRecord)
-  }
-  else{
-    // UPdating record in local or temporary store
-    this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
-  }
+    // Asserting store is a server store
+    if (this.crudStore.type === 'server') {
+      // Executing record delete action to server
+      this.crudStore.executeServerDatabaseAction('delete', this.crudStore.getData().get(recordId))
+    }
+    else{
+      // Retrieving store data
+      let data: List<Object> = this.crudStore.getData();
 
-  // Retrieving store data
-  let data: List<Object> = this.crudStore.getData();
-
-  // Deleting a record from the store data and updating store data
-  this.crudStore.setData(data.remove(recordId));
-}
+      // Deleting a record from the store data and updating store data
+      this.crudStore.setData(data.remove(recordId));
+    }
+  }
 
   /*
   Updating a field on a record in the store data
@@ -84,8 +81,8 @@ class CRUDActions {
       // Updating field of record
       record[key] = value;
 
-      // Updating data with the updated record
-      this.crudStore.setData(this.crudStore.getData().set(recordId, record));
+      // Updating record
+      this.updateRecord(recordId, record)
     }
     else {
       throw "CRUDActions.updateField: record wasn't retrieved successfully"
@@ -129,7 +126,7 @@ class CRUDActions {
 
       // Updating data in store without committing since this update is temporary until
       // search in finished
-      this.crudStore.setData(searchData, /* commit */ false);
+      this.crudStore.setData(searchData);
     }
   }
 

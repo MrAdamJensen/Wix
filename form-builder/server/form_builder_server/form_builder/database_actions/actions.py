@@ -6,11 +6,18 @@ def create_form_info_record(form_info):
     # Parsing form info to a dictonery
     form_info_dict = json.loads(form_info)
 
-    # Stratifying schema so that it can be sotred in database
+    # Stringifying schema so that it can be sotred in database
     form_info_dict['schema'] = json.dumps(form_info_dict['schema'])
+
+    # Removing id field so that the database will generate a fresh one
+    del form_info_dict['id']
 
     # Creating form info record
     form_info_record = FormInfo(**form_info_dict)
+
+    # Setting the created form info record id to the form info links to the submit and submissions pages
+    form_info_record.submit_page = form_info_record.submit_page.replace('$', form_info_record.id)
+    form_info_record.submissions_page = form_info_record.submissions_page.replace('$', form_info_record.id)
 
     # Saving record
     form_info_record.save()
@@ -52,10 +59,6 @@ def create_form_submission_record(form_id, form_submission):
     # Creating form submission record
     form_submission_record = FormSubmission(submission_form=form_info_record, submission=form_submission)
 
-    # Retrieving the created form submission record to update its id so that it 
-    # can be recognized if it is resent to the server
-    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record)
-
     # Parsing form submission so that its id field can be changed
     form_submission_dict = json.loads(form_submission)
     
@@ -70,15 +73,12 @@ def create_form_submission_record(form_id, form_submission):
 
 # Updating a form submission record in the forms submissions table
 def update_form_submission_record(form_id, form_submission):
-    # Retrieving the form submission form info record
-    form_info_record = FormInfo.objects.get(form_id=form_id)
-
     # Parsing form submission so that its id can be fetched to
     # be used in recognizing the form submission record in the form submission table
     form_submission_dict = json.loads(form_submission)
 
     # Retrieving the to update record
-    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record, id=form_submission_dict.id)
+    form_submission_record = FormSubmission.objects.get(id=form_submission_dict.id)
 
     # Updating record
     form_submission_record.submission = form_submission
@@ -88,15 +88,12 @@ def update_form_submission_record(form_id, form_submission):
 
 # Deleting a form submission record from the forms submissions table
 def delete_form_submission_record(form_id, form_submission):
-    # Retrieving the form submission form info record
-    form_info_record = FormInfo.objects.get(form_id=form_id)
-
     # Parsing form submission so that its id can be fetched to
     # be used in recognizing the form submission record in the form submission table
     form_submission_dict = json.loads(form_submission)
 
     # Retrieving the to delete record
-    form_submission_record = FormSubmission.objects.get(submission_form=form_info_record, id=form_submission_dict.id)
+    form_submission_record = FormSubmission.objects.get(id=form_submission_dict.id)
 
     # Saving record
     form_submission_record.delete()
