@@ -44,7 +44,7 @@ def form_builder_database(request):
         return HttpResponseServerError("No action for GET in this view")
     elif request.method == 'POST':
         # Extracting the form info record sent by the client
-        form_info_record = request.POST['form_info_record']
+        form_info_record = request.POST['data']
 
         # Extracting the form info database action type
         action = request.POST['action']
@@ -84,7 +84,7 @@ def form_submissions_database(request, form):
 # Processing form submission table request
 def process_form_submission_table_request(request, form):
     # Extracting the form submission record sent by the client
-    form_submission_record = request.POST['form_submission_record']
+    form_submission_record = request.POST['data']
 
     # Extracting the form submission database action type
     action = request.POST['action']

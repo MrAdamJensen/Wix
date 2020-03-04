@@ -20,6 +20,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _immutable = require('immutable');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42,6 +44,13 @@ crudStore: the CRUD store from which to retrieve the data
 disabled: set the input to be disabled if true
 readOnlyGlobalOverride: if used, can override the current value of this prop
 */
+
+
+/*
+Form state fields
+-------------------
+schema: the schema the form will use to build the form
+*/
 var Form = function (_Component) {
   _inherits(Form, _Component);
 
@@ -51,8 +60,21 @@ var Form = function (_Component) {
   function Form(props) {
     _classCallCheck(this, Form);
 
+    // Initializing state
+    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
     // Calling meta class constructor
-    return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+
+    _this.state = {
+      schema: _this.props.crudStore.getSchema()
+
+      // Listening for table data change, when notified on a change, update component copy
+    };_this.props.crudStore.addListener('change', function () {
+      _this.setState({
+        schema: _this.props.crudStore.getSchema()
+      });
+    });
+    return _this;
   }
 
   /*
@@ -71,8 +93,14 @@ var Form = function (_Component) {
       var data = {};
 
       // Retrieving each form field data and setting it in data to be returned
-      this.props.crudStore.getSchema().forEach(function (field) {
-        return data[field.id] = _this2.refs[field.id].getValue();
+      this.state.schema.forEach(function (field) {
+        // Asserting field is not invisible, if yes set its value to null since
+        // the user can't see it and edit it
+        if (field.invisible) {
+          data[field.id] = null;
+        } else {
+          data[field.id] = _this2.refs[field.id].getValue();
+        }
       });
       return data;
     }

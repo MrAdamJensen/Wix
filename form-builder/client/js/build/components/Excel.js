@@ -470,7 +470,9 @@ var Excel = function (_Component) {
               '                                      ',
 
               // Creating row cells
-              Object.keys(row).map(_this3._renderTableBodyCell.bind(_this3, row, rowidx)),
+              _this3.state.schema.map(function (field) {
+                return field.id;
+              }).map(_this3._renderTableBodyCell.bind(_this3, row, rowidx)),
               _react2.default.createElement(
                 'td',
                 { className: 'ExcelDataCenter' },
@@ -506,6 +508,7 @@ var Excel = function (_Component) {
       var edit = this.state.edit;
       var content = row[cell];
 
+      console.log(JSON.stringify(row) + ' ' + cell);
       // Asserting current cell is editable
       // if yes then creating cell content as an editable cell
       if (edit && edit.row === rowidx && edit.key === column_schema.id) {

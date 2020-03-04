@@ -3,7 +3,7 @@
 import CRUDStore from '../flux-imm/CRUDStore';
 import FormInput from './FormInput';
 import React, {Component} from 'react';
-
+import {List} from 'immutable';
 import type {FormInputField} from './FormInput';
 
 /*
@@ -24,9 +24,18 @@ type Props = {
 };
 
 /*
+Form state fields
+-------------------
+schema: the schema the form will use to build the form
+*/
+type State = {
+  schema: List<Object>,
+};
+
+/*
 Form component which displays a form
 */
-class Form extends Component<Props> {
+class Form extends Component<Props, State> {
   // Setting the default values for the properties 
   static defaultProps = {
     readOnly: false,
@@ -40,6 +49,18 @@ class Form extends Component<Props> {
   constructor(props: Props) {
     // Calling meta class constructor
     super(props);
+
+    // Initializing state
+    this.state = {
+      schema: this.props.crudStore.getSchema()
+    }
+
+    // Listening for table data change, when notified on a change, update component copy
+    this.props.crudStore.addListener('change', () => {
+      this.setState({
+        schema: this.props.crudStore.getSchema(),
+      })
+    });
   }
   
   /*
@@ -50,8 +71,15 @@ class Form extends Component<Props> {
     let data: Object = {};
     
     // Retrieving each form field data and setting it in data to be returned
-    this.props.crudStore.getSchema().forEach((field: FormInputField) => 
-      data[field.id] = this.refs[field.id].getValue()
+    this.state.schema.forEach((field: FormInputField) => {
+      // Asserting field is not invisible, if yes set its value to null since
+      // the user can't see it and edit it
+      if (field.invisible){
+        data[field.id] = null
+      }
+      else{
+        data[field.id] = this.refs[field.id].getValue()}
+      }
     );
     return data;
   }

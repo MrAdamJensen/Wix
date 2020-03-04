@@ -376,8 +376,8 @@ class Excel extends Component<Props, State> {
             key={rowidx}>                                      {/*adding key because it is requested by react*/}
             { 
             // Creating row cells
-            Object.keys(row).map(this._renderTableBodyCell.bind(this, row, rowidx))}
-
+            this.state.schema.map((field) => field.id).map(this._renderTableBodyCell.bind(this, row, rowidx))}
+            
             {/*Creating actions cell */}
             <td className="ExcelDataCenter">
               <Actions onAction={this._actionClick.bind(this, rowidx)} /> {/*Setting callback to be called when an action is clicked */}

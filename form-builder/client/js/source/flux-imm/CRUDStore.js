@@ -154,7 +154,7 @@ class CRUDStore {
     let oReq = new XMLHttpRequest();
 
     // Insert the database record and action type to the post data
-    formData.append("form_info_record", JSON.stringify(databaseRecord));
+    formData.append("data", JSON.stringify(databaseRecord));
     formData.append("action", actionType); 
 
     // Adding an event listeners to receive server response for success and failure

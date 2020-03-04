@@ -36,7 +36,7 @@ class FormSubmission(models.Model):
 
     # Returning a record representation
     def dictRepr(self):
-        return json.loads(submission)
+        return json.loads(self.submission)
 
 
 # Initializing the forms table schema used by the client

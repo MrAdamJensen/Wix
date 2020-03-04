@@ -53,8 +53,8 @@ class FormBuilderApp extends Component<Props> {
       newFormInfo.form_name = createdForm.formName
       newFormInfo.num_submissions = String(0)
       newFormInfo.submit_page = `submit_page_$`
-      newFormInfo.submissions_page = `submissions_page$`
-      newFormInfo.schema = createdForm
+      newFormInfo.submissions_page = `submissions_page_$`
+      newFormInfo.schema = createdForm.formSchema
 
       // Creating new form info
       crudActions.create(newFormInfo)
