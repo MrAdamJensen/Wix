@@ -24,7 +24,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'form_builder/templates/')
 SECRET_KEY = 'hxj2s&aee3b2l^2zb#bq@oochlg5!b*6&9%hz*+!1onq*ccd8o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 

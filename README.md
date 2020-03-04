@@ -5,7 +5,7 @@ From Builder App. This app lets you build a form and let other fill it. You can 
 ## Getting Started
 
 
-#### This is the app home. at any time, you can click the green logo at the top left hand side and redirect to this home:
+#### This is the app home, at any time, you can click the green logo at the top left hand side and redirect to this home:
 <img src="/images/home_screen.png" width=800>
 
 #### To create a form click the create form button, this will open the form creation wizard:
@@ -81,7 +81,7 @@ You will then need to copy the given server url displayed in the terminal and pa
 
 ## Deployment
 
-We deployed this app to heroku and it can be accessed via: 
+We deployed this app to heroku and it can be accessed via: https://form-builder-app-il.herokuapp.com/form_builder/
 
 ## Built With
 
