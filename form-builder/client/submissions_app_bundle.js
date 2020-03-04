@@ -2154,13 +2154,13 @@ FormInput.defaultProps = {
 };
 exports.default = FormInput;
 },{"./ButtonField":5,"./ColorField":6,"./DataField":8,"./DateField":9,"./EmailField":11,"./NumberField":17,"./RatingField":18,"./SuggestField":20,"./TelField":21,"./TextField":22,"react":46}],16:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2171,7 +2171,12 @@ Logo component for displaying a logo which can be configured in the
 logo css file
 */
 var Logo = function Logo() {
-  return _react2.default.createElement("div", { className: "Logo" });
+    return _react2.default.createElement(
+        'a',
+        { href: window.location.origin.concat('/form_builder/') },
+        ' ',
+        _react2.default.createElement('div', { className: 'Logo' })
+    );
 };
 
 exports.default = Logo;

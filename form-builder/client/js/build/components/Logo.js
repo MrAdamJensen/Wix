@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -15,7 +15,12 @@ Logo component for displaying a logo which can be configured in the
 logo css file
 */
 var Logo = function Logo() {
-  return _react2.default.createElement("div", { className: "Logo" });
+    return _react2.default.createElement(
+        'a',
+        { href: window.location.origin.concat('/form_builder/') },
+        ' ',
+        _react2.default.createElement('div', { className: 'Logo' })
+    );
 };
 
 exports.default = Logo;
