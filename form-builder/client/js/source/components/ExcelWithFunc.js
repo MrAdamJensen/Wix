@@ -44,7 +44,6 @@ ExcelWithFunc component which renders a excel table with optional functionality
 class ExcelWithFunc extends Component<Props, State> {
   // Component fields type definitions
   state: State;
-  schema: Array<Object>;
   crudStore: CRUDStore;
   crudActions: CRUDActions;
   

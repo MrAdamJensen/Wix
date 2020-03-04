@@ -30,7 +30,7 @@ class CRUDActions {
       // Executing record create action to server
       this.crudStore.executeServerDatabaseAction('create', newRecord)
     }
-    else{
+    else {
       // Creating new record in temporary store
       this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
     }
@@ -45,7 +45,7 @@ class CRUDActions {
       // Executing record update action to server
       this.crudStore.executeServerDatabaseAction('update', newRecord)
     }
-    else{
+    else {
       // Updating record in temporary store
       this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
     }
@@ -60,7 +60,7 @@ class CRUDActions {
       // Executing record delete action to server
       this.crudStore.executeServerDatabaseAction('delete', this.crudStore.getData().get(recordId))
     }
-    else{
+    else {
       // Retrieving store data
       let data: List<Object> = this.crudStore.getData();
 

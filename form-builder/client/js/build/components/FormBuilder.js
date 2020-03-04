@@ -120,8 +120,17 @@ var FormBuilder = function (_Component) {
       this.editorFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: editorFormSchema });
       this.editorFormCrudActions = new _CRUDActions2.default(this.editorFormCrudStore);
 
-      // Creating for each form a name field
-      var nameField = {
+      // Creating for each form an id and name field
+      var initialSchema = [{
+        id: 'id',
+        type: 'number',
+        label: 'Id',
+        show: true,
+        sample: '',
+        align: 'left',
+        readOnlyGlobal: true,
+        invisible: true
+      }, {
         id: 'name',
         type: 'text',
         label: 'Name',
@@ -129,9 +138,10 @@ var FormBuilder = function (_Component) {
         sample: '',
         align: 'left',
         readOnlyGlobal: true
+      }];
 
-        // Initializing the created form store for this component
-      };this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: [nameField] });
+      // Initializing the created form store for this component
+      this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: initialSchema });
       this.createdFormCrudActions = new _CRUDActions2.default(this.createdFormCrudStore);
 
       // Listening for changes in the created form so that it can re-render the changes in the 

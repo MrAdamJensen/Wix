@@ -85,8 +85,13 @@ class CRUDStore {
   Initializing server store
   */
   _initServerStore(initObj: storeInitServer) {
+    // Initializing store
+    this.data = List()
+    this.schema = List()
+    this.serverURL = initObj.serverURL
+
     // Fetching data from server
-    this.executeServerDatabaseAction('refresh', null)
+    this.executeServerDatabaseAction('refresh', {})
   }
 
   /*
@@ -140,7 +145,7 @@ class CRUDStore {
   /*
   Executing a server database action
   */
-  executeServerDatabaseAction(actionType: ('create' | 'update' | 'delete' | 'refresh'), databaseRecord: Object){
+  executeServerDatabaseAction(actionType: ('create' | 'update' | 'delete' | 'refresh'), databaseRecord: Object) {
     // Initializing form data object to store the post request data
     let formData = new FormData();
 
@@ -153,18 +158,24 @@ class CRUDStore {
     formData.append("action", actionType); 
 
     // Adding an event listeners to receive server response for success and failure
-    oReq.addEventListener("load", function (evt: any){ 
+    oReq.addEventListener("load", function (evt: any) {
+      // Parsing server response
+      let parsedServerResponse = JSON.parse(oReq.responseText)
+
+      // Updating local schema
+      this.schema = List(parsedServerResponse.schema)
+      
       // Updating local store data
-      this.setData(JSON.parse(evt.responseText))
+      this.setData(List(parsedServerResponse.data))
     }.bind(this));
-    oReq.addEventListener("error", function (evt: any){ 
+    oReq.addEventListener("error", function (evt: any) { 
       // Declaring error occurred
       console.log(`CRUDStore.executeServerDatabaseAction: Error has occurred !!!!`)
     }.bind(this));
     
     // Sending a request to the server to execute the database action
     oReq.open("POST", this.serverURL);
-    oReq.send();
+    oReq.send(formData);
   }
   
   /*

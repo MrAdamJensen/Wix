@@ -60,8 +60,6 @@ class Form extends Component<Props> {
   Rendering form
   */
   render() {
-    console.log(JSON.stringify(this.props.crudStore.getSchema(), null, 4))
-
     return (
       <form className="Form">
         {this.props.crudStore.getSchema().map(this._renderFormField, this)} {/*Rendering all form fields*/}
@@ -77,7 +75,7 @@ class Form extends Component<Props> {
     let initialData;
 
     // Asserting field is not invisible, if yes not rendering it
-    if (field.invisible){
+    if (field.invisible) {
       return null
     }
     

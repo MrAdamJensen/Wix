@@ -49,12 +49,12 @@ class FormBuilderApp extends Component<Props> {
       let createdForm = this.refs.excelWithFunc.refs.createdForm.getCreatedForm()
       
       // Creating new form info
-      newFormInfo.form_id = null
+      newFormInfo.id = null
       newFormInfo.form_name = createdForm.formName
       newFormInfo.num_submissions = String(0)
       newFormInfo.submit_page = `submit_page_$`
       newFormInfo.submissions_page = `submissions_page$`
-      newFormInfo.schema = JSON.stringify(createdForm)
+      newFormInfo.schema = createdForm
 
       // Creating new form info
       crudActions.create(newFormInfo)

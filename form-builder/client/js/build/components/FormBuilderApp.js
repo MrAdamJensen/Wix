@@ -38,50 +38,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// Local schema for testing without server
-var schema = [{
-  id: 'form_id',
-  label: 'Form Id',
-  type: 'text',
-  show: true,
-  sample: '1',
-  align: 'left',
-  readOnlyGlobal: true
-}, {
-  id: 'form_name',
-  label: 'Form Name',
-  type: 'text',
-  show: true,
-  sample: 'Movie Review'
-}, {
-  id: 'num_submissions',
-  label: '# Submissions',
-  type: 'number',
-  show: true,
-  sample: '0',
-  align: 'left',
-  readOnlyGlobal: true
-}, {
-  id: 'submit_page',
-  label: 'Submit Page',
-  type: 'button',
-  show: true,
-  sample: "www.google.com"
-}, {
-  id: 'submissions_page',
-  label: 'Submissions Page',
-  type: 'button',
-  show: true,
-  sample: 'www.mako.co.il'
-}, {
-  id: 'schema',
-  label: 'schema Page',
-  type: 'data',
-  show: false,
-  sample: 'sample data',
-  'invisible': true
-}];
-
 // Initializing the store that will hold all the created forms info
 var crudStore = new _CRUDStore2.default({ storeType: 'server', serverURL: window.location.href.concat("database/") });
 var crudActions = new _CRUDActions2.default(crudStore);
@@ -109,38 +65,13 @@ var FormBuilderApp = function (_Component) {
   }
 
   /*
-  Creating a fresh form ID
+  Adding form
   */
 
   // Setting the default values for the properties 
 
 
   _createClass(FormBuilderApp, [{
-    key: '_createFormID',
-    value: function _createFormID() {
-      // Initializing
-      var formID = 1;
-
-      // Retrieving all forms from store
-      var forms_ids = crudStore.getData().map(function (row) {
-        return parseInt(row.form_id, 10);
-      });
-
-      console.log(JSON.stringify(forms_ids));
-
-      // Searching for an unused id
-      while (forms_ids.indexOf(formID) >= 0) {
-        formID++;
-      }
-
-      return formID;
-    }
-
-    /*
-    Adding form
-    */
-
-  }, {
     key: '_addForm',
     value: function _addForm(finishActionExecution, action) {
       // Initializing
@@ -151,16 +82,13 @@ var FormBuilderApp = function (_Component) {
         // Retrieving created form
         var createdForm = this.refs.excelWithFunc.refs.createdForm.getCreatedForm();
 
-        // Creating new created form id
-        var createdFormID = this._createFormID();
-
         // Creating new form info
-        newFormInfo.form_id = String(createdFormID);
+        newFormInfo.id = null;
         newFormInfo.form_name = createdForm.formName;
         newFormInfo.num_submissions = String(0);
-        newFormInfo.submit_page = 'submit_page_' + createdFormID;
-        newFormInfo.submissions_page = 'submissions_page' + createdFormID;
-        newFormInfo.schema = JSON.stringify(createdForm);
+        newFormInfo.submit_page = 'submit_page_$';
+        newFormInfo.submissions_page = 'submissions_page$';
+        newFormInfo.schema = createdForm;
 
         // Creating new form info
         crudActions.create(newFormInfo);

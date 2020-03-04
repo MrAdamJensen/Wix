@@ -104,8 +104,6 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -120,19 +118,18 @@ var Excel = function (_Component) {
     // Initializing component state
     _this.state = {
       data: _this.crudStore.getData(),
+      schema: _this.crudStore.getSchema(),
       sortby: null,
       descending: false,
       edit: null,
       dialog: null
     };
 
-    // Retrieving table schema
-    _this.schema = _this.crudStore.getSchema();
-
     // Listening for table data change, when notified on a change, update component copy
     _this.crudStore.addListener('change', function () {
       _this.setState({
-        data: _this.crudStore.getData()
+        data: _this.crudStore.getData(),
+        schema: _this.crudStore.getSchema()
       });
     });
     return _this;
@@ -141,6 +138,8 @@ var Excel = function (_Component) {
   /*
   Sorting table
   */
+
+  // Component fields type definitions
 
 
   _createClass(Excel, [{
@@ -408,7 +407,7 @@ var Excel = function (_Component) {
           null,
 
           // Creating each table column title from the schema
-          this.schema.map(function (item) {
+          this.state.schema.map(function (item) {
             // Asserting current column is set to be displayed, if not don't create a 
             // column title for it
             if (!item.show) {
@@ -495,7 +494,7 @@ var Excel = function (_Component) {
           _classNames;
 
       // Retrieving table schema
-      var column_schema = this.schema.get(idx);
+      var column_schema = this.state.schema.get(idx);
 
       // If schema failed to be retrieved or current column is not to be displayed then 
       // don't render column

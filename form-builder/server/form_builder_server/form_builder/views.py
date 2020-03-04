@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 from form_builder.database_actions.actions import action_on_form_info_table, action_on_form_submission_table, \
-                                          retrieve_all_forms_info_records, retrieve_all_form_submissions, \
-                                          retrieve_form_info_schema, retrieve_form_schema
+                                          retrieve_all_forms_info_records, retrieve_all_form_submissions
 
 # Create your views here.
 

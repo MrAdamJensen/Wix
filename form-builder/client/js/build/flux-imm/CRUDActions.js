@@ -46,21 +46,14 @@ var CRUDActions = function () {
   _createClass(CRUDActions, [{
     key: 'create',
     value: function create(newRecord) {
-      this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
-    }
-
-    /*
-    Deleting a record from the store data
-    */
-
-  }, {
-    key: 'delete',
-    value: function _delete(recordId) {
-      // Retrieving store data
-      var data = this.crudStore.getData();
-
-      // Deleting a record from the store data and updating store data
-      this.crudStore.setData(data.remove(recordId));
+      // Asserting store is a server store
+      if (this.crudStore.type === 'server') {
+        // Executing record create action to server
+        this.crudStore.executeServerDatabaseAction('create', newRecord);
+      } else {
+        // Creating new record in temporary store
+        this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
+      }
     }
 
     /*
@@ -70,7 +63,34 @@ var CRUDActions = function () {
   }, {
     key: 'updateRecord',
     value: function updateRecord(recordId, newRecord) {
-      this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
+      // Asserting store is a server store
+      if (this.crudStore.type === 'server') {
+        // Executing record update action to server
+        this.crudStore.executeServerDatabaseAction('update', newRecord);
+      } else {
+        // Updating record in temporary store
+        this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
+      }
+    }
+
+    /*
+    Deleting a record from the store data
+    */
+
+  }, {
+    key: 'delete',
+    value: function _delete(recordId) {
+      // Asserting store is a server store
+      if (this.crudStore.type === 'server') {
+        // Executing record delete action to server
+        this.crudStore.executeServerDatabaseAction('delete', this.crudStore.getData().get(recordId));
+      } else {
+        // Retrieving store data
+        var data = this.crudStore.getData();
+
+        // Deleting a record from the store data and updating store data
+        this.crudStore.setData(data.remove(recordId));
+      }
     }
 
     /*
@@ -88,8 +108,8 @@ var CRUDActions = function () {
         // Updating field of record
         record[key] = value;
 
-        // Updating data with the updated record
-        this.crudStore.setData(this.crudStore.getData().set(recordId, record));
+        // Updating record
+        this.updateRecord(recordId, record);
       } else {
         throw "CRUDActions.updateField: record wasn't retrieved successfully";
       }
@@ -140,7 +160,7 @@ var CRUDActions = function () {
 
         // Updating data in store without committing since this update is temporary until
         // search in finished
-        this.crudStore.setData(searchData, /* commit */false);
+        this.crudStore.setData(searchData);
       }
     }
 

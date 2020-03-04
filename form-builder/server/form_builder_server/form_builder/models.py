@@ -21,10 +21,10 @@ class FormInfo(models.Model):
     schema = models.TextField()
 
     # Returning a record representation
-    def __str__(self):
-        return json.dumps({"id": self.id, "form_name": self.form_name, 
+    def dictRepr(self):
+        return {"id": self.pk, "form_name": self.form_name, 
                 "num_submissions": self.num_submissions, "submit_page": self.submit_page,
-                "submissions_page": self.submissions_page, "schema": json.loads(self.schema)})
+                "submissions_page": self.submissions_page, "schema": json.loads(self.schema)}
 
 # Holds all the created forms submissions
 class FormSubmission(models.Model):
@@ -35,8 +35,8 @@ class FormSubmission(models.Model):
     submission = models.TextField()
 
     # Returning a record representation
-    def __str__(self):
-        return submission
+    def dictRepr(self):
+        return json.loads(submission)
 
 
 # Initializing the forms table schema used by the client

@@ -84,8 +84,6 @@ var Form = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(JSON.stringify(this.props.crudStore.getSchema(), null, 4));
-
       return _react2.default.createElement(
         'form',
         { className: 'Form' },

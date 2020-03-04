@@ -56,6 +56,7 @@ dialog: table dialog state
 */
 type State = {
   data: Immutable.List<Object>,
+  schema: Immutable.List<Object>,
   sortby: ?string,
   descending: boolean,
   edit: ?EditState,
@@ -68,7 +69,6 @@ Excel component which displays a table given data
 class Excel extends Component<Props, State> {
   // Component fields type definitions
   state: State;
-  schema: List<Object>;
   crudStore: CRUDStore;
   crudActions: CRUDActions;
 
@@ -86,19 +86,18 @@ class Excel extends Component<Props, State> {
     // Initializing component state
     this.state = {
       data: this.crudStore.getData(),
+      schema: this.crudStore.getSchema(),
       sortby: null, 
       descending: false,
       edit: null, 
       dialog: null,
     };
     
-    // Retrieving table schema
-    this.schema = this.crudStore.getSchema();
-
     // Listening for table data change, when notified on a change, update component copy
     this.crudStore.addListener('change', () => {
       this.setState({
         data: this.crudStore.getData(),
+        schema: this.crudStore.getSchema(),
       })
     });
   }
@@ -328,7 +327,7 @@ class Excel extends Component<Props, State> {
     return  <thead>
             <tr>{
               // Creating each table column title from the schema
-              this.schema.map(item => {
+              this.state.schema.map(item => {
                 // Asserting current column is set to be displayed, if not don't create a 
                 // column title for it
                 if (!item.show) {
@@ -394,7 +393,7 @@ class Excel extends Component<Props, State> {
   */
   _renderTableBodyCell(row: Object, rowidx: number, cell:string, idx:number) {
     // Retrieving table schema
-    const column_schema = this.schema.get(idx);
+    const column_schema = this.state.schema.get(idx);
     
     // If schema failed to be retrieved or current column is not to be displayed then 
     // don't render column

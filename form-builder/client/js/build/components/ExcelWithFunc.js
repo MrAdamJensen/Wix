@@ -65,6 +65,8 @@ var ExcelWithFunc = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function ExcelWithFunc(props) {
     _classCallCheck(this, ExcelWithFunc);
 
@@ -97,8 +99,6 @@ var ExcelWithFunc = function (_Component) {
 
 
   // Setting the default values for the properties 
-
-  // Component fields type definitions
 
 
   _createClass(ExcelWithFunc, [{

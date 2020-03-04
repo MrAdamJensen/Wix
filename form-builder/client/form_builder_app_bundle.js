@@ -433,10 +433,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _react = require('react');
 
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -893,8 +889,6 @@ var Excel = function (_Component) {
   /*
   Component constructor
   */
-
-  // Component fields type definitions
   function Excel(props) {
     _classCallCheck(this, Excel);
 
@@ -909,19 +903,18 @@ var Excel = function (_Component) {
     // Initializing component state
     _this.state = {
       data: _this.crudStore.getData(),
+      schema: _this.crudStore.getSchema(),
       sortby: null,
       descending: false,
       edit: null,
       dialog: null
     };
 
-    // Retrieving table schema
-    _this.schema = _this.crudStore.getSchema();
-
     // Listening for table data change, when notified on a change, update component copy
     _this.crudStore.addListener('change', function () {
       _this.setState({
-        data: _this.crudStore.getData()
+        data: _this.crudStore.getData(),
+        schema: _this.crudStore.getSchema()
       });
     });
     return _this;
@@ -930,6 +923,8 @@ var Excel = function (_Component) {
   /*
   Sorting table
   */
+
+  // Component fields type definitions
 
 
   _createClass(Excel, [{
@@ -1197,7 +1192,7 @@ var Excel = function (_Component) {
           null,
 
           // Creating each table column title from the schema
-          this.schema.map(function (item) {
+          this.state.schema.map(function (item) {
             // Asserting current column is set to be displayed, if not don't create a 
             // column title for it
             if (!item.show) {
@@ -1284,7 +1279,7 @@ var Excel = function (_Component) {
           _classNames;
 
       // Retrieving table schema
-      var column_schema = this.schema.get(idx);
+      var column_schema = this.state.schema.get(idx);
 
       // If schema failed to be retrieved or current column is not to be displayed then 
       // don't render column
@@ -1405,6 +1400,8 @@ var ExcelWithFunc = function (_Component) {
   /*
   Component constructor
   */
+
+  // Component fields type definitions
   function ExcelWithFunc(props) {
     _classCallCheck(this, ExcelWithFunc);
 
@@ -1437,8 +1434,6 @@ var ExcelWithFunc = function (_Component) {
 
 
   // Setting the default values for the properties 
-
-  // Component fields type definitions
 
 
   _createClass(ExcelWithFunc, [{
@@ -1677,8 +1672,6 @@ var Form = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(JSON.stringify(this.props.crudStore.getSchema(), null, 4));
-
       return _react2.default.createElement(
         'form',
         { className: 'Form' },
@@ -1879,8 +1872,17 @@ var FormBuilder = function (_Component) {
       this.editorFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: editorFormSchema });
       this.editorFormCrudActions = new _CRUDActions2.default(this.editorFormCrudStore);
 
-      // Creating for each form a name field
-      var nameField = {
+      // Creating for each form an id and name field
+      var initialSchema = [{
+        id: 'id',
+        type: 'number',
+        label: 'Id',
+        show: true,
+        sample: '',
+        align: 'left',
+        readOnlyGlobal: true,
+        invisible: true
+      }, {
         id: 'name',
         type: 'text',
         label: 'Name',
@@ -1888,9 +1890,10 @@ var FormBuilder = function (_Component) {
         sample: '',
         align: 'left',
         readOnlyGlobal: true
+      }];
 
-        // Initializing the created form store for this component
-      };this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: [nameField] });
+      // Initializing the created form store for this component
+      this.createdFormCrudStore = new _CRUDStore2.default({ storeType: 'temp', schema: initialSchema });
       this.createdFormCrudActions = new _CRUDActions2.default(this.createdFormCrudStore);
 
       // Listening for changes in the created form so that it can re-render the changes in the 
@@ -2071,50 +2074,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// Local schema for testing without server
-var schema = [{
-  id: 'form_id',
-  label: 'Form Id',
-  type: 'text',
-  show: true,
-  sample: '1',
-  align: 'left',
-  readOnlyGlobal: true
-}, {
-  id: 'form_name',
-  label: 'Form Name',
-  type: 'text',
-  show: true,
-  sample: 'Movie Review'
-}, {
-  id: 'num_submissions',
-  label: '# Submissions',
-  type: 'number',
-  show: true,
-  sample: '0',
-  align: 'left',
-  readOnlyGlobal: true
-}, {
-  id: 'submit_page',
-  label: 'Submit Page',
-  type: 'button',
-  show: true,
-  sample: "www.google.com"
-}, {
-  id: 'submissions_page',
-  label: 'Submissions Page',
-  type: 'button',
-  show: true,
-  sample: 'www.mako.co.il'
-}, {
-  id: 'schema',
-  label: 'schema Page',
-  type: 'data',
-  show: false,
-  sample: 'sample data',
-  'invisible': true
-}];
-
 // Initializing the store that will hold all the created forms info
 var crudStore = new _CRUDStore2.default({ storeType: 'server', serverURL: window.location.href.concat("database/") });
 var crudActions = new _CRUDActions2.default(crudStore);
@@ -2142,38 +2101,13 @@ var FormBuilderApp = function (_Component) {
   }
 
   /*
-  Creating a fresh form ID
+  Adding form
   */
 
   // Setting the default values for the properties 
 
 
   _createClass(FormBuilderApp, [{
-    key: '_createFormID',
-    value: function _createFormID() {
-      // Initializing
-      var formID = 1;
-
-      // Retrieving all forms from store
-      var forms_ids = crudStore.getData().map(function (row) {
-        return parseInt(row.form_id, 10);
-      });
-
-      console.log(JSON.stringify(forms_ids));
-
-      // Searching for an unused id
-      while (forms_ids.indexOf(formID) >= 0) {
-        formID++;
-      }
-
-      return formID;
-    }
-
-    /*
-    Adding form
-    */
-
-  }, {
     key: '_addForm',
     value: function _addForm(finishActionExecution, action) {
       // Initializing
@@ -2184,16 +2118,13 @@ var FormBuilderApp = function (_Component) {
         // Retrieving created form
         var createdForm = this.refs.excelWithFunc.refs.createdForm.getCreatedForm();
 
-        // Creating new created form id
-        var createdFormID = this._createFormID();
-
         // Creating new form info
-        newFormInfo.form_id = String(createdFormID);
+        newFormInfo.id = null;
         newFormInfo.form_name = createdForm.formName;
         newFormInfo.num_submissions = String(0);
-        newFormInfo.submit_page = 'submit_page_' + createdFormID;
-        newFormInfo.submissions_page = 'submissions_page' + createdFormID;
-        newFormInfo.schema = JSON.stringify(createdForm);
+        newFormInfo.submit_page = 'submit_page_$';
+        newFormInfo.submissions_page = 'submissions_page$';
+        newFormInfo.schema = createdForm;
 
         // Creating new form info
         crudActions.create(newFormInfo);
@@ -3193,21 +3124,14 @@ var CRUDActions = function () {
   _createClass(CRUDActions, [{
     key: 'create',
     value: function create(newRecord) {
-      this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
-    }
-
-    /*
-    Deleting a record from the store data
-    */
-
-  }, {
-    key: 'delete',
-    value: function _delete(recordId) {
-      // Retrieving store data
-      var data = this.crudStore.getData();
-
-      // Deleting a record from the store data and updating store data
-      this.crudStore.setData(data.remove(recordId));
+      // Asserting store is a server store
+      if (this.crudStore.type === 'server') {
+        // Executing record create action to server
+        this.crudStore.executeServerDatabaseAction('create', newRecord);
+      } else {
+        // Creating new record in temporary store
+        this.crudStore.setData(this.crudStore.getData().unshift(newRecord));
+      }
     }
 
     /*
@@ -3217,7 +3141,34 @@ var CRUDActions = function () {
   }, {
     key: 'updateRecord',
     value: function updateRecord(recordId, newRecord) {
-      this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
+      // Asserting store is a server store
+      if (this.crudStore.type === 'server') {
+        // Executing record update action to server
+        this.crudStore.executeServerDatabaseAction('update', newRecord);
+      } else {
+        // Updating record in temporary store
+        this.crudStore.setData(this.crudStore.getData().set(recordId, newRecord));
+      }
+    }
+
+    /*
+    Deleting a record from the store data
+    */
+
+  }, {
+    key: 'delete',
+    value: function _delete(recordId) {
+      // Asserting store is a server store
+      if (this.crudStore.type === 'server') {
+        // Executing record delete action to server
+        this.crudStore.executeServerDatabaseAction('delete', this.crudStore.getData().get(recordId));
+      } else {
+        // Retrieving store data
+        var data = this.crudStore.getData();
+
+        // Deleting a record from the store data and updating store data
+        this.crudStore.setData(data.remove(recordId));
+      }
     }
 
     /*
@@ -3235,8 +3186,8 @@ var CRUDActions = function () {
         // Updating field of record
         record[key] = value;
 
-        // Updating data with the updated record
-        this.crudStore.setData(this.crudStore.getData().set(recordId, record));
+        // Updating record
+        this.updateRecord(recordId, record);
       } else {
         throw "CRUDActions.updateField: record wasn't retrieved successfully";
       }
@@ -3287,7 +3238,7 @@ var CRUDActions = function () {
 
         // Updating data in store without committing since this update is temporary until
         // search in finished
-        this.crudStore.setData(searchData, /* commit */false);
+        this.crudStore.setData(searchData);
       }
     }
 
@@ -3377,15 +3328,7 @@ A store of data where one can listen for changes
 
 
 /*
-Defining the type of the store type, either a local storage store or a server store
-*/
-
-
-/*
-Defining the type of a local store
------------------------------------
-storeType: the type of the store, in this case it is local
-schema: in a local store, a schema must be provided
+Defining the type of the store type, either a server store or a temp store
 */
 
 
@@ -3437,46 +3380,19 @@ var CRUDStore = function () {
   _createClass(CRUDStore, [{
     key: '_init',
     value: function _init(initObj) {
-      // Asserting init object is for a local store
-      if (initObj.storeType === 'local') {
-        // Initializing local store
-        this._initLocalStore(initObj);
-      } // Asserting init object is for a server store
-      else if (initObj.storeType === 'server') {
-          // Initializing server store 
-          this._initServerStore(initObj);
-        }
-        // Asserting temp store
-        else if (initObj.storeType === 'temp') {
-            // Initializing temp 
-            this._initTempStore(initObj);
-          } else {
-            // Declaring unrecognized store type
-            throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
-          }
-    }
-
-    /*
-    Initializing local store
-    */
-
-  }, {
-    key: '_initLocalStore',
-    value: function _initLocalStore(initObj) {
-      // Retrieving schema
-      this.schema = (0, _immutable.List)(initObj.schema);
-
-      // Retrieving data if it is available in local storage
-      var storage = 'localStorage' in window ? localStorage.getItem('data') : null;
-
-      // If storage not available, initializing it
-      if (!storage || initObj.reset) {
-        // Initializing data from schema
-        this._initializeDataFromSchema();
-      } else {
-        // If storage available, retrieve it
-        this.data = (0, _immutable.List)(JSON.parse(storage));
+      // Asserting init object is for a server store
+      if (initObj.storeType === 'server') {
+        // Initializing server store 
+        this._initServerStore(initObj);
       }
+      // Asserting temp store
+      else if (initObj.storeType === 'temp') {
+          // Initializing temp 
+          this._initTempStore(initObj);
+        } else {
+          // Declaring unrecognized store type
+          throw 'CRUDStore._init: unknown store type ' + initObj.storeType;
+        }
     }
 
     /*
@@ -3486,18 +3402,13 @@ var CRUDStore = function () {
   }, {
     key: '_initServerStore',
     value: function _initServerStore(initObj) {
-      // Initializing a xml http request object to prepare for server
-      // interaction to receive the store data
-      var oReq = new XMLHttpRequest();
+      // Initializing store
+      this.data = (0, _immutable.List)();
+      this.schema = (0, _immutable.List)();
+      this.serverURL = initObj.serverURL;
 
-      // Adding an event listener to receive server response
-      oReq.addEventListener("load", function () {
-        console.log(this.responseText);
-      });
-
-      // Sending a request to the server for the data
-      oReq.open("GET", initObj.serverURL);
-      oReq.send();
+      // Fetching data from server
+      this.executeServerDatabaseAction('refresh', {});
     }
 
     /*
@@ -3558,26 +3469,50 @@ var CRUDStore = function () {
   }, {
     key: 'setData',
     value: function setData(newData) {
-      var commit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
       // Updating data
       this.data = newData;
 
-      // If a commit is requested, commit the change
-      // Assert this is a local store, if so update local storage
-      if (commit && this.type === 'local' && 'localStorage' in window) {
-        localStorage.setItem('data', JSON.stringify(newData));
-      }
-      // Assert this is a server store, if so update server storage
-      else if (commit && this.type === 'server') {
-          throw 'CRUDStore.setData: not implemented';
-        } else if (!(this.type === 'local' || this.type === 'server' || this.type === 'temp')) {
-          // Declaring unrecognized store type
-          throw 'CRUDStore.setData: unknown store type ' + this.type;
-        }
-
       // Informing all listeners to the change in data
       this.emitter.emit('change');
+    }
+
+    /*
+    Executing a server database action
+    */
+
+  }, {
+    key: 'executeServerDatabaseAction',
+    value: function executeServerDatabaseAction(actionType, databaseRecord) {
+      // Initializing form data object to store the post request data
+      var formData = new FormData();
+
+      // Initializing a xml http request object to prepare for server
+      // interaction to send the new record to the server
+      var oReq = new XMLHttpRequest();
+
+      // Insert the database record and action type to the post data
+      formData.append("form_info_record", JSON.stringify(databaseRecord));
+      formData.append("action", actionType);
+
+      // Adding an event listeners to receive server response for success and failure
+      oReq.addEventListener("load", function (evt) {
+        // Parsing server response
+        var parsedServerResponse = JSON.parse(oReq.responseText);
+
+        // Updating local schema
+        this.schema = (0, _immutable.List)(parsedServerResponse.schema);
+
+        // Updating local store data
+        this.setData((0, _immutable.List)(parsedServerResponse.data));
+      }.bind(this));
+      oReq.addEventListener("error", function (evt) {
+        // Declaring error occurred
+        console.log('CRUDStore.executeServerDatabaseAction: Error has occurred !!!!');
+      }.bind(this));
+
+      // Sending a request to the server to execute the database action
+      oReq.open("POST", this.serverURL);
+      oReq.send(formData);
     }
 
     /*

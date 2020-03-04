@@ -15,11 +15,14 @@ def create_form_info_record(form_info):
     # Creating form info record
     form_info_record = FormInfo(**form_info_dict)
 
-    # Setting the created form info record id to the form info links to the submit and submissions pages
-    form_info_record.submit_page = form_info_record.submit_page.replace('$', form_info_record.id)
-    form_info_record.submissions_page = form_info_record.submissions_page.replace('$', form_info_record.id)
+    # Saving record to let database assign an id to the new record
+    form_info_record.save()
 
-    # Saving record
+    # Setting the created form info record id to the form info links to the submit and submissions pages
+    form_info_record.submit_page = form_info_record.submit_page.replace('$', str(form_info_record.pk))
+    form_info_record.submissions_page = form_info_record.submissions_page.replace('$', str(form_info_record.pk))
+
+    # Saving record with the new changes
     form_info_record.save()
 
 # Updating a form info record in the forms info table
@@ -59,11 +62,14 @@ def create_form_submission_record(form_id, form_submission):
     # Creating form submission record
     form_submission_record = FormSubmission(submission_form=form_info_record, submission=form_submission)
 
+    # Saving record to let database give the new record an id
+    form_submission_record.save()
+
     # Parsing form submission so that its id field can be changed
     form_submission_dict = json.loads(form_submission)
     
     # Setting id to the form submission so it can be recognized
-    form_submission_dict.id = form_submission_record.id
+    form_submission_dict.pk = form_submission_record.pk
 
     # Updating created form sumbission submission field with its id
     form_submission_record.submission = json.dumps(form_submission_dict)
@@ -105,9 +111,9 @@ def retrieve_all_forms_info_records():
 
     # Retreving all forms info records
     for record in FormInfo.objects.all():
-        forms_info_records.append(str(record))
-
-    return json.dumps(forms_info_records)
+        forms_info_records.append(record.dictRepr())
+    
+    return json.dumps({"schema": FormsTableClientSchema, "data": forms_info_records})
 
 # Retrieving all form submissions for a given form
 def retrieve_all_form_submissions(form_id):
@@ -119,21 +125,9 @@ def retrieve_all_form_submissions(form_id):
 
     # Retrieving all form submissions for a given form
     for record in FormSubmission.objects.filter(submission_form=form_info_record):
-        form_submissions.append(str(record))
+        form_submissions.append(record.dictRepr())
 
-    return json.dumps(form_submissions)
-
-# Retrieving form info schema
-def retrieve_form_info_schema():
-    return json.dumps(FormsTableClientSchema)
-
-# Retrieving form schema
-def retrieve_form_schema(form_id):
-    # Retrieving the form info record
-    form_info_record = FormInfo.objects.get(form_id=form_id)
-
-    return form_info_record.schema
-
+    return json.dumps({"schema": form_info_record.dictRepr()["schema"], "data": form_submissions})
 
 # Dispatcher for actions on the form info table
 action_on_form_info_table = {'create': create_form_info_record, 

@@ -38,40 +38,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// Local schema for testing without server
-var schema = [{
-  id: 'name',
-  label: 'Name',
-  type: 'text',
-  show: true,
-  sample: '',
-  align: 'left',
-  readOnlyGlobal: true
-}, {
-  id: 'age',
-  label: 'Age',
-  type: 'text',
-  show: false,
-  sample: '',
-  readOnlyGlobal: true
-}, {
-  id: 'rating',
-  label: 'Rating',
-  type: 'rating',
-  show: false,
-  sample: '',
-  align: 'left',
-  readOnlyGlobal: true
-}, {
-  id: 'date',
-  label: 'Date Of Birth',
-  type: 'date',
-  show: false,
-  sample: '',
-  align: 'left',
-  readOnlyGlobal: true
-}];
-
 // Initializing the store that will hold the schema of the to be submitted form
 var crudStore = new _CRUDStore2.default({ storeType: 'server', serverURL: window.location.href.concat("database/") });
 var crudActions = new _CRUDActions2.default(crudStore);
