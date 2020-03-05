@@ -70,7 +70,7 @@ npm run deploy
 
 Create a PostgreSQL database named form_builder with user yehonatan and password mypass(Detailed instructions: https://djangocentral.com/using-postgresql-with-django/)
 
-Initialize the server database()
+Initialize the server database:
 ```
 cd server/form_builder_server
 python ./manage.py migrate
