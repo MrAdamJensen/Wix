@@ -68,6 +68,16 @@ cd client
 npm run deploy
 ```
 
+Create a PostgreSQL database named form_builder with user yehonatan and password mypass(Detailed instructions: https://djangocentral.com/using-postgresql-with-django/)
+
+Initialize the server database()
+```
+cd server/form_builder_server
+python ./manage.py migrate
+python ./manage.py makemigrations form_builder
+```
+
+
 ## Running the app
 
 To run the app, we need to start the server and then open a browser and connect to it. cd into the repo form-builder directory and execute the following commands:
