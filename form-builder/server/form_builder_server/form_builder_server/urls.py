@@ -23,6 +23,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
+    path('', views.form_builder),
     path('admin/', admin.site.urls),
     path(r'form_builder/', include('form_builder.urls', namespace="form_builder")),
     url(r'^login/$', LoginView.as_view(), name='login'),
