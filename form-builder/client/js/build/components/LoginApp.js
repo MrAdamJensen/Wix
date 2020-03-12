@@ -50,11 +50,7 @@ var LoginApp = function (_Component) {
     value: function render() {
       // Rendering
       try {
-        return _react2.default.createElement(
-          'a',
-          { href: githubLogin },
-          'Click here'
-        );
+        return null;
       } catch (error) {
         // Declaring error occurred and refreshing page
         console.log('An error occurred in LoginApp:' + error);

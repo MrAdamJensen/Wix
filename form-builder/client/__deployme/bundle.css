@@ -217,7 +217,14 @@
 .FormInput {
   
 }
-.Logo {
+.GithubLogin {
+    background-image: url("images/gh-login-button.png");
+    background-repeat: no-repeat;
+    background-size: 300px 60px;
+    width: 300px;
+    height: 60px;
+    object-fit: cover;
+}.Logo {
   background-image: url("images/logo.png");
   background-repeat: no-repeat;
   display: inline-block;

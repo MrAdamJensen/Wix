@@ -31,7 +31,7 @@ cp __deployme/submissions_app_bundle.js ../server/form_builder_server/form_build
 cp __deployme/submit_app_bundle.js ../server/form_builder_server/form_builder/static/js/submit_app_bundle.js
 cp __deployme/login_app_bundle.js ../server/form_builder_server/form_builder/static/js/login_app_bundle.js
 cp __deployme/bundle.css ../server/form_builder_server/form_builder/static/css/bundle.css
-cp -r __deployme/images/ ../server/form_builder_server/form_builder/static/css/images
+cp -r __deployme/images/ ../server/form_builder_server/form_builder/static/css
 
 # done
 date; echo;
