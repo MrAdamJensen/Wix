@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- load here static -->
+<html>
+  <head>
+    <title>Login Page</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="bundle.css">
+    <!--link href="https://fonts.googleapis.com/css?family=Norican" rel="stylesheet" type="text/css"-->
+  </head>
+  <body>
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
+    <br>
+    <p><strong>-- OR --</strong></p>
+    <a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
+  </body>
+</html>
