@@ -157,10 +157,11 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'form_builder:form_builder'
 
+# Gighub auth keys for local
 #SOCIAL_AUTH_GITHUB_KEY = 'fe736a14c5b92a9b293d'
 #SOCIAL_AUTH_GITHUB_SECRET = 'ec01e5d1c160da88873819e053e92394932d5ea7'
 
-# Gighub auth keys
+# Gighub auth keys for heroku
 SOCIAL_AUTH_GITHUB_KEY = '4e9fbf0d32049c26d425'
 SOCIAL_AUTH_GITHUB_SECRET = '88ac6a2b207fe856d9fc17fb96e48fe02e6bd0b9'
 
