@@ -3,9 +3,11 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 from form_builder.database_actions.actions import action_on_form_info_table, action_on_form_submission_table, \
                                           retrieve_all_forms_info_records, retrieve_all_form_submissions
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 @csrf_exempt
 # Form builder view
 def form_builder(request):
@@ -16,6 +18,7 @@ def form_builder(request):
         # As of this time, no get response in this view
         return HttpResponseServerError("No action for POST in this view")
 
+@login_required
 @csrf_exempt
 # Form submit view
 def form_submit(request):
@@ -26,6 +29,7 @@ def form_submit(request):
         # As of this time, no get response in this view
         return HttpResponseServerError("No action for POST in this view")
 
+@login_required
 @csrf_exempt
 # Form submissions view
 def form_submissions(request):
@@ -36,6 +40,7 @@ def form_submissions(request):
         # As of this time, no get response in this view
         return HttpResponseServerError("No action for POST in this view")
 
+@login_required
 @csrf_exempt
 # Form builder database view
 def form_builder_database(request):
@@ -60,6 +65,7 @@ def form_builder_database(request):
         # Returning updated form info table
         return HttpResponse(updated_form_info_table)
 
+@login_required
 @csrf_exempt
 # Form submit database view
 def form_submit_database(request, form):
@@ -70,7 +76,7 @@ def form_submit_database(request, form):
         # Processing form submission table request
         return process_form_submission_table_request(request, form)
 
-
+@login_required
 @csrf_exempt
 # Form submissions database view
 def form_submissions_database(request, form):

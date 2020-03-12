@@ -6,7 +6,7 @@ from form_builder import views
 app_name = "form_builder"
 
 urlpatterns = [
-    path(r'', views.form_builder),
+    path(r'', views.form_builder, name="form_builder"),
     re_path(r'^submit_page_[0-9]+/$', views.form_submit),
     re_path(r'^submissions_page_[0-9]+/$', views.form_submissions),
     
